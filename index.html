@@ -169,8 +169,15 @@ body{
 .veneer{
   position:absolute;inset:0;border-radius:18px;
   will-change:transform;
-  box-shadow:0 22px 44px rgba(0,0,0,.5);
+  box-shadow:0 -10px 24px rgba(0,0,0,.35),0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
+}
+/* tidy stacked-deck starting pose (CSS fallback; GSAP mirrors these values) */
+.veneer:nth-child(1){transform:translateY(-48px) scale(.952)}
+.veneer:nth-child(2){transform:translateY(-36px) scale(.964)}
+.veneer:nth-child(3){transform:translateY(-24px) scale(.976)}
+.veneer:nth-child(4){transform:translateY(-12px) scale(.988)}
+.veneer{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
     linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,0) 45%),
@@ -192,6 +199,19 @@ body{
     var(--wring),
     linear-gradient(100deg,#c59a67,#b0854e 45%,#cfa471 80%,#a1743f);
   border:1px solid rgba(255,255,255,.09);
+}
+/* every veneer is a different real wood — no repeats in the fan */
+.veneer:nth-child(1){
+  background:
+    linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,0) 45%),
+    url("https://images.unsplash.com/photo-1611600700192-d87eaeed4f81?auto=format&fit=crop&w=1200&q=70") center/cover,
+    #8a6a45;
+}
+.veneer:nth-child(2){
+  background:
+    linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 45%),
+    url("https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?auto=format&fit=crop&w=1200&q=70") center/cover,
+    #4a3a28;
 }
 .board .plies{
   position:absolute;left:0;right:0;bottom:-14px;height:26px;z-index:6;
@@ -1106,20 +1126,21 @@ function initGsap(){
 
   // hero board parallax + slight scale on scroll
   gsap.to('#heroVisual',{
-    yPercent:-10,scale:1.04,ease:'none',
+    scale:1.03,ease:'none',
     scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}
   });
 
-  // plywood teardown — the sheet explodes into its 5 cross-laminated veneers on scroll
+  // plywood teardown — tidy stacked deck fans apart smoothly on scroll
+  // (mirrors the CSS nth-child starting pose so there is no jump at load)
+  const V=i=>(4-i);                      // depth from the top face (face i=4 → 0)
+  gsap.set('.veneer',{y:i=>-V(i)*12,scale:i=>1-V(i)*.012});
   const explode=gsap.timeline({
     scrollTrigger:{trigger:'#hero',start:'top top',end:'75% top',scrub:.5}
   });
   explode
     .to('.veneer',{
-      y:i=>-i*48,                        // top face veneer lifts the most
-      x:i=>(i%2?-1:1)*i*7,               // crossbands drift apart laterally
-      rotationX:i=>i*2,
-      rotationZ:i=>(i%2?-1:1)*i*.5,
+      y:i=>-V(i)*44,                     // deeper layers rise further — clean vertical fan
+      scale:i=>1-V(i)*.012,              // keep the stacked scale, no skew or drift
       ease:'none'
     },0)
     .to('.board .plies',{y:26,opacity:0,ease:'none'},0)
