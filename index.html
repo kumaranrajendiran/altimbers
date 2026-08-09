@@ -173,12 +173,12 @@ body{
   box-shadow:0 -10px 24px rgba(0,0,0,.35),0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
 }
-/* tidy stacked-deck starting pose — deeper layers peek BELOW the face
-   so the scroll fan deals downward, never covering the hero content */
-.veneer:nth-child(1){transform:translateY(48px) scale(.952)}
-.veneer:nth-child(2){transform:translateY(36px) scale(.964)}
-.veneer:nth-child(3){transform:translateY(24px) scale(.976)}
-.veneer:nth-child(4){transform:translateY(12px) scale(.988)}
+/* tidy stacked-deck starting pose — deeper layers peek above the face;
+   the hero copy fades out at scroll start so the upward fan has the stage */
+.veneer:nth-child(1){transform:translateY(-48px) scale(.952)}
+.veneer:nth-child(2){transform:translateY(-36px) scale(.964)}
+.veneer:nth-child(3){transform:translateY(-24px) scale(.976)}
+.veneer:nth-child(4){transform:translateY(-12px) scale(.988)}
 .veneer{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
@@ -222,7 +222,7 @@ body{
   box-shadow:0 18px 40px rgba(0,0,0,.55);
 }
 .stack-caption{
-  position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:200px;
+  position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:2.4rem;
   font-size:.78rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
   white-space:nowrap;opacity:0;
 }
@@ -1207,9 +1207,9 @@ function initGsap(){
       .fromTo('#heroVisual',
         {y:90,opacity:0,scale:.96},
         {y:0,opacity:1,scale:1,duration:1.1,ease:'expo.out'},'-=.55')
-      // the deck breathes once: fan opens downward, then settles with a soft spring
-      .to('.veneer',{y:i=>V(i)*26,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
-      .to('.veneer',{y:i=>V(i)*12,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
+      // the deck breathes once: fan opens, then settles with a soft spring
+      .to('.veneer',{y:i=>-V(i)*26,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
+      .to('.veneer',{y:i=>-V(i)*12,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
       .from('[data-chip]',{scale:.6,opacity:0,duration:.7,stagger:.14,ease:'back.out(1.8)'},'-=1')
       .add(()=>gsap.to('[data-chip]',{y:-12,duration:2.6,ease:'sine.inOut',yoyo:true,repeat:-1,stagger:.4}));
   }
@@ -1224,22 +1224,24 @@ function initGsap(){
     scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}
   });
 
-  // plywood teardown — the deck deals DOWNWARD on scroll, away from the hero copy
+  // plywood teardown — the hero copy exits first, then the deck fans upward on stage
   // (mirrors the CSS nth-child starting pose so there is no jump at load)
   const V=i=>(4-i);                      // depth from the top face (face i=4 → 0)
-  gsap.set('.veneer',{y:i=>V(i)*12,scale:i=>1-V(i)*.012});
+  gsap.set('.veneer',{y:i=>-V(i)*12,scale:i=>1-V(i)*.012});
   const explode=gsap.timeline({
     scrollTrigger:{trigger:'#hero',start:'top top',end:'75% top',scrub:.5}
   });
   explode
+    .to('.hero-inner',{opacity:0,y:-40,duration:.16,ease:'none'},0)
+    .to('.scroll-cue',{opacity:0,duration:.1,ease:'none'},0)
     .to('.veneer',{
-      y:i=>V(i)*44,                      // deeper layers drop further — clean vertical fan
+      y:i=>-V(i)*46,                     // deeper layers rise further — clean vertical fan
       scale:i=>1-V(i)*.012,
-      ease:'none'
+      ease:'none',duration:1
     },0)
+    .to('#heroVisual',{y:-60,ease:'none',duration:1},0)
     .to('.board .plies',{y:26,opacity:0,ease:'none'},0)
-    .to('.scroll-cue',{opacity:0,ease:'none',duration:.15},0)
-    .to('#stackCaption',{opacity:1,ease:'none'},.15);
+    .to('#stackCaption',{opacity:1,ease:'none',duration:.4},.3);
 
   // section reveals — five variants, staggered per batch
   const VARIANTS={
