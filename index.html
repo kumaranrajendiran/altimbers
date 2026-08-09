@@ -173,11 +173,12 @@ body{
   box-shadow:0 -10px 24px rgba(0,0,0,.35),0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
 }
-/* tidy stacked-deck starting pose (CSS fallback; GSAP mirrors these values) */
-.veneer:nth-child(1){transform:translateY(-48px) scale(.952)}
-.veneer:nth-child(2){transform:translateY(-36px) scale(.964)}
-.veneer:nth-child(3){transform:translateY(-24px) scale(.976)}
-.veneer:nth-child(4){transform:translateY(-12px) scale(.988)}
+/* tidy stacked-deck starting pose — deeper layers peek BELOW the face
+   so the scroll fan deals downward, never covering the hero content */
+.veneer:nth-child(1){transform:translateY(48px) scale(.952)}
+.veneer:nth-child(2){transform:translateY(36px) scale(.964)}
+.veneer:nth-child(3){transform:translateY(24px) scale(.976)}
+.veneer:nth-child(4){transform:translateY(12px) scale(.988)}
 .veneer{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
@@ -221,7 +222,7 @@ body{
   box-shadow:0 18px 40px rgba(0,0,0,.55);
 }
 .stack-caption{
-  position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:2.4rem;
+  position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:200px;
   font-size:.78rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
   white-space:nowrap;opacity:0;
 }
@@ -461,6 +462,14 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .foot-col a{display:block;color:var(--muted);text-decoration:none;font-size:.86rem;padding:.22rem 0;transition:color .25s}
 .foot-col a:hover{color:var(--gold-2)}
 .foot-btm{margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.74rem;color:var(--muted-2)}
+
+/* word-mask reveal wrappers (transforms applied by GSAP only — no-JS stays visible) */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
+.w>i{display:inline-block;font-style:normal;will-change:transform}
+
+/* nav hides scrolling down, returns scrolling up */
+.nav{transform:translateY(0);transition:height .45s var(--ease),background .45s,box-shadow .45s,transform .45s var(--ease)}
+.nav.hide{transform:translateY(-100%)}
 
 /* whatsapp fab */
 .wa-fab{
@@ -925,6 +934,7 @@ body.loading{overflow:hidden}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1132,18 +1142,78 @@ function initGsap(){
 
   if(reduceMotion){finishLoader();return}
 
+  /* ---- Lenis smooth scrolling, driven by GSAP's ticker ---- */
+  let lenis=null;
+  if(window.Lenis){
+    lenis=new Lenis({duration:1.1,smoothWheel:true});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* ---- split headlines into masked words (SplitText-style) ---- */
+  function splitWords(el){
+    if(el.dataset.split)return;
+    el.dataset.split='1';
+    // background-clip:text gradients don't paint through inline-block wrappers,
+    // so gradient classes are re-applied on each word itself
+    const wrap=(node,grad)=>{
+      [...node.childNodes].forEach(child=>{
+        if(child.nodeType===3){
+          const frag=document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(part=>{
+            if(!part)return;
+            if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));return}
+            const w=document.createElement('span');w.className='w';
+            const i=document.createElement('i');i.textContent=part;
+            if(grad)i.className=grad;
+            w.appendChild(i);frag.appendChild(w);
+          });
+          node.replaceChild(frag,child);
+        }else if(child.nodeType===1&&child.tagName!=='BR'){
+          const g=child.classList.contains('gold-grad')?'gold-grad'
+                 :child.classList.contains('cyan-grad')?'cyan-grad':grad;
+          wrap(child,g);
+        }
+      });
+    };
+    wrap(el,null);
+  }
+  const heroH1=document.querySelector('.hero .display');
+  splitWords(heroH1);
+  const otherHeads=[...document.querySelectorAll('.headline,.final .display')];
+  otherHeads.forEach(splitWords);
+  // masked start states (JS-only, so no-JS keeps text visible)
+  gsap.set(heroH1.querySelectorAll('.w>i'),{yPercent:112});
+  otherHeads.forEach(h=>{
+    const words=h.querySelectorAll('.w>i');
+    gsap.set(words,{yPercent:112});
+    ScrollTrigger.create({
+      trigger:h,start:'top 85%',once:true,
+      onEnter:()=>gsap.to(words,{yPercent:0,duration:.9,ease:'power4.out',stagger:.04})
+    });
+  });
+
   // hero entrance timeline — plays once the loader lifts
   function heroIntro(){
     ScrollTrigger.refresh(); // recalc section positions after loader removal
+    const V=i=>(4-i);
     const intro=gsap.timeline();
-    intro.fromTo('[data-hero]',
-        {y:44,opacity:0,filter:'blur(8px)'},
-        {y:0,opacity:1,filter:'blur(0px)',duration:1.1,stagger:.12,ease:'power3.out',clearProps:'filter'}
-      )
-      .from('[data-chip]',{scale:.6,opacity:0,duration:.8,stagger:.15,ease:'back.out(1.8)'},'-=.5')
+    intro
+      .to(heroH1.querySelectorAll('.w>i'),{yPercent:0,duration:1,ease:'power4.out',stagger:.07})
+      .fromTo('.hero .lede, .hero-ctas',
+        {y:34,opacity:0},
+        {y:0,opacity:1,duration:.9,stagger:.12,ease:'power3.out'},'-=.45')
+      .fromTo('#heroVisual',
+        {y:90,opacity:0,scale:.96},
+        {y:0,opacity:1,scale:1,duration:1.1,ease:'expo.out'},'-=.55')
+      // the deck breathes once: fan opens downward, then settles with a soft spring
+      .to('.veneer',{y:i=>V(i)*26,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
+      .to('.veneer',{y:i=>V(i)*12,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
+      .from('[data-chip]',{scale:.6,opacity:0,duration:.7,stagger:.14,ease:'back.out(1.8)'},'-=1')
       .add(()=>gsap.to('[data-chip]',{y:-12,duration:2.6,ease:'sine.inOut',yoyo:true,repeat:-1,stagger:.4}));
   }
-  gsap.set('[data-hero]',{opacity:0});
+  gsap.set('.hero .lede, .hero-ctas, #heroVisual',{opacity:0});
   if(document.readyState==='complete')finishLoader(heroIntro);
   else addEventListener('load',()=>finishLoader(heroIntro));
   setTimeout(()=>finishLoader(heroIntro),3500); // safety net for slow CDNs
@@ -1154,27 +1224,28 @@ function initGsap(){
     scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}
   });
 
-  // plywood teardown — tidy stacked deck fans apart smoothly on scroll
+  // plywood teardown — the deck deals DOWNWARD on scroll, away from the hero copy
   // (mirrors the CSS nth-child starting pose so there is no jump at load)
   const V=i=>(4-i);                      // depth from the top face (face i=4 → 0)
-  gsap.set('.veneer',{y:i=>-V(i)*12,scale:i=>1-V(i)*.012});
+  gsap.set('.veneer',{y:i=>V(i)*12,scale:i=>1-V(i)*.012});
   const explode=gsap.timeline({
     scrollTrigger:{trigger:'#hero',start:'top top',end:'75% top',scrub:.5}
   });
   explode
     .to('.veneer',{
-      y:i=>-V(i)*44,                     // deeper layers rise further — clean vertical fan
-      scale:i=>1-V(i)*.012,              // keep the stacked scale, no skew or drift
+      y:i=>V(i)*44,                      // deeper layers drop further — clean vertical fan
+      scale:i=>1-V(i)*.012,
       ease:'none'
     },0)
     .to('.board .plies',{y:26,opacity:0,ease:'none'},0)
+    .to('.scroll-cue',{opacity:0,ease:'none',duration:.15},0)
     .to('#stackCaption',{opacity:1,ease:'none'},.15);
 
   // section reveals — five variants, staggered per batch
   const VARIANTS={
     'fade-up':   {from:{y:46,opacity:0},                          to:{y:0,opacity:1}},
     'scale-in':  {from:{scale:.88,opacity:0},                     to:{scale:1,opacity:1}},
-    'clip':      {from:{clipPath:'inset(0 0 100% 0)',y:24,opacity:0},to:{clipPath:'inset(0 0 0% 0)',y:0,opacity:1}},
+    'clip':      {from:{y:24,opacity:0},                          to:{y:0,opacity:1}},
     'slide-left':{from:{x:-64,opacity:0},                         to:{x:0,opacity:1}},
     'slide-right':{from:{x:64,opacity:0},                         to:{x:0,opacity:1}}
   };
@@ -1194,17 +1265,25 @@ function initGsap(){
     });
   });
 
-  // feature art parallax (inner layer drifts as you scroll)
+  // feature art: parallax drift + slow Ken Burns zoom-out as you scroll through
   document.querySelectorAll('[data-parallax] .inner').forEach(inner=>{
-    gsap.fromTo(inner,{yPercent:-8},{yPercent:8,ease:'none',
+    gsap.fromTo(inner,{yPercent:-8,scale:1.12},{yPercent:8,scale:1,ease:'none',
       scrollTrigger:{trigger:inner.parentElement,start:'top bottom',end:'bottom top',scrub:.7}
     });
   });
 
-  // marquee strip drifts slightly faster while scrolling through it
-  gsap.to('.strip-track',{xPercent:-6,ease:'none',
-    scrollTrigger:{trigger:'.strip',start:'top bottom',end:'bottom top',scrub:1}
-  });
+  // marquee reacts to scroll velocity — skews with fast scrolling, relaxes at rest
+  const strip=document.querySelector('.strip');
+  if(strip){
+    const skew={v:0};
+    ScrollTrigger.create({
+      onUpdate:self=>{skew.v=gsap.utils.clamp(-10,10,self.getVelocity()/160)}
+    });
+    gsap.ticker.add(()=>{
+      skew.v+=(0-skew.v)*.08;
+      strip.style.transform=`skewX(${skew.v.toFixed(2)}deg)`;
+    });
+  }
 
   // final headline scale-up
   gsap.from('.final .display',{
@@ -1212,18 +1291,41 @@ function initGsap(){
     scrollTrigger:{trigger:'.final',start:'top 75%',once:true}
   });
 
-  // smooth in-page transitions for anchor links
-  if(window.ScrollToPlugin){
-    document.documentElement.style.scrollBehavior='auto'; // let GSAP own the easing
+  // smooth in-page transitions for anchor links (Lenis when present, GSAP fallback)
+  if(lenis||window.ScrollToPlugin){
+    document.documentElement.style.scrollBehavior='auto';
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click',e=>{
         const target=document.querySelector(a.getAttribute('href'));
         if(!target)return;
         e.preventDefault();
-        gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:56}});
+        if(lenis)lenis.scrollTo(target,{offset:-56,duration:1.2});
+        else gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:56}});
       });
     });
   }
+
+  // magnetic buttons — pills lean toward the cursor
+  if(finePointer){
+    document.querySelectorAll('.pill').forEach(btn=>{
+      const xTo=gsap.quickTo(btn,'x',{duration:.45,ease:'power3.out'});
+      const yTo=gsap.quickTo(btn,'y',{duration:.45,ease:'power3.out'});
+      btn.addEventListener('pointermove',e=>{
+        const r=btn.getBoundingClientRect();
+        xTo((e.clientX-(r.left+r.width/2))*.28);
+        yTo((e.clientY-(r.top+r.height/2))*.4);
+      },{passive:true});
+      btn.addEventListener('pointerleave',()=>{xTo(0);yTo(0)},{passive:true});
+    });
+  }
+
+  // nav hides on scroll down, returns on scroll up
+  let lastY=0;
+  addEventListener('scroll',()=>{
+    const y=scrollY;
+    nav.classList.toggle('hide',y>lastY&&y>340&&!links.classList.contains('open'));
+    lastY=y;
+  },{passive:true});
 }
 // GSAP scripts are deferred and execute before DOMContentLoaded
 if(window.gsap&&window.ScrollTrigger)initGsap();
