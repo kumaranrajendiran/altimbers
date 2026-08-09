@@ -171,28 +171,26 @@ body{
   will-change:transform;
   box-shadow:0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
-  /* sheen + real grain + wood base */
+  /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
-    linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,0) 45%),
+    linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,0) 45%),
+    url("https://images.unsplash.com/photo-1644931551533-02906718127f?auto=format&fit=crop&w=1400&q=70") center/cover,
     var(--wgh),
     linear-gradient(100deg,#b98a55,#a1743f 45%,#c59a67 80%,#96683a);
-  background-size:auto,cover,auto;
 }
-.veneer.gv{ /* crossband layers — grain runs the other way (real plywood construction) */
+.veneer.gv{ /* crossband layers — darker grain running the other way */
   background:
-    linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,0) 45%),
+    linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 45%),
+    url("https://images.unsplash.com/photo-1583418007992-a8e33a92e7ad?auto=format&fit=crop&w=1400&q=70") center/cover,
     var(--wgv),
     linear-gradient(10deg,#8a5f32,#7a5327 45%,#96683a 80%,#6f4a24);
-  background-size:auto,cover,auto;
 }
-.veneer.face{ /* top face veneer — plank lines + ring figure + stronger sheen */
+.veneer.face{ /* top face veneer — real light-oak planks + sheen */
   background:
-    linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,0) 40%),
+    linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,0) 40%),
+    url("https://images.unsplash.com/photo-1611072337226-1140ab367200?auto=format&fit=crop&w=1600&q=72") center/cover,
     var(--wring),
-    var(--wgh),
-    repeating-linear-gradient(97deg,rgba(0,0,0,0) 0 82px,rgba(60,38,14,.35) 82px 84px),
     linear-gradient(100deg,#c59a67,#b0854e 45%,#cfa471 80%,#a1743f);
-  background-size:auto,cover,cover,auto,auto;
   border:1px solid rgba(255,255,255,.09);
 }
 .board .plies{
@@ -271,15 +269,24 @@ body{
 .b-span3{grid-column:span 3}
 .b-span4{grid-column:span 4}
 .b-tall{min-height:330px}
+/* photo cards — real product photography with legibility gradient */
+.b-photo{color:#fff;border-color:rgba(255,255,255,.12)}
+.b-photo p{color:rgba(255,255,255,.82)}
+.b-photo .b-num{opacity:.4}
+.b-photo h3{text-shadow:0 2px 12px rgba(0,0,0,.5)}
 .b-wood{
   background:
-    linear-gradient(180deg,rgba(9,12,17,.1) 20%,rgba(9,12,17,.88)),
-    var(--wring),
-    var(--wgh),
+    linear-gradient(180deg,rgba(9,12,17,.12) 20%,rgba(9,12,17,.9) 82%),
+    url("https://images.unsplash.com/photo-1700973408133-b45276ec8feb?auto=format&fit=crop&w=1600&q=72") center/cover,
     linear-gradient(100deg,#b98a55,#a1743f 45%,#c59a67 80%,#96683a);
-  background-size:auto,cover,cover,auto;
 }
-.b-wood p{color:rgba(244,242,236,.75)}
+.b-wood p{color:rgba(244,242,236,.82)}
+.bp-com{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1690768162439-7ca7a1813038?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-mdf{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-part{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1508948414348-13a52d2ec394?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-prelam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-lam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1644358687651-464c503972fe?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-doors{background:linear-gradient(180deg,rgba(85,60,12,.28) 0%,rgba(9,12,17,.92) 82%),url("https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
 .b-cyan{background:linear-gradient(160deg,#0d2733,#0a141d);border-color:rgba(62,230,255,.2)}
 .b-cyan::before{background:radial-gradient(340px circle at var(--mx) var(--my),rgba(62,230,255,.14),transparent 65%)}
 .b-cyan::after{background:radial-gradient(240px circle at var(--mx) var(--my),rgba(62,230,255,.7),transparent 70%)}
@@ -309,43 +316,27 @@ body{
 .f-art .big-label span{font-size:.85rem;opacity:.75;font-weight:500}
 .art-marine .inner{
   background:
-    linear-gradient(180deg,rgba(6,10,18,0) 25%,rgba(6,10,18,.9)),
-    linear-gradient(115deg,rgba(14,156,201,.35),rgba(8,26,44,.1)),
-    var(--wring),
-    var(--wgh),
-    linear-gradient(100deg,#8e6437,#7a5327 45%,#a1743f 80%,#6f4a24);
-  background-size:auto,auto,cover,cover,auto;
+    linear-gradient(180deg,rgba(6,10,18,0) 30%,rgba(6,10,18,.88)),
+    linear-gradient(115deg,rgba(14,156,201,.28),rgba(8,26,44,.05)),
+    url("https://images.unsplash.com/photo-1613533107802-7f80e391e9ef?auto=format&fit=crop&w=1600&q=72") center/cover,
+    #12202c;
 }
 .art-marine::before{
-  content:"";position:absolute;left:-10%;right:-10%;top:48%;height:140px;z-index:2;
-  background:radial-gradient(50% 100% at 50% 0%,rgba(62,230,255,.35),transparent 70%);
-  filter:blur(8px);
+  content:"";position:absolute;left:-10%;right:-10%;top:52%;height:140px;z-index:2;
+  background:radial-gradient(50% 100% at 50% 0%,rgba(62,230,255,.28),transparent 70%);
+  filter:blur(10px);
 }
 .art-mdf .inner{
   background:
-    linear-gradient(180deg,rgba(9,12,17,0) 30%,rgba(9,12,17,.9)),
-    linear-gradient(120deg,#d9c6a2,#c4ab7f 45%,#e4d3b0);
-}
-.art-mdf::before{
-  content:"";position:absolute;inset:12% 18% 32% 18%;border-radius:14px;z-index:2;
-  background:linear-gradient(120deg,#efe3c8,#dcc79c);
-  box-shadow:0 24px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.6);
-  transform:rotate(-4deg);
-}
-.art-mdf::after{
-  content:"";position:absolute;inset:22% 26% 24% 30%;border-radius:14px;z-index:2;
-  background:linear-gradient(120deg,#f7eedb,#e8d7b4);
-  box-shadow:0 24px 60px rgba(0,0,0,.35);
-  transform:rotate(3deg);
+    linear-gradient(180deg,rgba(9,12,17,0) 35%,rgba(9,12,17,.88)),
+    url("https://images.unsplash.com/photo-1655457397686-4dd23e78a918?auto=format&fit=crop&w=1600&q=72") center/cover,
+    #2a2013;
 }
 .art-lam .inner{
   background:
-    linear-gradient(180deg,rgba(9,12,17,0) 35%,rgba(9,12,17,.9)),
-    conic-gradient(from 210deg at 60% 30%,#3b2a1a,#7a5327,#caa065,#e6d2ac,#8e6437,#3b2a1a);
-}
-.art-lam::before{
-  content:"";position:absolute;inset:0;z-index:2;
-  background:repeating-linear-gradient(24deg,transparent 0 34px,rgba(255,255,255,.06) 34px 36px);
+    linear-gradient(180deg,rgba(9,12,17,0) 40%,rgba(9,12,17,.88)),
+    url("https://images.unsplash.com/photo-1531315630201-bb15abeb1653?auto=format&fit=crop&w=1600&q=72") center/cover,
+    #2a2013;
 }
 
 /* ---------- stats ---------- */
@@ -361,8 +352,14 @@ body{
 .stat-cell span{font-size:.8rem;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 
 /* ---------- quote ---------- */
-.quote-sec{text-align:center;overflow:hidden}
-.quote-sec::before{content:"";position:absolute;inset:0;background:radial-gradient(46% 60% at 50% 40%,rgba(240,194,74,.06),transparent 70%)}
+.quote-sec{
+  text-align:center;overflow:hidden;
+  background:
+    linear-gradient(rgba(9,12,17,.9),rgba(9,12,17,.94)),
+    url("https://images.unsplash.com/photo-1497219055242-93359eeed651?auto=format&fit=crop&w=1600&q=68") center/cover,
+    var(--bg);
+}
+.quote-sec::before{content:"";position:absolute;inset:0;background:radial-gradient(46% 60% at 50% 40%,rgba(240,194,74,.07),transparent 70%)}
 .quote-sec blockquote p{
   font-size:clamp(1.5rem,3.4vw,2.6rem);font-weight:600;letter-spacing:-.03em;line-height:1.25;
   max-width:26ch;margin-inline:auto;position:relative;
@@ -605,22 +602,22 @@ body.loading{overflow:hidden}
         <h3>Marine Plywood</h3>
         <p>BWP-grade, boiling-waterproof, ISI-certified. The gold standard for kitchens, bathrooms and anything that meets moisture.</p>
       </div>
-      <div class="b-card b-span2 b-tall" data-rv data-tilt>
+      <div class="b-card b-span2 b-tall b-photo bp-com" data-rv data-tilt>
         <span class="b-num">02</span>
         <h3>Commercial Plywood</h3>
         <p>MR-grade workhorse for furniture, panelling and everyday interiors.</p>
       </div>
-      <div class="b-card b-span2" data-rv data-tilt>
+      <div class="b-card b-span2 b-photo bp-mdf" data-rv data-tilt>
         <span class="b-num">03</span>
         <h3>MDF Boards</h3>
         <p>Silky-smooth surfaces. Perfect for CNC, routing and painted finishes.</p>
       </div>
-      <div class="b-card b-span2" data-rv data-tilt>
+      <div class="b-card b-span2 b-photo bp-part" data-rv data-tilt>
         <span class="b-num">04</span>
         <h3>Particle Boards</h3>
         <p>Smart economics for modular furniture and partitions.</p>
       </div>
-      <div class="b-card b-span2" data-rv data-tilt>
+      <div class="b-card b-span2 b-photo bp-prelam" data-rv data-tilt>
         <span class="b-num">05</span>
         <h3>Pre-Laminated Boards</h3>
         <p>Cut, edge-band, assemble. The finish is already done.</p>
@@ -630,12 +627,12 @@ body.loading{overflow:hidden}
         <h3>PVC Panels &amp; Profiles</h3>
         <p>100% termite-proof. 100% waterproof. Zero maintenance.</p>
       </div>
-      <div class="b-card b-span2" data-rv data-tilt>
+      <div class="b-card b-span2 b-photo bp-lam" data-rv data-tilt>
         <span class="b-num">07</span>
         <h3>Laminates &amp; Interiors</h3>
         <p>Designer laminates and veneers from leading brands.</p>
       </div>
-      <div class="b-card b-span2 b-gold-solid" data-rv data-tilt>
+      <div class="b-card b-span2 b-photo bp-doors" data-rv data-tilt>
         <span class="b-num">08</span>
         <h3>Flush Doors &amp; Film Faced Ply</h3>
         <p>Solid-core doors and shuttering-grade sheets for site work.</p>
@@ -1119,8 +1116,10 @@ function initGsap(){
   });
   explode
     .to('.veneer',{
-      y:i=>-i*46,                 // top face veneer lifts the most
-      rotationX:i=>i*1.5,
+      y:i=>-i*48,                        // top face veneer lifts the most
+      x:i=>(i%2?-1:1)*i*7,               // crossbands drift apart laterally
+      rotationX:i=>i*2,
+      rotationZ:i=>(i%2?-1:1)*i*.5,
       ease:'none'
     },0)
     .to('.board .plies',{y:26,opacity:0,ease:'none'},0)
