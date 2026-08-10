@@ -12,6 +12,8 @@
 <meta property="og:url" content="https://altimbers.com">
 <link rel="canonical" href="https://altimbers.com">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%23090c11'/><g fill='%23f0c24a' transform='translate(4,4) scale(1.92)'><polygon points='23,6 25,6 29,14 19,14'/><polygon points='18,16 30,16 34,24 14,24'/><polygon points='13,26 22.7,26 20.2,34 9,34'/><polygon points='25.3,26 35,26 39,34 27.8,34'/><polygon points='8,36 19.55,36 17,44 4,44'/><polygon points='28.45,36 40,36 44,44 31,44'/></g></svg>">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1611072337226-1140ab367200?auto=format&fit=crop&w=1600&q=72">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
@@ -183,14 +185,14 @@ body{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
     linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,0) 45%),
-    url("https://images.unsplash.com/photo-1644931551533-02906718127f?auto=format&fit=crop&w=1400&q=70") center/cover,
+    url("https://images.unsplash.com/photo-1644931551533-02906718127f?auto=format&fit=crop&w=800&q=60") center/cover,
     var(--wgh),
     linear-gradient(100deg,#b98a55,#a1743f 45%,#c59a67 80%,#96683a);
 }
 .veneer.gv{ /* crossband layers — darker grain running the other way */
   background:
     linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 45%),
-    url("https://images.unsplash.com/photo-1583418007992-a8e33a92e7ad?auto=format&fit=crop&w=1400&q=70") center/cover,
+    url("https://images.unsplash.com/photo-1583418007992-a8e33a92e7ad?auto=format&fit=crop&w=800&q=60") center/cover,
     var(--wgv),
     linear-gradient(10deg,#8a5f32,#7a5327 45%,#96683a 80%,#6f4a24);
 }
@@ -206,13 +208,13 @@ body{
 .veneer:nth-child(1){
   background:
     linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,0) 45%),
-    url("https://images.unsplash.com/photo-1611600700192-d87eaeed4f81?auto=format&fit=crop&w=1200&q=70") center/cover,
+    url("https://images.unsplash.com/photo-1611600700192-d87eaeed4f81?auto=format&fit=crop&w=800&q=60") center/cover,
     #8a6a45;
 }
 .veneer:nth-child(2){
   background:
     linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 45%),
-    url("https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?auto=format&fit=crop&w=1200&q=70") center/cover,
+    url("https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?auto=format&fit=crop&w=800&q=60") center/cover,
     #4a3a28;
 }
 .board .plies{
@@ -222,7 +224,7 @@ body{
   box-shadow:0 18px 40px rgba(0,0,0,.55);
 }
 .stack-caption{
-  position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:2.4rem;
+  position:absolute;left:50%;top:100%;transform:translateX(-50%) rotate(-1.5deg);margin-top:2.4rem;
   font-size:.78rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
   white-space:nowrap;opacity:0;
 }
@@ -285,7 +287,9 @@ body{
   background:linear-gradient(100deg,#c9992a,#ffdd85);color:#181000;
   padding:.34rem .75rem;border-radius:999px;
   box-shadow:0 4px 18px rgba(240,194,74,.35);
+  transform:rotate(-2.5deg);transition:transform .35s var(--ease);   /* sticker */
 }
+.b-card:hover .chip{transform:rotate(0deg) scale(1.05)}
 .b-num{font-size:2.9rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:auto;opacity:.13}
 .b-span2{grid-column:span 2}
 .b-span3{grid-column:span 3}
@@ -303,12 +307,12 @@ body{
     linear-gradient(100deg,#b98a55,#a1743f 45%,#c59a67 80%,#96683a);
 }
 .b-wood p{color:rgba(244,242,236,.82)}
-.bp-com{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1690768162439-7ca7a1813038?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
-.bp-mdf{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
-.bp-part{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1508948414348-13a52d2ec394?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
-.bp-prelam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
-.bp-lam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1644358687651-464c503972fe?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
-.bp-doors{background:linear-gradient(180deg,rgba(85,60,12,.28) 0%,rgba(9,12,17,.92) 82%),url("https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=1200&q=70") center/cover,#20150a}
+.bp-com{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1690768162439-7ca7a1813038?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
+.bp-mdf{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
+.bp-part{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1508948414348-13a52d2ec394?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
+.bp-prelam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
+.bp-lam{background:linear-gradient(180deg,rgba(9,12,17,.2) 10%,rgba(9,12,17,.9) 80%),url("https://images.unsplash.com/photo-1644358687651-464c503972fe?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
+.bp-doors{background:linear-gradient(180deg,rgba(85,60,12,.28) 0%,rgba(9,12,17,.92) 82%),url("https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=800&q=60") center/cover,#20150a}
 .b-cyan{background:linear-gradient(160deg,#0d2733,#0a141d);border-color:rgba(62,230,255,.2)}
 .b-cyan::before{background:radial-gradient(340px circle at var(--mx) var(--my),rgba(62,230,255,.14),transparent 65%)}
 .b-cyan::after{background:radial-gradient(240px circle at var(--mx) var(--my),rgba(62,230,255,.7),transparent 70%)}
@@ -464,6 +468,9 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .foot-btm{margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.74rem;color:var(--muted-2)}
 
 /* ---------- quote builder ---------- */
+.qb-top{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.qb-top h3 .serif-i{font-size:1.15em}
+.qb-count{font-size:.72rem;font-weight:700;letter-spacing:.3em;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
 .qb-progress{height:3px;border-radius:99px;background:rgba(255,255,255,.1);margin:1.2rem 0 .6rem;overflow:hidden}
 .qb-progress i{display:block;height:100%;width:25%;border-radius:99px;background:linear-gradient(90deg,#c9992a,#ffdd85,#f0c24a);transition:width .5s var(--ease);box-shadow:0 0 12px rgba(240,194,74,.6)}
 .qb-steps{display:flex;justify-content:space-between;margin-bottom:1.4rem}
@@ -474,14 +481,21 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .qb-label:first-child{margin-top:0}
 .cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
 .cat-card{
-  text-align:left;padding:.85rem 1rem;border-radius:14px;cursor:pointer;
-  background:rgba(9,12,17,.6);border:1px solid rgba(255,255,255,.12);color:var(--text);
-  font-family:inherit;transition:border-color .25s,background .25s,transform .2s;
+  text-align:left;padding:1rem 1.1rem;border-radius:16px;cursor:pointer;position:relative;overflow:hidden;
+  background:rgba(9,12,17,.6);border:1px solid rgba(255,255,255,.1);color:var(--text);
+  font-family:inherit;transition:border-color .25s,background .25s,transform .2s,box-shadow .25s;
 }
-.cat-card:hover{border-color:rgba(240,194,74,.45);transform:translateY(-2px)}
-.cat-card.sel{background:linear-gradient(120deg,rgba(240,194,74,.16),rgba(240,194,74,.05));border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 8px 26px rgba(240,194,74,.15)}
-.cat-card b{display:block;font-size:.85rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
-.cat-card small{display:inline-block;margin-top:.35rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--gold);background:rgba(240,194,74,.1);border:1px solid rgba(240,194,74,.3);padding:.14rem .5rem;border-radius:99px}
+.cat-card::after{
+  content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,221,133,.08),transparent);
+  transition:left .5s var(--ease);
+}
+.cat-card:hover{border-color:rgba(240,194,74,.45);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.cat-card:hover::after{left:120%}
+.cat-card.sel{background:linear-gradient(120deg,rgba(240,194,74,.16),rgba(240,194,74,.04));border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 10px 30px rgba(240,194,74,.18)}
+.cat-card b{display:block;font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.cat-card small{display:inline-block;margin-top:.4rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--gold);background:rgba(240,194,74,.08);border:1px solid rgba(240,194,74,.28);padding:.16rem .55rem;border-radius:99px;transition:background .25s,color .25s}
+.cat-card.sel small{background:linear-gradient(100deg,#c9992a,#ffdd85);color:#181000;border-color:transparent}
 .chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
 .chip-opt{
   padding:.5rem .95rem;border-radius:99px;cursor:pointer;
@@ -515,6 +529,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 /* word-mask reveal wrappers (transforms applied by GSAP only — no-JS stays visible) */
 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
 .w>i{display:inline-block;font-style:normal;will-change:transform}
+.w>i.serif-i{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:700}
 
 /* nav hides scrolling down, returns scrolling up */
 .nav{transform:translateY(0);transition:height .45s var(--ease),background .45s,box-shadow .45s,transform .45s var(--ease)}
@@ -528,7 +543,9 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
   box-shadow:0 12px 34px rgba(37,211,102,.45);
   transition:transform .3s var(--ease);text-decoration:none;
 }
-.wa-fab:hover{transform:scale(1.14)}
+.wa-fab{animation:wiggle 6s ease-in-out infinite 3s}
+.wa-fab:hover{transform:scale(1.14);animation-play-state:paused}
+@keyframes wiggle{0%,86%,100%{transform:rotate(0)}88%{transform:rotate(-14deg)}90%{transform:rotate(11deg)}92%{transform:rotate(-7deg)}94%{transform:rotate(4deg)}96%{transform:rotate(0)}}
 .wa-fab::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:pulse 2s ease-out infinite}
 @keyframes pulse{0%{transform:scale(.9);opacity:1}100%{transform:scale(1.4);opacity:0}}
 
@@ -562,6 +579,51 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
 }
+
+/* ============================================================
+   EDITORIAL ELEGANCE TOKENS (dark theme)
+   ============================================================ */
+:root{
+  --paper:#090c11;                 /* ring-gap color for selection states */
+  --gold-editorial:#f0c24a;
+  --hairline:rgba(255,255,255,.12);
+}
+.serif-b{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:700;letter-spacing:0}
+
+/* ---------- finish explorer (laminates) ---------- */
+.finish-lab{display:flex;flex-direction:column;gap:1rem}
+.fin-preview{
+  position:relative;border-radius:var(--r-lg);min-height:340px;overflow:hidden;
+  border:1px solid var(--hairline);box-shadow:0 40px 90px rgba(23,18,11,.18);
+}
+.fin-layer{position:absolute;inset:0;transition:opacity .5s var(--ease)}
+.fin-meta{
+  position:absolute;left:1.4rem;bottom:1.4rem;z-index:3;
+  background:rgba(23,18,11,.72);backdrop-filter:blur(12px);
+  border-radius:13px;padding:.75rem 1.1rem;color:#f3f0e9;
+}
+.fin-meta b{display:block;font-size:1.05rem;font-weight:700;letter-spacing:-.01em}
+.fin-meta span{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(243,240,233,.6)}
+.fin-swatches{display:flex;flex-wrap:wrap;gap:.55rem}
+.fin-sw{
+  width:46px;height:46px;border-radius:12px;cursor:pointer;padding:0;
+  border:1px solid var(--hairline);
+  transition:transform .2s var(--ease),box-shadow .25s;
+  background-size:cover;
+}
+.fin-sw:hover{transform:translateY(-3px) scale(1.06)}
+.fin-sw.sel{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--gold-editorial);transform:scale(1.08)}
+/* decor finishes — grain data-URIs over tone bases */
+.fin-teak{background-image:var(--wgh),linear-gradient(105deg,#8a5a2e,#a9743d 50%,#7c4f26)}
+.fin-oak{background-image:var(--wgh),linear-gradient(105deg,#c99e63,#e0bd8a 50%,#b98a55)}
+.fin-walnut{background-image:var(--wgh),linear-gradient(105deg,#4a2f1c,#5f3d24 50%,#3d2716)}
+.fin-mahogany{background-image:var(--wgh),linear-gradient(105deg,#6b2f22,#8a4030 50%,#5c281d)}
+.fin-wenge{background-image:var(--wgv),linear-gradient(10deg,#2e2018,#3a2a1e 50%,#241811)}
+.fin-frost{background-image:linear-gradient(140deg,#fbfbfa,#ececea 60%,#f4f4f2)}
+.fin-ivory{background-image:linear-gradient(140deg,#f4ecd9,#e9dcc2 60%,#efe5cf)}
+.fin-slate{background-image:linear-gradient(140deg,#5a6068,#464b52 60%,#3f444b)}
+.fin-black{background-image:linear-gradient(140deg,#26272c,#141518 60%,#1c1d22)}
+.fin-marble{background-image:var(--wring),linear-gradient(135deg,#f6f4f0,#e8e4dd 55%,#f2efe9)}
 
 /* ---------- preloader ---------- */
 .loader{
@@ -637,7 +699,7 @@ body.loading{overflow:hidden}
   <div class="nav-inner">
     <a class="brand" href="#top">
       <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#logoA"/></svg>
-      <span class="wm"><b>AL TIMBERS</b><span>&amp; Boards</span></span>
+      <span class="wm"><b><em class="serif-b">AL</em>&nbsp;TIMBERS</b><span>&amp; Boards</span></span>
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="#range">Range</a>
@@ -656,7 +718,7 @@ body.loading{overflow:hidden}
 <section class="hero" id="hero">
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
-    <h1 class="display" data-hero>Plywood.<br><span class="gold-grad">Perfected.</span></h1>
+    <h1 class="display" data-hero>Plywood.<br><span class="gold-grad serif-i">Perfected.</span></h1>
     <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
     <div class="hero-ctas" data-hero>
       <a class="pill pill-gold pill-lg" href="#contact">Build Your Quote</a>
@@ -692,7 +754,7 @@ body.loading{overflow:hidden}
 <section class="sec" id="range">
   <div class="wrap-wide">
     <div class="sec-head center" data-rv="clip">
-      <span class="overline">The Range</span>
+      <span class="overline">01 — The Range</span>
       <h2 class="headline">One store.<br>Every board you'll <span class="gold-grad">ever need.</span></h2>
     </div>
     <div class="bento">
@@ -745,7 +807,7 @@ body.loading{overflow:hidden}
   <div class="wrap">
     <div class="feature">
       <div class="f-copy" data-rv="slide-left">
-        <span class="overline" style="color:var(--cyan)">Marine Plywood · IS:710</span>
+        <span class="overline" style="color:var(--cyan)">02 — Marine Plywood · IS:710</span>
         <h2 class="headline">Water doesn't<br><span class="cyan-grad">stand a chance.</span></h2>
         <p class="sub">Boiling-waterproof BWP grade, pressure-treated and ISI-certified. Built for Chennai kitchens, monsoons and everything in between.</p>
         <ul class="f-list">
@@ -768,7 +830,7 @@ body.loading{overflow:hidden}
   <div class="wrap">
     <div class="feature flip">
       <div class="f-copy" data-rv="slide-right">
-        <span class="overline">MDF &amp; Pre-Laminated</span>
+        <span class="overline">03 — MDF &amp; Pre-Laminated</span>
         <h2 class="headline">Factory finish.<br><span class="gold-grad">Straight off the shelf.</span></h2>
         <p class="sub">Pre-laminated boards in wood grains and designer shades — skip the lamination step entirely and hand over projects faster.</p>
         <ul class="f-list">
@@ -791,7 +853,7 @@ body.loading{overflow:hidden}
   <div class="wrap">
     <div class="feature">
       <div class="f-copy" data-rv="slide-left">
-        <span class="overline" style="color:var(--amber)">Laminates &amp; Interior Materials</span>
+        <span class="overline">04 — Laminates &amp; Finishes</span>
         <h2 class="headline">A thousand finishes.<br><span class="gold-grad">One counter.</span></h2>
         <p class="sub">Designer laminates, veneers, PVC panels, flush doors and hardware — everything your interior project needs, matched and billed in one visit.</p>
         <ul class="f-list">
@@ -801,9 +863,14 @@ body.loading{overflow:hidden}
         </ul>
         <a class="pill pill-gold" href="https://wa.me/919080506492?text=Hi%2C%20I%27m%20looking%20for%20laminates%20%2F%20interior%20materials." target="_blank" rel="noopener">Explore Finishes</a>
       </div>
-      <div class="f-art art-lam" data-rv="scale-in" data-parallax>
-        <div class="inner"></div>
-        <div class="big-label"><b>Pick your look.</b><span>Laminates · Veneers · PVC</span></div>
+      <div class="finish-lab" data-rv="scale-in">
+        <div class="fin-preview">
+          <div class="fin-layer fin-teak" id="finA" style="opacity:1"></div>
+          <div class="fin-layer" id="finB" style="opacity:0"></div>
+          <div class="fin-meta"><b id="finName">Natural Teak</b><span id="finType">Wood grain · Matt</span></div>
+        </div>
+        <div class="fin-swatches" id="finSwatches"></div>
+        <a class="pill pill-gold" id="finCTA" href="#" target="_blank" rel="noopener">Get price for this finish</a>
       </div>
     </div>
   </div>
@@ -837,7 +904,7 @@ body.loading{overflow:hidden}
 <section class="sec reviews" id="reviews">
   <div class="wrap">
     <div class="sec-head center" data-rv="clip">
-      <span class="overline">Word of Mouth</span>
+      <span class="overline">05 — Word of Mouth</span>
       <h2 class="headline">Trusted by <span class="gold-grad">the trade.</span></h2>
     </div>
     <div class="trust-grid">
@@ -881,7 +948,7 @@ body.loading{overflow:hidden}
 <section class="sec contact" id="contact">
   <div class="wrap">
     <div class="sec-head" data-rv="clip">
-      <span class="overline">Contact</span>
+      <span class="overline">06 — Contact</span>
       <h2 class="headline">Visit. Call. <span class="gold-grad">Message.</span></h2>
     </div>
     <div class="contact-grid">
@@ -904,7 +971,10 @@ body.loading{overflow:hidden}
         </div>
       </div>
       <div class="panel" data-rv="slide-right" id="quoteBuilder">
-        <h3>Build your exact enquiry</h3>
+        <div class="qb-top">
+          <h3>Build your <span class="serif-i gold-grad">exact</span> enquiry</h3>
+          <span class="qb-count" id="qbCount">01 / 04</span>
+        </div>
         <p>Pick your requirement as per Indian Standards — we'll draft the WhatsApp message for you.</p>
         <div class="qb-progress"><i id="qbBar"></i></div>
         <div class="qb-steps" id="qbSteps">
@@ -932,7 +1002,7 @@ body.loading{overflow:hidden}
       <div>
         <a class="brand" href="#top">
           <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#logoA"/></svg>
-          <span class="wm"><b>AL TIMBERS</b><span>&amp; Boards</span></span>
+          <span class="wm"><b><em class="serif-b">AL</em>&nbsp;TIMBERS</b><span>&amp; Boards</span></span>
         </a>
         <p>Quality materials. Trusted service. Dealers in plywood, boards, laminates &amp; interior materials — Chennai, Tamil Nadu.</p>
       </div>
@@ -1208,9 +1278,8 @@ function initGsap(){
           });
           node.replaceChild(frag,child);
         }else if(child.nodeType===1&&child.tagName!=='BR'){
-          const g=child.classList.contains('gold-grad')?'gold-grad'
-                 :child.classList.contains('cyan-grad')?'cyan-grad':grad;
-          wrap(child,g);
+          const styled=['gold-grad','cyan-grad','serif-i'].filter(c=>child.classList.contains(c)).join(' ');
+          wrap(child,styled||grad);
         }
       });
     };
@@ -1261,6 +1330,38 @@ function initGsap(){
     scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:.6}
   });
 
+  // norris-style dynamics: the deck tracks the cursor in 3D, springy
+  const deck=document.getElementById('heroVisual');
+  if(finePointer){
+    gsap.set(deck,{transformPerspective:1100});
+    const dRX=gsap.quickTo(deck,'rotationX',{duration:1,ease:'power3.out'});
+    const dRY=gsap.quickTo(deck,'rotationY',{duration:1,ease:'power3.out'});
+    const heroEl=document.getElementById('hero');
+    heroEl.addEventListener('pointermove',e=>{
+      const px=e.clientX/innerWidth,py=e.clientY/innerHeight;
+      dRX((py-.5)*-5);dRY((px-.5)*7);
+    },{passive:true});
+    heroEl.addEventListener('pointerleave',()=>{dRX(0);dRY(0)},{passive:true});
+    // chips are stickers: tilted at rest, drifting at different depths
+    const chipEls=[...document.querySelectorAll('[data-chip]')];
+    chipEls.forEach((c,n)=>gsap.set(c,{rotation:[-4,3,-2][n%3]}));
+    const chipTos=chipEls.map(c=>({x:gsap.quickTo(c,'x',{duration:1.4,ease:'power3.out'})}));
+    heroEl.addEventListener('pointermove',e=>{
+      const px=e.clientX/innerWidth;
+      chipTos.forEach((t,n)=>t.x((px-.5)*(n+1)*22));
+    },{passive:true});
+  }
+  // scroll-velocity lean — the board has inertia
+  const leanEl=document.querySelector('.board');
+  if(leanEl){
+    const lean={v:0};
+    ScrollTrigger.create({onUpdate:s=>lean.v=gsap.utils.clamp(-5,5,s.getVelocity()/420)});
+    gsap.ticker.add(()=>{
+      lean.v+=(0-lean.v)*.07;
+      gsap.set(leanEl,{rotationZ:lean.v*.5});
+    });
+  }
+
   // plywood teardown — the hero copy exits first, then the deck fans upward on stage
   // (mirrors the CSS nth-child starting pose so there is no jump at load)
   const V=i=>(4-i);                      // depth from the top face (face i=4 → 0)
@@ -1288,6 +1389,7 @@ function initGsap(){
     'slide-left':{from:{x:-64,opacity:0},                         to:{x:0,opacity:1}},
     'slide-right':{from:{x:64,opacity:0},                         to:{x:0,opacity:1}}
   };
+  const EASES={'scale-in':'back.out(1.4)','fade-up':'power3.out','clip':'power3.out','slide-left':'back.out(1.15)','slide-right':'back.out(1.15)'};
   Object.entries(VARIANTS).forEach(([name,v])=>{
     const sel=name==='fade-up'
       ?'[data-rv=""],[data-rv="fade-up"]'
@@ -1299,7 +1401,7 @@ function initGsap(){
       start:'top 86%',
       once:true,
       onEnter:batch=>gsap.to(batch,{
-        ...v.to,duration:1,stagger:.1,ease:'power3.out',clearProps:'transform,clipPath'
+        ...v.to,duration:1,stagger:.1,ease:EASES[name]||'power3.out',clearProps:'transform,clipPath'
       })
     });
   });
@@ -1349,12 +1451,15 @@ function initGsap(){
     document.querySelectorAll('.pill').forEach(btn=>{
       const xTo=gsap.quickTo(btn,'x',{duration:.45,ease:'power3.out'});
       const yTo=gsap.quickTo(btn,'y',{duration:.45,ease:'power3.out'});
+      const rTo=gsap.quickTo(btn,'rotation',{duration:.5,ease:'power3.out'});
       btn.addEventListener('pointermove',e=>{
         const r=btn.getBoundingClientRect();
-        xTo((e.clientX-(r.left+r.width/2))*.28);
+        const dx=e.clientX-(r.left+r.width/2);
+        xTo(dx*.28);
         yTo((e.clientY-(r.top+r.height/2))*.4);
+        rTo(dx*.02);                       // quirky little lean toward the cursor
       },{passive:true});
-      btn.addEventListener('pointerleave',()=>{xTo(0);yTo(0)},{passive:true});
+      btn.addEventListener('pointerleave',()=>{xTo(0);yTo(0);rTo(0)},{passive:true});
     });
   }
 
@@ -1409,12 +1514,13 @@ const CATALOG={
     groups:[{k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
             {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
   'Pre-Laminated Board':{std:'IS:12823',unit:'sheets',
-    groups:[{k:'finish',label:'Finish',opts:['Wood grain','Solid colour','Textured']},
+    groups:[{k:'finish',label:'Decor finish',opts:['Natural Teak','Golden Oak','Dark Walnut','Wenge','Frosty White','Ivory Cream','Slate Grey','Other / from catalogue']},
             {k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
             {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
   'Laminates':{std:'IS:2046',unit:'sheets',
     groups:[{k:'thick',label:'Thickness',opts:['0.8mm','1mm','1.25mm']},
-            {k:'finish',label:'Finish',opts:['Glossy','Matt','Suede','Textured','Wood grain']}]},
+            {k:'surface',label:'Surface',opts:['Glossy','Matt','Suede','Textured']},
+            {k:'finish',label:'Decor finish',opts:['Natural Teak','Golden Oak','Dark Walnut','Rich Mahogany','Wenge','Frosty White','Ivory Cream','Slate Grey','Jet Black','Carrara Marble','Other / from catalogue']}]},
   'Flush Door':{std:'IS:2202',unit:'doors',
     groups:[{k:'thick',label:'Thickness',opts:['25mm','30mm','32mm','35mm']},
             {k:'size',label:'Door size',opts:['6.5×2.5 ft','6.5×3 ft','7×3 ft','7×3.5 ft','Custom size']}]},
@@ -1442,6 +1548,7 @@ function qbValid(){
   return true;
 }
 function qbSync(){
+  document.getElementById('qbCount').textContent='0'+(qb.step+1)+' / 04';
   qbBar.style.width=((qb.step+1)*25)+'%';
   qbStepEls.forEach((s,i)=>s.classList.toggle('on',i<=qb.step));
   qbBack.style.display=qb.step>0?'':'none';
@@ -1522,6 +1629,49 @@ qbView.addEventListener('input',e=>{
 qbNext.addEventListener('click',()=>{if(qbValid()&&qb.step<3){qb.step++;qbRender()}});
 qbBack.addEventListener('click',()=>{if(qb.step>0){qb.step--;qbRender()}});
 qbRender();
+
+/* ---------- laminate finish explorer ---------- */
+const FINISHES=[
+  {cls:'fin-teak',name:'Natural Teak',type:'Wood grain · Matt'},
+  {cls:'fin-oak',name:'Golden Oak',type:'Wood grain · Suede'},
+  {cls:'fin-walnut',name:'Dark Walnut',type:'Wood grain · Matt'},
+  {cls:'fin-mahogany',name:'Rich Mahogany',type:'Wood grain · Glossy'},
+  {cls:'fin-wenge',name:'Wenge',type:'Wood grain · Textured'},
+  {cls:'fin-frost',name:'Frosty White',type:'Solid · Glossy'},
+  {cls:'fin-ivory',name:'Ivory Cream',type:'Solid · Suede'},
+  {cls:'fin-slate',name:'Slate Grey',type:'Solid · Matt'},
+  {cls:'fin-black',name:'Jet Black',type:'Solid · Glossy'},
+  {cls:'fin-marble',name:'Carrara Marble',type:'Stone · Glossy'}
+];
+const finSw=document.getElementById('finSwatches');
+if(finSw){
+  const finA=document.getElementById('finA'),finB=document.getElementById('finB');
+  const finName=document.getElementById('finName'),finType=document.getElementById('finType');
+  const finCTA=document.getElementById('finCTA');
+  let front=finA,backL=finB,current=FINISHES[0];
+  function setCTA(f){
+    finCTA.href='https://wa.me/919080506492?text='+encodeURIComponent(
+      `Hi AL Timbers & Boards! I'm interested in laminates.\n\n• Finish: ${f.name} (${f.type})\n\nPlease share matching catalogue options and pricing.`);
+  }
+  FINISHES.forEach((f,i)=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='fin-sw '+f.cls+(i===0?' sel':'');
+    b.title=f.name;b.setAttribute('aria-label',f.name);
+    b.addEventListener('click',()=>{
+      if(current===f)return;
+      current=f;
+      finSw.querySelectorAll('.fin-sw').forEach(el=>el.classList.toggle('sel',el===b));
+      // crossfade layers
+      backL.className='fin-layer '+f.cls;
+      backL.style.opacity='1';front.style.opacity='0';
+      const t=front;front=backL;backL=t;
+      finName.textContent=f.name;finType.textContent=f.type;
+      setCTA(f);
+    });
+    finSw.appendChild(b);
+  });
+  setCTA(current);
+}
 
 document.getElementById('year').textContent=new Date().getFullYear();
 });
