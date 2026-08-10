@@ -57,7 +57,7 @@
   --wring:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.004 0.05' numOctaves='4' seed='3'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.22 0 0 0 0 0.12 0 0 0 0 0.04 0.8 0.5 0 0 -0.42'/%3E%3C/filter%3E%3Crect width='900' height='600' filter='url(%23w)'/%3E%3C/svg%3E");
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   background:var(--bg);color:var(--text);
@@ -1038,7 +1038,6 @@ body.loading{overflow:hidden}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded',()=>{
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1075,8 +1074,8 @@ function sizeCanvas(){
   ctx.setTransform(DPR,0,0,DPR,0,0);
 }
 function seed(){
-  // dynamic cap by screen area, hard-capped at 90
-  const n=Math.min(90,Math.floor((W*H)/16000));
+  // dynamic cap by screen area, hard-capped at 48 for consistent 60fps
+  const n=Math.min(48,Math.floor((W*H)/24000));
   parts=Array.from({length:n},()=>{
     const x=Math.random()*W,y=Math.random()*H;
     return{
@@ -1128,20 +1127,18 @@ function draw(){
     ctx.drawImage(sprite,p.x-s/2,p.y-s/2,s,s);
   }
   ctx.globalAlpha=1;
-  // proximity lines between particles, fading with distance
-  ctx.lineWidth=.55;
-  for(let i=0;i<parts.length;i++){
-    const a=parts[i];
-    for(let j=i+1;j<parts.length;j++){
-      const b=parts[j];
-      const dx=a.x-b.x,dy=a.y-b.y;
+  // constellation lines only near the cursor (cheap: single pass)
+  if(mouse.active){
+    ctx.lineWidth=.55;
+    for(const p of parts){
+      const dx=p.x-mouse.x,dy=p.y-mouse.y;
       const d2=dx*dx+dy*dy;
-      if(d2<LINK*LINK){
-        const t=1-Math.sqrt(d2)/LINK;
+      if(d2<LINK*LINK*4){
+        const t=1-Math.sqrt(d2)/(LINK*2);
         ctx.beginPath();
-        ctx.moveTo(a.x,a.y);
-        ctx.lineTo(b.x,b.y);
-        ctx.strokeStyle=`rgba(240,194,74,${t*.14})`;
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(mouse.x,mouse.y);
+        ctx.strokeStyle=`rgba(240,194,74,${t*.12})`;
         ctx.stroke();
       }
     }
@@ -1246,15 +1243,6 @@ function initGsap(){
 
   if(reduceMotion){finishLoader();return}
 
-  /* ---- Lenis smooth scrolling, driven by GSAP's ticker ---- */
-  let lenis=null;
-  if(window.Lenis){
-    lenis=new Lenis({duration:1.1,smoothWheel:true});
-    lenis.on('scroll',ScrollTrigger.update);
-    gsap.ticker.add(t=>lenis.raf(t*1000));
-    gsap.ticker.lagSmoothing(0);
-  }
-
   /* ---- split headlines into masked words (SplitText-style) ---- */
   function splitWords(el){
     if(el.dataset.split)return;
@@ -1338,14 +1326,17 @@ function initGsap(){
     },{passive:true});
     heroEl.addEventListener('pointerleave',()=>{dRX(0);dRY(0)},{passive:true});
   }
-  // scroll-velocity lean — the board has inertia
+  // scroll-velocity lean — the board has inertia (event-driven, no idle loop)
   const leanEl=document.querySelector('.board');
   if(leanEl){
-    const lean={v:0};
-    ScrollTrigger.create({onUpdate:s=>lean.v=gsap.utils.clamp(-5,5,s.getVelocity()/420)});
-    gsap.ticker.add(()=>{
-      lean.v+=(0-lean.v)*.07;
-      gsap.set(leanEl,{rotationZ:lean.v*.5});
+    const leanTo=gsap.quickTo(leanEl,'rotationZ',{duration:.6,ease:'power2.out'});
+    let leanRelax;
+    ScrollTrigger.create({
+      onUpdate:s=>{
+        leanTo(gsap.utils.clamp(-2.5,2.5,s.getVelocity()/840));
+        clearTimeout(leanRelax);
+        leanRelax=setTimeout(()=>leanTo(0),120);
+      }
     });
   }
 
@@ -1400,16 +1391,17 @@ function initGsap(){
     });
   });
 
-  // marquee reacts to scroll velocity — skews with fast scrolling, relaxes at rest
+  // marquee reacts to scroll velocity — event-driven, relaxes at rest (no idle loop)
   const strip=document.querySelector('.strip');
   if(strip){
-    const skew={v:0};
+    const skewTo=gsap.quickTo(strip,'skewX',{duration:.4,ease:'power2.out'});
+    let skewRelax;
     ScrollTrigger.create({
-      onUpdate:self=>{skew.v=gsap.utils.clamp(-10,10,self.getVelocity()/160)}
-    });
-    gsap.ticker.add(()=>{
-      skew.v+=(0-skew.v)*.08;
-      strip.style.transform=`skewX(${skew.v.toFixed(2)}deg)`;
+      onUpdate:self=>{
+        skewTo(gsap.utils.clamp(-8,8,self.getVelocity()/200));
+        clearTimeout(skewRelax);
+        skewRelax=setTimeout(()=>skewTo(0),120);
+      }
     });
   }
 
@@ -1419,16 +1411,15 @@ function initGsap(){
     scrollTrigger:{trigger:'.final',start:'top 75%',once:true}
   });
 
-  // smooth in-page transitions for anchor links (Lenis when present, GSAP fallback)
-  if(lenis||window.ScrollToPlugin){
+  // smooth in-page transitions for anchor links (native scroll stays untouched)
+  if(window.ScrollToPlugin){
     document.documentElement.style.scrollBehavior='auto';
     document.querySelectorAll('a[href^="#"]').forEach(a=>{
       a.addEventListener('click',e=>{
         const target=document.querySelector(a.getAttribute('href'));
         if(!target)return;
         e.preventDefault();
-        if(lenis)lenis.scrollTo(target,{offset:-56,duration:1.2});
-        else gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:56}});
+        gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:56}});
       });
     });
   }
