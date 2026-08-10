@@ -463,6 +463,55 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .foot-col a:hover{color:var(--gold-2)}
 .foot-btm{margin-top:2.4rem;padding-top:1.3rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.74rem;color:var(--muted-2)}
 
+/* ---------- quote builder ---------- */
+.qb-progress{height:3px;border-radius:99px;background:rgba(255,255,255,.1);margin:1.2rem 0 .6rem;overflow:hidden}
+.qb-progress i{display:block;height:100%;width:25%;border-radius:99px;background:linear-gradient(90deg,#c9992a,#ffdd85,#f0c24a);transition:width .5s var(--ease);box-shadow:0 0 12px rgba(240,194,74,.6)}
+.qb-steps{display:flex;justify-content:space-between;margin-bottom:1.4rem}
+.qb-steps span{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);transition:color .3s}
+.qb-steps span.on{color:var(--gold)}
+.qb-view{min-height:280px}
+.qb-label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:1.1rem 0 .55rem}
+.qb-label:first-child{margin-top:0}
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+.cat-card{
+  text-align:left;padding:.85rem 1rem;border-radius:14px;cursor:pointer;
+  background:rgba(9,12,17,.6);border:1px solid rgba(255,255,255,.12);color:var(--text);
+  font-family:inherit;transition:border-color .25s,background .25s,transform .2s;
+}
+.cat-card:hover{border-color:rgba(240,194,74,.45);transform:translateY(-2px)}
+.cat-card.sel{background:linear-gradient(120deg,rgba(240,194,74,.16),rgba(240,194,74,.05));border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 8px 26px rgba(240,194,74,.15)}
+.cat-card b{display:block;font-size:.85rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.cat-card small{display:inline-block;margin-top:.35rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--gold);background:rgba(240,194,74,.1);border:1px solid rgba(240,194,74,.3);padding:.14rem .5rem;border-radius:99px}
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip-opt{
+  padding:.5rem .95rem;border-radius:99px;cursor:pointer;
+  background:rgba(9,12,17,.6);border:1px solid rgba(255,255,255,.14);color:var(--text);
+  font-family:inherit;font-size:.84rem;font-weight:600;
+  transition:all .22s var(--ease);
+}
+.chip-opt:hover{border-color:rgba(240,194,74,.5)}
+.chip-opt.sel{background:linear-gradient(100deg,#c9992a,#ffdd85 55%,#f0c24a);color:#181000;border-color:transparent;box-shadow:0 6px 20px rgba(240,194,74,.35);transform:scale(1.04)}
+.qty-row{display:flex;align-items:center;gap:1rem}
+.qty-btn{
+  width:46px;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.15);
+  background:rgba(9,12,17,.6);color:var(--text);font-size:1.3rem;font-weight:700;cursor:pointer;
+  transition:border-color .2s,transform .15s;font-family:inherit;
+}
+.qty-btn:hover{border-color:var(--gold)}
+.qty-btn:active{transform:scale(.92)}
+.qty-val{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;min-width:90px;text-align:center}
+.qty-val small{display:block;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.qb-review{display:grid;gap:.55rem}
+.qb-review .row{display:flex;justify-content:space-between;gap:1rem;padding:.7rem .9rem;border-radius:11px;background:rgba(9,12,17,.55);border:1px solid rgba(255,255,255,.08);font-size:.86rem}
+.qb-review .row b{color:var(--gold-2);font-weight:600;text-align:right}
+.qb-review .row span{color:var(--muted)}
+.qb-nav{display:flex;gap:.7rem;margin-top:1.4rem}
+.qb-nav .pill{flex:1}
+.pill-wa{background:linear-gradient(100deg,#1fb355,#3ae078 55%,#25d366);color:#04180b;box-shadow:0 8px 30px rgba(37,211,102,.35)}
+.pill-wa:hover{box-shadow:0 14px 44px rgba(37,211,102,.5)}
+.pill[disabled]{opacity:.35;pointer-events:none}
+@media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
+
 /* word-mask reveal wrappers (transforms applied by GSAP only — no-JS stays visible) */
 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
 .w>i{display:inline-block;font-style:normal;will-change:transform}
@@ -608,9 +657,9 @@ body.loading{overflow:hidden}
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <h1 class="display" data-hero>Plywood.<br><span class="gold-grad">Perfected.</span></h1>
-    <p class="lede sub" data-hero>Every sheet ISI-certified. Every price honest. Every delivery on time.<br>The plywood partner Chennai's best carpenters trust.</p>
+    <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
     <div class="hero-ctas" data-hero>
-      <a class="pill pill-gold pill-lg" href="https://wa.me/919080506492?text=Hi%20AL%20Timbers%2C%20I%20need%20a%20quote." target="_blank" rel="noopener">Get Instant Quote</a>
+      <a class="pill pill-gold pill-lg" href="#contact">Build Your Quote</a>
       <a class="pill pill-ghost pill-lg" href="tel:+919080506492">Call +91 90805 06492</a>
     </div>
   </div>
@@ -854,35 +903,23 @@ body.loading{overflow:hidden}
           <div><b>Hours</b><span>Mon – Sat · 9 AM – 8 PM</span></div>
         </div>
       </div>
-      <div class="panel" data-rv="slide-right">
-        <h3>Get your quote</h3>
-        <p>Fill this in — it opens WhatsApp with your enquiry ready to send.</p>
-        <form id="enquiryForm">
-          <div class="field">
-            <label for="f-name">Name</label>
-            <input id="f-name" type="text" placeholder="Your name" required>
-          </div>
-          <div class="field">
-            <label for="f-product">Product</label>
-            <select id="f-product">
-              <option>Marine Plywood (IS:710)</option>
-              <option>Commercial Plywood</option>
-              <option>MDF Boards</option>
-              <option>Particle Boards</option>
-              <option>Pre-Laminated Boards</option>
-              <option>PVC Panels &amp; Profiles</option>
-              <option>Laminates &amp; Interior Materials</option>
-              <option>Flush Doors / Film Faced Plywood</option>
-              <option>Multiple Products</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-msg">Requirement</label>
-            <textarea id="f-msg" placeholder="Sizes, thickness, quantity, delivery location…"></textarea>
-          </div>
-          <button type="submit" class="pill pill-gold pill-lg">Send on WhatsApp</button>
-          <small>Opens WhatsApp — nothing is stored on this website.</small>
-        </form>
+      <div class="panel" data-rv="slide-right" id="quoteBuilder">
+        <h3>Build your exact enquiry</h3>
+        <p>Pick your requirement as per Indian Standards — we'll draft the WhatsApp message for you.</p>
+        <div class="qb-progress"><i id="qbBar"></i></div>
+        <div class="qb-steps" id="qbSteps">
+          <span class="on">Product</span><span>Specs</span><span>Quantity</span><span>Send</span>
+        </div>
+        <div class="qb-view" id="qbView"></div>
+        <div class="qb-nav">
+          <button class="pill pill-ghost" id="qbBack" type="button" style="display:none">← Back</button>
+          <button class="pill pill-gold" id="qbNext" type="button" disabled>Continue →</button>
+          <a class="pill pill-wa" id="qbSend" href="#" target="_blank" rel="noopener" style="display:none">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12.05 21.79h-.01a9.77 9.77 0 0 1-4.98-1.37l-.36-.21-3.7.97.99-3.61-.24-.37a9.77 9.77 0 0 1-1.5-5.21c0-5.4 4.4-9.8 9.81-9.8 2.62 0 5.08 1.02 6.93 2.87a9.74 9.74 0 0 1 2.87 6.94c0 5.4-4.4 9.79-9.81 9.79zm8.35-18.14A11.7 11.7 0 0 0 12.05.2C5.55.2.26 5.49.26 11.99c0 2.08.54 4.1 1.57 5.89L.16 24l6.25-1.64a11.78 11.78 0 0 0 5.63 1.43h.01c6.5 0 11.79-5.29 11.79-11.79 0-3.15-1.22-6.11-3.44-8.35z"/></svg>
+            Send on WhatsApp
+          </a>
+        </div>
+        <small style="display:block;text-align:center;margin-top:.85rem;font-size:.72rem;color:var(--muted-2)">Opens WhatsApp with your requirement pre-typed — nothing is stored on this website.</small>
       </div>
     </div>
   </div>
@@ -1353,15 +1390,138 @@ const cio=new IntersectionObserver(es=>{
 },{threshold:.6});
 counters.forEach(c=>cio.observe(c));
 
-/* ---------- enquiry -> whatsapp ---------- */
-document.getElementById('enquiryForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  const name=document.getElementById('f-name').value.trim();
-  const product=document.getElementById('f-product').value;
-  const msg=document.getElementById('f-msg').value.trim();
-  const text=`Hi AL Timbers & Boards!%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Product:* ${encodeURIComponent(product)}%0A*Requirement:* ${encodeURIComponent(msg||'Please share price and availability.')}`;
-  open(`https://wa.me/919080506492?text=${text}`,'_blank');
+/* ---------- interactive quote builder (Indian Standards) ---------- */
+const CATALOG={
+  'Marine Plywood':{std:'IS:710 · BWP Grade',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['4mm','6mm','9mm','12mm','16mm','19mm','25mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
+  'BWR Plywood':{std:'IS:303 · BWR Grade',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['6mm','9mm','12mm','16mm','19mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
+  'Commercial Plywood':{std:'IS:303 · MR Grade',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['4mm','6mm','9mm','12mm','16mm','19mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
+  'MDF Board':{std:'IS:12406',unit:'sheets',
+    groups:[{k:'type',label:'Type',opts:['Plain','Pre-laminated (one side)','Pre-laminated (both sides)']},
+            {k:'thick',label:'Thickness',opts:['2.5mm','3mm','5.5mm','8mm','12mm','17mm','25mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
+  'Particle Board':{std:'IS:3087',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
+  'Pre-Laminated Board':{std:'IS:12823',unit:'sheets',
+    groups:[{k:'finish',label:'Finish',opts:['Wood grain','Solid colour','Textured']},
+            {k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
+  'Laminates':{std:'IS:2046',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['0.8mm','1mm','1.25mm']},
+            {k:'finish',label:'Finish',opts:['Glossy','Matt','Suede','Textured','Wood grain']}]},
+  'Flush Door':{std:'IS:2202',unit:'doors',
+    groups:[{k:'thick',label:'Thickness',opts:['25mm','30mm','32mm','35mm']},
+            {k:'size',label:'Door size',opts:['6.5×2.5 ft','6.5×3 ft','7×3 ft','7×3.5 ft','Custom size']}]},
+  'Film Faced Shuttering Ply':{std:'IS:4990',unit:'sheets',
+    groups:[{k:'thick',label:'Thickness',opts:['12mm','15mm','18mm']},
+            {k:'size',label:'Sheet size',opts:['8×4 ft']}]},
+  'PVC Panels & Profiles':{std:'Waterproof · Termite-proof',unit:'pcs',
+    groups:[{k:'type',label:'Type',opts:['Ceiling panels','Wall panels','Door profiles','PVC boards']}]}
+};
+const qb={step:0,cat:null,sel:{},qty:10,area:'',name:''};
+const qbView=document.getElementById('qbView');
+const qbBar=document.getElementById('qbBar');
+const qbStepEls=document.querySelectorAll('#qbSteps span');
+const qbBack=document.getElementById('qbBack');
+const qbNext=document.getElementById('qbNext');
+const qbSend=document.getElementById('qbSend');
+
+function qbAnimate(){
+  if(window.gsap&&!reduceMotion)gsap.fromTo(qbView,{opacity:0,x:26},{opacity:1,x:0,duration:.45,ease:'power3.out'});
+}
+function qbValid(){
+  if(qb.step===0)return !!qb.cat;
+  if(qb.step===1)return CATALOG[qb.cat].groups.every(g=>qb.sel[g.k]);
+  if(qb.step===2)return qb.qty>0;
+  return true;
+}
+function qbSync(){
+  qbBar.style.width=((qb.step+1)*25)+'%';
+  qbStepEls.forEach((s,i)=>s.classList.toggle('on',i<=qb.step));
+  qbBack.style.display=qb.step>0?'':'none';
+  qbNext.style.display=qb.step<3?'':'none';
+  qbSend.style.display=qb.step===3?'':'none';
+  if(qbValid())qbNext.removeAttribute('disabled');else qbNext.setAttribute('disabled','');
+}
+function qbMessage(){
+  const c=CATALOG[qb.cat];
+  const specs=c.groups.map(g=>`• ${g.label}: ${qb.sel[g.k]}`).join('\n');
+  return `Hi AL Timbers & Boards! I'd like a quote:\n\n• Product: ${qb.cat} (${c.std})\n${specs}\n• Quantity: ${qb.qty} ${c.unit}`
+    +(qb.area?`\n• Delivery: ${qb.area}`:'')
+    +(qb.name?`\n• Name: ${qb.name}`:'')
+    +`\n\nPlease share your best price and availability.`;
+}
+function qbRender(){
+  let h='';
+  if(qb.step===0){
+    h='<span class="qb-label">Choose a product</span><div class="cat-grid">'
+      +Object.entries(CATALOG).map(([name,c])=>
+        `<button type="button" class="cat-card${qb.cat===name?' sel':''}" data-cat="${name}"><b>${name}</b><small>${c.std}</small></button>`).join('')
+      +'</div>';
+  }else if(qb.step===1){
+    const c=CATALOG[qb.cat];
+    h=c.groups.map(g=>
+      `<span class="qb-label">${g.label}</span><div class="chip-row">`
+      +g.opts.map(o=>`<button type="button" class="chip-opt${qb.sel[g.k]===o?' sel':''}" data-g="${g.k}" data-o="${o}">${o}</button>`).join('')
+      +'</div>').join('');
+  }else if(qb.step===2){
+    const c=CATALOG[qb.cat];
+    h=`<span class="qb-label">Quantity</span>
+       <div class="qty-row">
+         <button type="button" class="qty-btn" data-d="-1">−</button>
+         <div class="qty-val">${qb.qty}<small>${c.unit}</small></div>
+         <button type="button" class="qty-btn" data-d="1">+</button>
+       </div>
+       <span class="qb-label">Delivery area <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
+       <div class="field" style="margin:0"><input id="qbArea" type="text" placeholder="e.g. Porur, Chennai" value="${qb.area.replace(/"/g,'&quot;')}"></div>
+       <span class="qb-label">Your name <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
+       <div class="field" style="margin:0"><input id="qbName" type="text" placeholder="Name" value="${qb.name.replace(/"/g,'&quot;')}"></div>`;
+  }else{
+    const c=CATALOG[qb.cat];
+    h='<span class="qb-label">Review your enquiry</span><div class="qb-review">'
+      +`<div class="row"><span>Product</span><b>${qb.cat} · ${c.std}</b></div>`
+      +c.groups.map(g=>`<div class="row"><span>${g.label}</span><b>${qb.sel[g.k]}</b></div>`).join('')
+      +`<div class="row"><span>Quantity</span><b>${qb.qty} ${c.unit}</b></div>`
+      +(qb.area?`<div class="row"><span>Delivery</span><b>${qb.area}</b></div>`:'')
+      +'</div>';
+    qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
+  }
+  qbView.innerHTML=h;
+  qbSync();qbAnimate();
+}
+qbView.addEventListener('click',e=>{
+  const cat=e.target.closest('[data-cat]');
+  if(cat){
+    if(qb.cat!==cat.dataset.cat){qb.cat=cat.dataset.cat;qb.sel={};}
+    qbView.querySelectorAll('.cat-card').forEach(el=>el.classList.toggle('sel',el===cat));
+    qbSync();return;
+  }
+  const chip=e.target.closest('[data-g]');
+  if(chip){
+    qb.sel[chip.dataset.g]=chip.dataset.o;
+    qbView.querySelectorAll(`[data-g="${chip.dataset.g}"]`).forEach(el=>el.classList.toggle('sel',el===chip));
+    qbSync();return;
+  }
+  const qbtn=e.target.closest('.qty-btn');
+  if(qbtn){
+    qb.qty=Math.max(1,qb.qty+ +qbtn.dataset.d*(qb.qty>=20?5:1));
+    qbView.querySelector('.qty-val').innerHTML=qb.qty+'<small>'+CATALOG[qb.cat].unit+'</small>';
+    qbSync();
+  }
 });
+qbView.addEventListener('input',e=>{
+  if(e.target.id==='qbArea')qb.area=e.target.value.trim();
+  if(e.target.id==='qbName')qb.name=e.target.value.trim();
+});
+qbNext.addEventListener('click',()=>{if(qbValid()&&qb.step<3){qb.step++;qbRender()}});
+qbBack.addEventListener('click',()=>{if(qb.step>0){qb.step--;qbRender()}});
+qbRender();
 
 document.getElementById('year').textContent=new Date().getFullYear();
 });
