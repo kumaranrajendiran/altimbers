@@ -363,22 +363,34 @@ body{
 }
 .stat-cell span{font-size:.8rem;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
 
-/* ---------- quote ---------- */
-.quote-sec{
-  text-align:center;overflow:hidden;
+/* ---------- our story ---------- */
+.story-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.story-copy p{color:var(--muted);font-size:1rem;line-height:1.7;margin:1.1rem 0;max-width:56ch}
+.story-copy p em{color:var(--gold-2);font-style:italic}
+.story-copy .headline{margin-bottom:.4rem}
+.story-chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.4rem 0 1.6rem}
+.story-chips span{
+  font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(240,194,74,.3);border-radius:99px;padding:.45rem .9rem;
+  background:rgba(240,194,74,.06);
+}
+.story-card{
+  position:relative;border-radius:28px;padding:clamp(1.8rem,3.5vw,2.8rem);overflow:hidden;
   background:
-    linear-gradient(rgba(9,12,17,.9),rgba(9,12,17,.94)),
-    url("https://images.unsplash.com/photo-1497219055242-93359eeed651?auto=format&fit=crop&w=1600&q=68") center/cover,
-    var(--bg);
+    linear-gradient(160deg,rgba(9,12,17,.86),rgba(9,12,17,.94)),
+    url("https://images.unsplash.com/photo-1497219055242-93359eeed651?auto=format&fit=crop&w=900&q=60") center/cover,
+    #10151f;
+  box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 30px 70px rgba(0,0,0,.45);
 }
-.quote-sec::before{content:"";position:absolute;inset:0;background:radial-gradient(46% 60% at 50% 40%,rgba(240,194,74,.07),transparent 70%)}
-.quote-sec blockquote p{
-  font-size:clamp(1.5rem,3.4vw,2.6rem);font-weight:600;letter-spacing:-.03em;line-height:1.25;
-  max-width:26ch;margin-inline:auto;position:relative;
+.story-card::before{content:"";position:absolute;left:0;top:10%;bottom:10%;width:3px;border-radius:99px;background:linear-gradient(180deg,#c9992a,#ffdd85,#c9992a)}
+.story-quote{
+  font-size:clamp(1.25rem,2.3vw,1.7rem);font-weight:600;letter-spacing:-.02em;line-height:1.45;
 }
-.quote-sec blockquote p .serif-i{color:var(--gold)}
-.quote-sec figcaption{margin-top:2rem;font-size:.85rem;color:var(--muted)}
-.quote-sec figcaption b{display:block;font-size:1rem;color:var(--text)}
+.story-quote .serif-i{color:var(--gold-2);font-size:1.06em}
+.story-sign{margin-top:1.6rem}
+.story-sign b{display:block;font-size:1rem;letter-spacing:-.01em}
+.story-sign span{font-size:.74rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:900px){.story-grid{grid-template-columns:1fr}}
 
 /* ---------- reviews ---------- */
 .reviews{background:var(--bg-2);border-block:1px solid var(--line)}
@@ -1130,15 +1142,26 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
-<!-- ============ QUOTE ============ -->
-<section class="sec quote-sec">
+<!-- ============ OUR STORY ============ -->
+<section class="sec story" id="story">
   <div class="wrap">
-    <figure data-rv="scale-in">
-      <blockquote>
-        <p>"Every sheet that leaves our store carries our name. That's why <span class="serif-i">quality is never negotiable.</span>"</p>
-      </blockquote>
-      <figcaption><b>Our promise</b>AL Timbers &amp; Boards, Chennai</figcaption>
-    </figure>
+    <div class="story-grid">
+      <div class="story-copy" data-rv="slide-left">
+        <span class="overline">06 — Our Story</span>
+        <h2 class="headline">Built on a<br><span class="gold-grad serif-i">simple belief.</span></h2>
+        <p>AL Timbers &amp; Boards began with a frustration Nelson Babulal kept seeing in the trade: good people paying for one grade of plywood and being handed another. A kitchen that swells in its first monsoon. A wardrobe that sags within the year. Not because the customer chose badly — but because nobody told them the truth about what they were buying.</p>
+        <p>So he set out to run the store he wished existed. Every sheet ISI-marked and billed as exactly what it is. Prices that don't need haggling to be fair. And advice that will happily talk you <em>down</em> to a cheaper board when that's the right grade for the job.</p>
+        <p>That's the whole business model: sell honestly, deliver on time, and the same carpenters, contractors and families keep coming back.</p>
+        <div class="story-chips">
+          <span>ISI-marked stock only</span><span>GST billing</span><span>Wholesale &amp; retail</span>
+        </div>
+        <a class="pill pill-gold" data-wa="general" href="https://wa.me/919080506492" target="_blank" rel="noopener">Talk to us directly</a>
+      </div>
+      <aside class="story-card" data-rv="slide-right">
+        <p class="story-quote">"Every sheet that leaves our store carries our name. That's why <span class="serif-i">quality is never negotiable.</span>"</p>
+        <div class="story-sign"><b>Nelson Babulal</b><span>Proprietor · AL Timbers &amp; Boards</span></div>
+      </aside>
+    </div>
   </div>
 </section>
 
@@ -1146,7 +1169,7 @@ body.loading{overflow:hidden}
 <section class="sec reviews" id="reviews">
   <div class="wrap">
     <div class="sec-head center" data-rv="clip">
-      <span class="overline">06 — Why AL Timbers</span>
+      <span class="overline">07 — Why AL Timbers</span>
       <h2 class="headline">Quality materials.<br><span class="gold-grad">Trusted service.</span></h2>
     </div>
     <div class="trust-grid">
@@ -1190,7 +1213,7 @@ body.loading{overflow:hidden}
 <section class="sec contact" id="contact">
   <div class="wrap">
     <div class="sec-head" data-rv="clip">
-      <span class="overline">07 — Contact</span>
+      <span class="overline">08 — Contact</span>
       <h2 class="headline">Visit. Call. <span class="gold-grad">Message.</span></h2>
     </div>
     <div class="contact-grid">
