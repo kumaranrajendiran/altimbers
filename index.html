@@ -417,6 +417,24 @@ body{
 }
 @media (max-width:640px){.hero-word{letter-spacing:.28em;text-indent:.28em}}
 
+/* ---------- nature layer: real dappled light + forest chapter ---------- */
+.dapple{
+  position:absolute;inset:-8%;z-index:1;pointer-events:none;
+  background:url("https://images.unsplash.com/photo-1526235591527-15084c256bad?auto=format&fit=crop&w=1400&q=55") center/cover;
+  mix-blend-mode:screen;opacity:.14;
+  animation:dapplesway 24s ease-in-out infinite alternate;
+  will-change:transform;
+}
+@keyframes dapplesway{
+  from{transform:translate(-1.6%,-1%) scale(1.02)}
+  to{transform:translate(1.6%,1%) scale(1.05)}
+}
+.chapter--forest .chapter-bg{
+  background:
+    linear-gradient(180deg,rgba(11,9,6,.92),rgba(11,9,6,.78) 45%,rgba(11,9,6,.94)),
+    url("https://images.unsplash.com/photo-1694614360387-269a5b572d58?auto=format&fit=crop&w=1600&q=62") center/cover;
+}
+
 /* ---------- our story: apple statement flow ---------- */
 .story-flow{max-width:840px;margin-inline:auto;text-align:center}
 .story-line{margin:clamp(2.6rem,6vw,4.2rem) 0}
@@ -1004,6 +1022,7 @@ body.loading{overflow:hidden}
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
   <div class="rays" aria-hidden="true"></div>
+  <div class="dapple" aria-hidden="true"></div>
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <div class="hero-mark" data-hero>
@@ -1110,7 +1129,7 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
-<div class="chapter chapter--soft"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div>
+<div class="chapter chapter--forest"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div><div class="dapple" aria-hidden="true"></div>
 <!-- ============ FEATURE: MARINE ============ -->
 <section class="sec" id="marine" style="padding-top:2rem">
   <div class="wrap">
@@ -1207,7 +1226,7 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
-<div class="chapter"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div>
+<div class="chapter"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div><div class="dapple" aria-hidden="true"></div>
 </div>
 <!-- ============ STATS ============ -->
 <section class="sec stats" style="padding:3.5rem 0">
@@ -1284,7 +1303,7 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
-<div class="chapter chapter--soft"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div>
+<div class="chapter chapter--soft"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div><div class="dapple" aria-hidden="true"></div>
 <!-- ============ FINAL CTA ============ -->
 <section class="sec final">
   <div class="wrap" data-rv>
