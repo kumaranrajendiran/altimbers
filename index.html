@@ -697,8 +697,8 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 
 /* full-screen story statements — fade in, hold, release (scroll-driven) */
 .cine{
-  min-height:78vh;display:grid;place-items:center;text-align:center;
-  position:relative;overflow:hidden;padding:4rem 0;
+  min-height:44vh;display:grid;place-items:center;text-align:center;
+  position:relative;overflow:hidden;padding:2.5rem 0;
 }
 .cine::before{
   content:"";position:absolute;inset:0;pointer-events:none;
@@ -1594,9 +1594,9 @@ function initGsap(){
     gsap.timeline({
       scrollTrigger:{trigger:line.parentElement,start:'top 75%',end:'bottom 25%',scrub:.6}
     })
-      .fromTo(line,{opacity:0,scale:.94,y:30},{opacity:1,scale:1,y:0,duration:1,ease:'none'})
-      .to(line,{opacity:1,duration:.7,ease:'none'})
-      .to(line,{opacity:0,scale:1.03,y:-24,duration:1,ease:'none'});
+      .fromTo(line,{opacity:0,scale:.96,y:24},{opacity:1,scale:1,y:0,duration:.8,ease:'none'})
+      .to(line,{opacity:1,duration:1.6,ease:'none'})
+      .to(line,{opacity:0,scale:1.02,y:-16,duration:.6,ease:'none'});
   });
 
   // the deck is alive — slow organic float, like it's resting on water
