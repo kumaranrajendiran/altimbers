@@ -375,11 +375,7 @@ body{
     url("https://images.unsplash.com/photo-1768425232861-692518d7a8de?auto=format&fit=crop&w=1600&q=72") center/cover,
     #12202c;
 }
-.art-marine::before{
-  content:"";position:absolute;left:-10%;right:-10%;top:52%;height:140px;z-index:2;
-  background:radial-gradient(50% 100% at 50% 0%,rgba(62,230,255,.28),transparent 70%);
-  filter:blur(10px);
-}
+
 .art-mdf .inner{
   background:
     linear-gradient(180deg,rgba(9,12,17,0) 35%,rgba(9,12,17,.88)),
@@ -681,7 +677,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 }
 #marine::after{
   content:"";position:absolute;left:-14%;top:12%;width:58%;aspect-ratio:1;pointer-events:none;
-  background:radial-gradient(circle,rgba(62,230,255,.06),transparent 62%);filter:blur(46px);
+  background:radial-gradient(circle,rgba(240,194,74,.05),transparent 62%);filter:blur(46px);
 }
 #marine{position:relative;overflow:hidden}
 
@@ -939,6 +935,9 @@ body.loading{overflow:hidden}
   <div class="hero-inner">
     <h1 class="display" data-hero>Plywood.<br><span class="gold-grad serif-i">Perfected.</span></h1>
     <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
+    <div class="hero-ctas" data-hero>
+      <a class="pill pill-gold pill-lg" href="#contact">Build Your Quote</a>
+    </div>
   </div>
   <div class="hero-visual" id="heroVisual" data-hero>
     <div class="board" id="plyStack">
@@ -1003,7 +1002,7 @@ body.loading{overflow:hidden}
         <h3>Pre-Laminated Boards</h3>
         <p>Cut, edge-band, assemble. The finish is already done.</p>
       </div>
-      <div class="b-card b-span2 b-cyan" data-rv data-tilt>
+      <div class="b-card b-span2" data-rv data-tilt>
         <span class="b-num">06</span>
         <h3>PVC Panels &amp; Profiles</h3>
         <p>100% termite-proof. 100% waterproof. Zero maintenance.</p>
@@ -1027,8 +1026,8 @@ body.loading{overflow:hidden}
   <div class="wrap">
     <div class="feature">
       <div class="f-copy" data-rv="slide-left">
-        <span class="overline" style="color:var(--cyan)">02 — Marine Plywood · IS:710</span>
-        <h2 class="headline">Water doesn't<br><span class="cyan-grad">stand a chance.</span></h2>
+        <span class="overline">02 — Marine Plywood · IS:710</span>
+        <h2 class="headline">Water doesn't<br><span class="gold-grad">stand a chance.</span></h2>
         <p class="sub">Boiling-waterproof BWP grade, pressure-treated and ISI-certified. Built for Chennai kitchens, monsoons and everything in between.</p>
         <ul class="f-list">
           <li>Survives 72-hour boiling water test</li>
@@ -1543,7 +1542,7 @@ function initGsap(){
     const intro=gsap.timeline();
     intro
       .to(heroH1.querySelectorAll('.w>i'),{yPercent:0,duration:1,ease:'power4.out',stagger:.07})
-      .fromTo('.hero .lede',
+      .fromTo('.hero .lede, .hero-ctas',
         {y:34,opacity:0},
         {y:0,opacity:1,duration:.9,stagger:.12,ease:'power3.out'},'-=.45')
       .fromTo('#heroVisual',
@@ -1563,10 +1562,10 @@ function initGsap(){
         .to('.resin',{z:i=>(2*i+1)*7,duration:1.1,ease:'elastic.out(1,.55)'},'<');
     }
   }
-  gsap.set('.hero .lede, #heroVisual',{opacity:0});
+  gsap.set('.hero .lede, .hero-ctas, #heroVisual',{opacity:0});
   if(document.readyState==='complete')finishLoader(heroIntro);
   else addEventListener('load',()=>finishLoader(heroIntro));
-  setTimeout(()=>finishLoader(heroIntro),3500); // safety net for slow CDNs
+  setTimeout(()=>finishLoader(heroIntro),1000); // guide rule: no loading state past 1s
 
   // hero board parallax + slight scale on scroll
   gsap.to('#heroVisual',{
@@ -1733,7 +1732,7 @@ function initGsap(){
 if(window.gsap&&window.ScrollTrigger)initGsap();
 else addEventListener('load',initGsap);
 // absolute safety net: never leave the loader stuck
-setTimeout(()=>finishLoader(),4000);
+setTimeout(()=>finishLoader(),1400);
 
 /* ---------- counters ---------- */
 const counters=document.querySelectorAll('[data-count]');
