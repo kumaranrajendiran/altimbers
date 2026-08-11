@@ -1278,6 +1278,7 @@ body.loading{overflow:hidden}
           <button class="pill pill-ghost" id="qbBack" type="button" style="display:none">← Back</button>
           <button class="pill pill-ghost" id="qbAdd" type="button" style="display:none">＋ Add another product</button>
           <button class="pill pill-gold" id="qbNext" type="button" disabled>Continue →</button>
+          <button class="pill pill-ghost" id="qbEmail" type="button" style="display:none">✉ Email instead</button>
           <a class="pill pill-wa" id="qbSend" href="#" target="_blank" rel="noopener" style="display:none">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12.05 21.79h-.01a9.77 9.77 0 0 1-4.98-1.37l-.36-.21-3.7.97.99-3.61-.24-.37a9.77 9.77 0 0 1-1.5-5.21c0-5.4 4.4-9.8 9.81-9.8 2.62 0 5.08 1.02 6.93 2.87a9.74 9.74 0 0 1 2.87 6.94c0 5.4-4.4 9.79-9.81 9.79zm8.35-18.14A11.7 11.7 0 0 0 12.05.2C5.55.2.26 5.49.26 11.99c0 2.08.54 4.1 1.57 5.89L.16 24l6.25-1.64a11.78 11.78 0 0 0 5.63 1.43h.01c6.5 0 11.79-5.29 11.79-11.79 0-3.15-1.22-6.11-3.44-8.35z"/></svg>
             Send on WhatsApp
@@ -1852,7 +1853,7 @@ const CATALOG={
 const USAGE=['Modular kitchen','Wardrobes / interiors','Full home project','Commercial / site work','Resale / trade'];
 const URGENCY=['Urgent — today / tomorrow','This week','Planning & price check'];
 const QTY_PRESETS=[5,10,25,50,100];
-const qb={step:0,cat:null,sel:{},qty:10,items:[],usage:null,urgency:null,area:'',name:''};
+const qb={step:0,cat:null,sel:{},qty:10,items:[],usage:null,urgency:null,area:'',name:'',phone:''};
 const qbView=document.getElementById('qbView');
 const qbBar=document.getElementById('qbBar');
 const qbStepEls=document.querySelectorAll('#qbSteps button');
@@ -1901,6 +1902,7 @@ function qbSync(){
   qbNext.textContent=qb.step===2?'Review →':'Continue →';
   qbAdd.style.display=qb.step===2?'':'none';
   qbSend.style.display=qb.step===3?'':'none';
+  document.getElementById('qbEmail').style.display=qb.step===3?'':'none';
   const n=qb.items.length;
   qbItems.style.display=n?'':'none';
   qbItems.textContent=n+(n===1?' item':' items')+' added';
@@ -1938,6 +1940,7 @@ function qbMessage(){
     +(qb.urgency?`\n*Timeline:* ${qb.urgency}`:'')
     +(qb.area?`\n*Delivery area:* ${qb.area}`:'')
     +(qb.name?`\n*Name:* ${qb.name}`:'')
+    +(qb.phone?`\n*Phone:* ${qb.phone}`:'')
     +`\n\nKindly share (quote ref ${ref}):\n1. Itemised best price (incl. GST)\n2. Brand options in stock\n3. Delivery timeline\n\nThank you!`;
 }
 function chipRow(g){
@@ -1978,6 +1981,8 @@ function qbRender(){
       +chipRow({k:'_urgency',label:'Timeline',opt:true,opts:URGENCY})
       +`<span class="qb-label">Delivery area <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
        <div class="field" style="margin:0"><input id="qbArea" type="text" placeholder="e.g. Porur, Chennai" value="${qb.area.replace(/"/g,'&quot;')}"></div>
+       <span class="qb-label">Phone / WhatsApp number <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(needed for email enquiries)</em></span>
+       <div class="field" style="margin:0"><input id="qbPhone" type="tel" placeholder="e.g. 98765 43210" value="${qb.phone.replace(/"/g,'&quot;')}"></div>
        <span class="qb-label">Your name <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
        <div class="field" style="margin:0"><input id="qbName" type="text" placeholder="Name" value="${qb.name.replace(/"/g,'&quot;')}"></div>`;
     qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
@@ -2027,6 +2032,7 @@ qbView.addEventListener('click',e=>{
 qbView.addEventListener('input',e=>{
   if(e.target.id==='qbArea')qb.area=e.target.value.trim();
   if(e.target.id==='qbName')qb.name=e.target.value.trim();
+  if(e.target.id==='qbPhone')qb.phone=e.target.value.trim();
   if(qb.step===3)qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
 });
 qbNext.addEventListener('click',()=>{
@@ -2058,6 +2064,40 @@ qbStepEls.forEach(btn=>{
 });
 qbRender();
 
+/* ---------- email fallback: builder enquiry → info.altimbers@gmail.com ---------- */
+document.getElementById('qbEmail').addEventListener('click',async function(){
+  const btn=this;
+  if(!qb.items.length)return;
+  if(!qb.phone){
+    const ph=document.getElementById('qbPhone');
+    if(ph){ph.focus();ph.style.borderColor='#ff8d8d';ph.style.boxShadow='0 0 0 4px rgba(255,120,120,.15)'}
+    btn.textContent='Add your phone number first ↑';
+    setTimeout(()=>btn.textContent='✉ Email instead',2600);
+    return;
+  }
+  btn.textContent='Sending…';btn.setAttribute('disabled','');
+  const plain=qbMessage().replace(/\*/g,'');
+  try{
+    const r=await fetch('https://formsubmit.co/ajax/info.altimbers@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        _subject:'Website enquiry — altimbers.com',
+        _template:'box',
+        name:qb.name||'Website visitor',
+        phone:qb.phone,
+        enquiry:plain
+      })
+    });
+    if(!r.ok)throw new Error('relay '+r.status);
+    btn.textContent='Sent ✓ — we will call you back';
+    btn.classList.remove('pill-ghost');btn.classList.add('pill-gold');
+  }catch(err){
+    btn.removeAttribute('disabled');
+    btn.textContent='✉ Open email app instead';
+    btn.onclick=()=>location.href='mailto:info.altimbers@gmail.com?subject='+encodeURIComponent('Website enquiry — altimbers.com')+'&body='+encodeURIComponent(plain);
+  }
+});
 
 /* ---------- range bento: click a tile, land in the builder with it chosen ---------- */
 document.querySelectorAll('#rangeBento .bt').forEach(t=>{
