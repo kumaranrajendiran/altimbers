@@ -106,8 +106,7 @@ body{
 }
 .nav.shrink{
   height:56px;
-  background:rgba(9,12,17,.68);
-  backdrop-filter:blur(24px) saturate(1.7);-webkit-backdrop-filter:blur(24px) saturate(1.7);
+  background:rgba(9,12,17,.94);   /* solid-ish: backdrop-filter would trap the fixed mobile menu */
   box-shadow:0 1px 0 rgba(255,255,255,.06),0 10px 40px rgba(0,0,0,.35);
 }
 .nav-inner{width:min(1200px,94%);margin-inline:auto;display:flex;align-items:center;justify-content:space-between}
@@ -126,6 +125,7 @@ body{
 .nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:-5px;height:1.5px;background:var(--gold);transition:right .3s var(--ease)}
 .nav-links a:hover{color:#fff}
 .nav-links a:hover::after{right:0}
+.menu-cta{display:none}
 .nav .pill{padding:.52rem 1.1rem;font-size:.78rem}
 .hamburger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;z-index:320}
 .hamburger span{display:block;width:20px;height:1.8px;background:#fff;margin:5px auto;border-radius:2px;transition:.3s}
@@ -557,6 +557,42 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .pill[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
 
+/* ---------- apple-grade product-render treatment ---------- */
+.display{font-weight:800;letter-spacing:-.052em}
+.headline{letter-spacing:-.045em}
+/* the deck floats in a spotlight, on a reflective floor */
+.deck-glow{
+  position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
+  width:130%;aspect-ratio:1.7;pointer-events:none;z-index:0;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(240,194,74,.15),rgba(255,157,60,.05) 55%,transparent 72%);
+  filter:blur(34px);
+}
+.deck-shadow{
+  position:absolute;left:6%;right:6%;bottom:-40px;height:52px;pointer-events:none;z-index:0;
+  background:radial-gradient(50% 100% at 50% 50%,rgba(0,0,0,.6),transparent 72%);
+  filter:blur(12px);
+}
+.board{-webkit-box-reflect:below 16px linear-gradient(transparent 62%,rgba(255,255,255,.14))}
+.veneer{border-radius:10px}
+/* depth from light, not lines — borderless surfaces */
+.b-card{border-color:transparent;border-radius:26px;background:linear-gradient(170deg,#141a25,#0d1119);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 14px 40px rgba(0,0,0,.35)}
+.b-card:hover{box-shadow:0 1px 0 rgba(255,255,255,.07) inset,0 34px 80px rgba(0,0,0,.55)}
+.t-card,.c-tile,.panel{border-color:transparent;box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 12px 34px rgba(0,0,0,.3)}
+.f-art,.fin-preview{border:0;box-shadow:0 50px 110px rgba(0,0,0,.55)}
+.f-art,.fin-preview{border-radius:30px}
+.cat-card{border-radius:18px}
+/* ambient colour fields, apple-style */
+#range{position:relative}
+#range::after{
+  content:"";position:absolute;right:-12%;top:4%;width:55%;aspect-ratio:1;pointer-events:none;
+  background:radial-gradient(circle,rgba(240,194,74,.06),transparent 62%);filter:blur(46px);
+}
+#marine::after{
+  content:"";position:absolute;left:-14%;top:12%;width:58%;aspect-ratio:1;pointer-events:none;
+  background:radial-gradient(circle,rgba(62,230,255,.06),transparent 62%);filter:blur(46px);
+}
+#marine{position:relative;overflow:hidden}
+
 /* ---------- alive layer: cinematic ambience ---------- */
 /* god-rays — sunlight through the timber yard */
 .rays{
@@ -606,9 +642,17 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .w>i{display:inline-block;font-style:normal;will-change:transform}
 .w>i.serif-i{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-weight:700}
 
-/* nav hides scrolling down, returns scrolling up */
-.nav{transform:translateY(0);transition:height .45s var(--ease),background .45s,box-shadow .45s,transform .45s var(--ease)}
+/* nav hides scrolling down, returns scrolling up.
+   NOTE: no resting transform — a transformed header becomes the containing
+   block for the fixed mobile menu and squashes it into the bar. */
+.nav{transition:height .45s var(--ease),background .45s,box-shadow .45s,transform .45s var(--ease)}
 .nav.hide{transform:translateY(-100%)}
+
+/* hamburger morphs to X when open */
+.hamburger span{transition:transform .3s var(--ease),opacity .25s}
+.hamburger.open span:nth-child(1){transform:translateY(6.8px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-6.8px) rotate(-45deg)}
 
 /* whatsapp fab */
 .wa-fab{
@@ -644,6 +688,12 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
   }
   .nav-links.open{opacity:1;pointer-events:auto}
   .nav-links a{font-size:1.5rem;font-weight:600}
+  .nav-links .menu-cta{
+    display:block;
+    background:linear-gradient(100deg,#c9992a,#ffdd85 55%,#f0c24a);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-weight:800;margin-top:.6rem;
+  }
   .hamburger{display:block}
   .nav .pill-gold{display:none}
   .bento{grid-template-columns:1fr}
@@ -781,6 +831,7 @@ body.loading{overflow:hidden}
       <a href="#marine">Marine Ply</a>
       <a href="#reviews">Reviews</a>
       <a href="#contact">Contact</a>
+      <a href="#contact" class="menu-cta">Build Your Quote →</a>
     </nav>
     <div style="display:flex;align-items:center;gap:.7rem">
       <a class="pill pill-gold" data-wa="general" href="https://wa.me/919080506492" target="_blank" rel="noopener">Get a Quote</a>
@@ -802,6 +853,7 @@ body.loading{overflow:hidden}
     </div>
   </div>
   <div class="hero-visual" id="heroVisual" data-hero>
+    <div class="deck-glow" aria-hidden="true"></div>
     <div class="board" id="plyStack">
       <div class="veneer"></div>
       <div class="veneer gv"></div>
@@ -809,8 +861,9 @@ body.loading{overflow:hidden}
       <div class="veneer gv"></div>
       <div class="veneer face"></div>
       <div class="plies"></div>
-      <div class="stack-caption" id="stackCaption">5 cross-laminated hardwood veneers · IS:710 bonded</div>
     </div>
+    <div class="stack-caption" id="stackCaption">5 cross-laminated hardwood veneers · IS:710 bonded</div>
+    <div class="deck-shadow" aria-hidden="true"></div>
   </div>
   <div class="scroll-cue"><span class="mouse"><i></i></span>Scroll</div>
 </section>
@@ -1138,11 +1191,14 @@ addEventListener('scroll',()=>nav.classList.toggle('shrink',scrollY>30),{passive
 const burger=document.getElementById('hamburger');
 const links=document.getElementById('navLinks');
 burger.addEventListener('click',()=>{
-  links.classList.toggle('open');
-  document.body.classList.toggle('menu-open');
+  const open=links.classList.toggle('open');
+  burger.classList.toggle('open',open);
+  document.body.classList.toggle('menu-open',open);
+  nav.classList.remove('hide');
 });
 links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   links.classList.remove('open');
+  burger.classList.remove('open');
   document.body.classList.remove('menu-open');
 }));
 
@@ -1666,14 +1722,28 @@ function itemLine(it,i){
     .map(g=>`  • ${g.label}: ${it.sel[g.k]}`).join('\n');
   return `*Item ${i+1} — ${it.cat}* (${c.std})\n${specs}\n  • Quantity: ${it.qty} ${c.unit}`;
 }
+const SHEET_SQFT={'8×4 ft':32,'7×4 ft':28,'6×4 ft':24,'6×3 ft':18};
 function qbMessage(){
+  const now=new Date();
+  const ref='ALT-'+String(now.getDate()).padStart(2,'0')+String(now.getMonth()+1).padStart(2,'0')
+    +'-'+String(now.getHours()).padStart(2,'0')+String(now.getMinutes()).padStart(2,'0');
+  const totalPieces=qb.items.reduce((t,it)=>t+it.qty,0);
+  const sqft=qb.items.reduce((t,it)=>t+(SHEET_SQFT[it.sel.size]?it.qty*SHEET_SQFT[it.sel.size]:0),0);
+  const summary=[
+    qb.items.length+(qb.items.length===1?' item':' items'),
+    totalPieces+' pieces',
+    sqft?('~'+sqft.toLocaleString('en-IN')+' sq ft of board'):null,
+    qb.urgency?qb.urgency.split(' — ')[0]:null
+  ].filter(Boolean).join(' · ');
   const items=qb.items.map(itemLine).join('\n\n');
-  return `🪵 *New Enquiry — via altimbers.com*\n\n${items}`
+  return `🪵 *New Enquiry ${ref}* — altimbers.com\n`
+    +`_${now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}_\n\n`
+    +`*Summary:* ${summary}\n\n${items}`
     +(qb.usage?`\n\n*Application:* ${qb.usage}`:'')
     +(qb.urgency?`\n*Timeline:* ${qb.urgency}`:'')
     +(qb.area?`\n*Delivery area:* ${qb.area}`:'')
     +(qb.name?`\n*Name:* ${qb.name}`:'')
-    +`\n\nKindly share:\n1. Itemised best price (incl. GST)\n2. Brand options in stock\n3. Delivery timeline\n\nThank you!`;
+    +`\n\nKindly share (quote ref ${ref}):\n1. Itemised best price (incl. GST)\n2. Brand options in stock\n3. Delivery timeline\n\nThank you!`;
 }
 function chipRow(g){
   return `<span class="qb-label">${g.label}${g.opt?' <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em>':''}</span><div class="chip-row">`
@@ -1828,7 +1898,7 @@ if(finSw){
 
 /* ---------- structured messages for every static WhatsApp link ---------- */
 const WA_MSG={
-  general:`Hi *AL Timbers & Boards* 👋\nI'd like a quote. My requirement:\n\n• Product: \n• Thickness / size: \n• Quantity: \n• Delivery area: \n\nKindly share your best price and availability.`,
+  general:`Hi *AL Timbers & Boards* 👋 I'd like a quote.\n\n*Reply with a number, or fill in below:*\n1️⃣ Marine Plywood (IS:710)\n2️⃣ Commercial / BWR Plywood\n3️⃣ MDF & Pre-Laminated Boards\n4️⃣ Laminates & Decors\n5️⃣ Flush Doors / PVC\n\n• Thickness / size: \n• Quantity: \n• Delivery area: \n\nKindly share your best price and availability.`,
   marine:`🌊 *Marine Plywood Enquiry — IS:710 BWP*\n\nKindly share:\n1. Price list for 4mm–19mm (8×4 ft)\n2. Brands in stock\n3. Bulk / project rates\n\nMy requirement: `,
   mdf:`*MDF & Pre-Laminated Enquiry*\n\nKindly share:\n1. Plain & pre-laminated MDF price list\n2. Decors available\n3. Thicknesses in stock\n\nMy requirement: `,
   list:`Hi *AL Timbers & Boards* 👋\nHere is my material list:\n\n1. \n2. \n3. \n\nDelivery area: \n\nKindly share itemised best prices (incl. GST) and delivery timeline.`
