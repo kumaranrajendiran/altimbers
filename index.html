@@ -150,7 +150,7 @@ body{
   50%{transform:translate(-2%,2%) scale(1.06)}
   100%{transform:translate(2%,-2%) scale(1.02)}
 }
-.hero-inner{position:relative;z-index:2}
+.hero-inner{position:relative;z-index:6}
 .kicker{
   display:inline-flex;align-items:center;gap:.6rem;
   font-size:.74rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
@@ -163,7 +163,7 @@ body{
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 .hero p.lede{max-width:47ch;margin:1.6rem auto 2.5rem}
 .hero-ctas{display:flex;gap:.95rem;justify-content:center;flex-wrap:wrap}
-.hero-visual{position:relative;z-index:2;width:min(900px,100%);margin-top:4.5rem;will-change:transform}
+.hero-visual{position:relative;z-index:1;isolation:isolate;width:min(900px,100%);margin-top:4.5rem;will-change:transform}
 /* plywood stack — 5 cross-laminated veneers that explode apart on scroll */
 .board{
   position:relative;height:clamp(210px,34vw,360px);
@@ -180,8 +180,7 @@ body{
 .board{width:min(640px,82vw);margin-inline:auto}
 .resin{
   position:absolute;inset:5% 4%;border-radius:8px;pointer-events:none;
-  background:linear-gradient(120deg,rgba(255,221,133,.26),rgba(255,244,214,.08) 45%,rgba(201,153,42,.22));
-  box-shadow:0 0 18px rgba(240,194,74,.16);
+  background:linear-gradient(120deg,rgba(255,221,133,.22),rgba(255,244,214,.06) 45%,rgba(201,153,42,.18));
 }
 /* physically-based shading: depth occlusion, edge thickness, cast shadows */
 .veneer{
@@ -656,12 +655,6 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .display{font-weight:800;letter-spacing:-.052em}
 .headline{letter-spacing:-.045em}
 /* the deck floats in a spotlight, on a reflective floor */
-.deck-glow{
-  position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);
-  width:130%;aspect-ratio:1.7;pointer-events:none;z-index:0;
-  background:radial-gradient(50% 50% at 50% 50%,rgba(240,194,74,.15),rgba(255,157,60,.05) 55%,transparent 72%);
-  filter:blur(34px);
-}
 .deck-shadow{
   position:absolute;left:6%;right:6%;bottom:-40px;height:52px;pointer-events:none;z-index:0;
   background:radial-gradient(50% 100% at 50% 50%,rgba(0,0,0,.6),transparent 72%);
@@ -943,7 +936,6 @@ body.loading{overflow:hidden}
     <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
   </div>
   <div class="hero-visual" id="heroVisual" data-hero>
-    <div class="deck-glow" aria-hidden="true"></div>
     <div class="board" id="plyStack">
       <div class="veneer"></div>
       <div class="resin"></div>
@@ -1574,7 +1566,7 @@ function initGsap(){
     const heroEl=document.getElementById('hero');
     heroEl.addEventListener('pointermove',e=>{
       const px=e.clientX/innerWidth,py=e.clientY/innerHeight;
-      dRX((py-.5)*-5);dRY((px-.5)*7);
+      dRX((py-.5)*-3);dRY((px-.5)*4);
     },{passive:true});
     heroEl.addEventListener('pointerleave',()=>{dRX(0);dRY(0)},{passive:true});
   }
@@ -1616,9 +1608,9 @@ function initGsap(){
   explode
     .to('.hero-inner',{opacity:0,y:-40,duration:.16,ease:'none'},0)
     .to('.scroll-cue',{opacity:0,duration:.1,ease:'none'},0)
-    .to('.veneer',{z:i=>i*60,ease:'none',duration:1},0)
-    .to('.resin',{z:i=>(2*i+1)*30,ease:'none',duration:1},0)
-    .to('#heroVisual',{y:-250,ease:'none',duration:1},0)
+    .to('.veneer',{z:i=>i*44,ease:'none',duration:1},0)
+    .to('.resin',{z:i=>(2*i+1)*22,ease:'none',duration:1},0)
+    .to('#heroVisual',{y:-120,ease:'none',duration:1},0)
 ;
 
   // section reveals — five variants, staggered per batch
