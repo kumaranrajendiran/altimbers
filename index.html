@@ -1933,7 +1933,7 @@ function qbMessage(){
     qb.urgency?qb.urgency.split(' — ')[0]:null
   ].filter(Boolean).join(' · ');
   const items=qb.items.map(itemLine).join('\n\n');
-  return `🪵 *New Enquiry ${ref}* — altimbers.com\n`
+  return `*New Enquiry ${ref}* — altimbers.com\n`
     +`_${now.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}_\n\n`
     +`*Summary:* ${summary}\n\n${items}`
     +(qb.usage?`\n\n*Application:* ${qb.usage}`:'')
@@ -2131,7 +2131,7 @@ if(finSw){
   let front=finA,backL=finB,current=FINISHES[0];
   function setCTA(f){
     finCTA.href='https://wa.me/919080506492?text='+encodeURIComponent(
-      `🎨 *Laminate Decor Enquiry — via altimbers.com*\n\n*Decor:* ${f.name}\n*Type:* ${f.type}\n\nKindly share:\n1. Matching decors from your brand catalogues\n2. Price per sheet (incl. GST)\n3. Availability\n\nThank you!`);
+      `*Laminate Decor Enquiry — via altimbers.com*\n\n*Decor:* ${f.name}\n*Type:* ${f.type}\n\nKindly share:\n1. Matching decors from your brand catalogues\n2. Price per sheet (incl. GST)\n3. Availability\n\nThank you!`);
   }
   FINISHES.forEach((f,i)=>{
     const b=document.createElement('button');
@@ -2155,13 +2155,13 @@ if(finSw){
 
 /* ---------- structured messages for every static WhatsApp link ---------- */
 const WA_MSG={
-  general:`Hi *AL Timbers & Boards* 👋 I'd like a quote.\n\n*Reply with a number, or fill in below:*\n1️⃣ Marine Plywood (IS:710)\n2️⃣ Commercial / BWR Plywood\n3️⃣ MDF & Pre-Laminated Boards\n4️⃣ Laminates & Decors\n5️⃣ Flush Doors / PVC\n\n• Thickness / size: \n• Quantity: \n• Delivery area: \n\nKindly share your best price and availability.`,
-  marine:`🌊 *Marine Plywood Enquiry — IS:710 BWP*\n\nKindly share:\n1. Price list for 4mm–19mm (8×4 ft)\n2. Brands in stock\n3. Bulk / project rates\n\nMy requirement: `,
+  general:`Hi *AL Timbers & Boards*, I'd like a quote.\n\n*Reply with a number, or fill in below:*\n1. Marine Plywood (IS:710)\n2. Commercial / BWR Plywood\n3. MDF & Pre-Laminated Boards\n4. Laminates & Decors\n5. Flush Doors / PVC\n\n• Thickness / size: \n• Quantity: \n• Delivery area: \n\nKindly share your best price and availability.`,
+  marine:`*Marine Plywood Enquiry — IS:710 BWP*\n\nKindly share:\n1. Price list for 4mm–19mm (8×4 ft)\n2. Brands in stock\n3. Bulk / project rates\n\nMy requirement: `,
   mdf:`*MDF & Pre-Laminated Enquiry*\n\nKindly share:\n1. Plain & pre-laminated MDF price list\n2. Decors available\n3. Thicknesses in stock\n\nMy requirement: `,
-  list:`Hi *AL Timbers & Boards* 👋\nHere is my material list:\n\n1. \n2. \n3. \n\nDelivery area: \n\nKindly share itemised best prices (incl. GST) and delivery timeline.`,
-  kitchen:`🍳 *Modular Kitchen Enquiry — via altimbers.com*\n\nI'm planning a modular kitchen. Kindly suggest:\n1. IS:710 marine ply for the carcass\n2. Laminates / decors for shutters\n3. Approximate material estimate\n\n*Kitchen size (approx):* \n*Delivery area:* `,
-  wardrobe:`🚪 *Wardrobe & Interiors Enquiry — via altimbers.com*\n\nI'm planning wardrobes / interior work. Kindly suggest:\n1. Boards for carcass & shutters\n2. Matching decors from catalogue\n3. Approximate material estimate\n\n*Requirement (approx):* \n*Delivery area:* `,
-  commercial:`🏢 *Commercial / Project Enquiry — via altimbers.com*\n\nWe're working on a commercial / site project. Kindly share:\n1. Bulk & project rates\n2. Film-faced shuttering ply (IS:4990) availability\n3. Credit / billing terms for projects\n\n*Project & quantity (approx):* \n*Site location:* `
+  list:`Hi *AL Timbers & Boards*,\nHere is my material list:\n\n1. \n2. \n3. \n\nDelivery area: \n\nKindly share itemised best prices (incl. GST) and delivery timeline.`,
+  kitchen:`*Modular Kitchen Enquiry — via altimbers.com*\n\nI'm planning a modular kitchen. Kindly suggest:\n1. IS:710 marine ply for the carcass\n2. Laminates / decors for shutters\n3. Approximate material estimate\n\n*Kitchen size (approx):* \n*Delivery area:* `,
+  wardrobe:`*Wardrobe & Interiors Enquiry — via altimbers.com*\n\nI'm planning wardrobes / interior work. Kindly suggest:\n1. Boards for carcass & shutters\n2. Matching decors from catalogue\n3. Approximate material estimate\n\n*Requirement (approx):* \n*Delivery area:* `,
+  commercial:`*Commercial / Project Enquiry — via altimbers.com*\n\nWe're working on a commercial / site project. Kindly share:\n1. Bulk & project rates\n2. Film-faced shuttering ply (IS:4990) availability\n3. Credit / billing terms for projects\n\n*Project & quantity (approx):* \n*Site location:* `
 };
 document.querySelectorAll('[data-wa]').forEach(a=>{
   const m=WA_MSG[a.dataset.wa];
