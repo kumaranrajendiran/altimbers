@@ -175,12 +175,14 @@ body{
   box-shadow:0 -10px 24px rgba(0,0,0,.35),0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
 }
-/* tidy stacked-deck starting pose — deeper layers peek above the face;
-   the hero copy fades out at scroll start so the upward fan has the stage */
-.veneer:nth-child(1){transform:translateY(-48px) scale(.952)}
-.veneer:nth-child(2){transform:translateY(-36px) scale(.964)}
-.veneer:nth-child(3){transform:translateY(-24px) scale(.976)}
-.veneer:nth-child(4){transform:translateY(-12px) scale(.988)}
+/* isometric studio scene — GSAP poses the 3D; flat overlap is the no-JS fallback */
+.hero-visual{perspective:1300px}
+.board{width:min(640px,82vw);margin-inline:auto}
+.resin{
+  position:absolute;inset:4% 3%;border-radius:8px;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,221,133,.30),rgba(255,244,214,.10) 45%,rgba(201,153,42,.26));
+  box-shadow:0 0 22px rgba(240,194,74,.18);
+}
 .veneer{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
@@ -575,7 +577,6 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
   background:radial-gradient(50% 100% at 50% 50%,rgba(0,0,0,.6),transparent 72%);
   filter:blur(12px);
 }
-.board{-webkit-box-reflect:below 16px linear-gradient(transparent 62%,rgba(255,255,255,.14))}
 .veneer{border-radius:10px}
 /* depth from light, not lines — borderless surfaces */
 .b-card{border-color:transparent;border-radius:26px;background:linear-gradient(170deg,#141a25,#0d1119);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 14px 40px rgba(0,0,0,.35)}
@@ -859,11 +860,14 @@ body.loading{overflow:hidden}
     <div class="deck-glow" aria-hidden="true"></div>
     <div class="board" id="plyStack">
       <div class="veneer"></div>
+      <div class="resin"></div>
       <div class="veneer gv"></div>
+      <div class="resin"></div>
       <div class="veneer"></div>
+      <div class="resin"></div>
       <div class="veneer gv"></div>
+      <div class="resin"></div>
       <div class="veneer face"></div>
-      <div class="plies"></div>
     </div>
     <div class="stack-caption" id="stackCaption">5 cross-laminated hardwood veneers · IS:710 bonded</div>
     <div class="deck-shadow" aria-hidden="true"></div>
@@ -1429,7 +1433,6 @@ function initGsap(){
   // hero entrance timeline — plays once the loader lifts
   function heroIntro(){
     ScrollTrigger.refresh(); // recalc section positions after loader removal
-    const V=i=>(4-i);
     const intro=gsap.timeline();
     intro
       .to(heroH1.querySelectorAll('.w>i'),{yPercent:0,duration:1,ease:'power4.out',stagger:.07})
@@ -1439,9 +1442,11 @@ function initGsap(){
       .fromTo('#heroVisual',
         {y:90,opacity:0,scale:.96},
         {y:0,opacity:1,scale:1,duration:1.1,ease:'expo.out'},'-=.55')
-      // the deck breathes once: fan opens, then settles with a soft spring
-      .to('.veneer',{y:i=>-V(i)*26,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
-      .to('.veneer',{y:i=>-V(i)*12,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05');
+      // the stack breathes once: layers lift apart, then settle onto their bonds
+      .to('.veneer',{z:i=>i*30,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
+      .to('.resin',{z:i=>(2*i+1)*15,duration:.55,ease:'power2.out'},'<')
+      .to('.veneer',{z:i=>i*14,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
+      .to('.resin',{z:i=>(2*i+1)*7,duration:1.1,ease:'elastic.out(1,.55)'},'<');
   }
   gsap.set('.hero .lede, .hero-ctas, #heroVisual',{opacity:0});
   if(document.readyState==='complete')finishLoader(heroIntro);
@@ -1481,10 +1486,10 @@ function initGsap(){
   // the deck is alive — slow organic float, like it's resting on water
   gsap.to('.board',{y:9,duration:3.4,ease:'sine.inOut',yoyo:true,repeat:-1});
 
-  // scroll-velocity lean — the board has inertia (event-driven, no idle loop)
-  const leanEl=document.querySelector('.board');
+  // scroll-velocity lean — the scene has inertia (event-driven, no idle loop)
+  const leanEl=document.getElementById('heroVisual');
   if(leanEl){
-    const leanTo=gsap.quickTo(leanEl,'rotationZ',{duration:.6,ease:'power2.out'});
+    const leanTo=gsap.quickTo(leanEl,'rotation',{duration:.6,ease:'power2.out'});
     let leanRelax;
     ScrollTrigger.create({
       onUpdate:s=>{
@@ -1495,23 +1500,19 @@ function initGsap(){
     });
   }
 
-  // plywood teardown — the hero copy exits first, then the deck fans upward on stage
-  // (mirrors the CSS nth-child starting pose so there is no jump at load)
-  const V=i=>(4-i);                      // depth from the top face (face i=4 → 0)
-  gsap.set('.veneer',{y:i=>-V(i)*12,scale:i=>1-V(i)*.012});
+  // isometric exploded view — layers separate along Z with glossy resin bonds between
+  gsap.set('.board',{rotationX:58,rotationZ:-42});
+  gsap.set('.veneer',{z:i=>i*14});
+  gsap.set('.resin',{z:i=>(2*i+1)*7,opacity:.85});
   const explode=gsap.timeline({
     scrollTrigger:{trigger:'#hero',start:'top top',end:'75% top',scrub:.5}
   });
   explode
     .to('.hero-inner',{opacity:0,y:-40,duration:.16,ease:'none'},0)
     .to('.scroll-cue',{opacity:0,duration:.1,ease:'none'},0)
-    .to('.veneer',{
-      y:i=>-V(i)*46,                     // deeper layers rise further — clean vertical fan
-      scale:i=>1-V(i)*.012,
-      ease:'none',duration:1
-    },0)
-    .to('#heroVisual',{y:-60,ease:'none',duration:1},0)
-    .to('.board .plies',{y:26,opacity:0,ease:'none'},0)
+    .to('.veneer',{z:i=>i*60,ease:'none',duration:1},0)
+    .to('.resin',{z:i=>(2*i+1)*30,ease:'none',duration:1},0)
+    .to('#heroVisual',{y:-250,ease:'none',duration:1},0)
     .to('#stackCaption',{opacity:1,ease:'none',duration:.4},.3);
 
   // section reveals — five variants, staggered per batch
