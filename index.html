@@ -472,8 +472,23 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .qb-progress{height:3px;border-radius:99px;background:rgba(255,255,255,.1);margin:1.2rem 0 .6rem;overflow:hidden}
 .qb-progress i{display:block;height:100%;width:25%;border-radius:99px;background:linear-gradient(90deg,#c9992a,#ffdd85,#f0c24a);transition:width .5s var(--ease);box-shadow:0 0 12px rgba(240,194,74,.6)}
 .qb-steps{display:flex;justify-content:space-between;margin-bottom:1.4rem}
-.qb-steps span{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);transition:color .3s}
-.qb-steps span.on{color:var(--gold)}
+.qb-steps button{
+  font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);
+  background:none;border:0;padding:.2rem 0;font-family:inherit;cursor:default;transition:color .3s;
+}
+.qb-steps button.on{color:var(--gold)}
+.qb-steps button.done{color:var(--text);cursor:pointer}
+.qb-steps button.done::before{content:"✓ ";color:var(--gold)}
+.qb-steps button.done:hover{color:var(--gold-2)}
+.qb-summary{
+  display:flex;flex-wrap:wrap;gap:.4rem;margin:-.3rem 0 1rem;
+}
+.qb-summary span{
+  font-size:.7rem;font-weight:600;color:var(--gold-2);
+  background:rgba(240,194,74,.08);border:1px solid rgba(240,194,74,.22);
+  border-radius:99px;padding:.3rem .7rem;
+}
+.qb-summary span.qs-item{color:var(--text);border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
 .qb-view{min-height:280px}
 .qb-label{display:block;font-size:.66rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:1.1rem 0 .55rem}
 .qb-label:first-child{margin-top:0}
@@ -1255,8 +1270,9 @@ body.loading{overflow:hidden}
         <p>Pick your requirement as per Indian Standards — we'll draft the WhatsApp message for you.</p>
         <div class="qb-progress"><i id="qbBar"></i></div>
         <div class="qb-steps" id="qbSteps">
-          <span class="on">Product</span><span>Specs</span><span>Quantity</span><span>Send</span>
+          <button type="button" class="on" data-step="0">Product</button><button type="button" data-step="1">Specs</button><button type="button" data-step="2">Quantity</button><button type="button" data-step="3">Send</button>
         </div>
+        <div class="qb-summary" id="qbSummary" style="display:none"></div>
         <div class="qb-view" id="qbView"></div>
         <div class="qb-nav">
           <button class="pill pill-ghost" id="qbBack" type="button" style="display:none">← Back</button>
@@ -1839,7 +1855,7 @@ const QTY_PRESETS=[5,10,25,50,100];
 const qb={step:0,cat:null,sel:{},qty:10,items:[],usage:null,urgency:null,area:'',name:''};
 const qbView=document.getElementById('qbView');
 const qbBar=document.getElementById('qbBar');
-const qbStepEls=document.querySelectorAll('#qbSteps span');
+const qbStepEls=document.querySelectorAll('#qbSteps button');
 const qbBack=document.getElementById('qbBack');
 const qbNext=document.getElementById('qbNext');
 const qbAdd=document.getElementById('qbAdd');
@@ -1856,10 +1872,30 @@ function qbValid(){
   if(qb.step===2)return qb.qty>0;
   return qb.items.length>0;
 }
+function qbShort(it){
+  const c=CATALOG[it.cat];
+  const bits=c.groups.filter(g=>it.sel[g.k]&&it.sel[g.k]!=='Any brand').map(g=>it.sel[g.k]);
+  return it.cat+(bits.length?' · '+bits.join(' · '):'')+(it.qty?' · '+it.qty+' '+c.unit:'');
+}
+function qbSummaryRender(){
+  const box=document.getElementById('qbSummary');
+  const parts=[];
+  qb.items.forEach((it,i)=>parts.push('<span class="qs-item">'+(i+1)+'. '+qbShort(it)+'</span>'));
+  if(qb.cat&&qb.step>0&&qb.step<3){
+    const draft={cat:qb.cat,sel:qb.sel,qty:qb.step===2?qb.qty:0};
+    parts.push('<span>'+qbShort(draft)+'</span>');
+  }
+  box.innerHTML=parts.join('');
+  box.style.display=parts.length?'':'none';
+}
 function qbSync(){
   document.getElementById('qbCount').textContent='0'+(qb.step+1)+' / 04';
   qbBar.style.width=((qb.step+1)*25)+'%';
-  qbStepEls.forEach((s,i)=>s.classList.toggle('on',i<=qb.step));
+  qbStepEls.forEach((s,i)=>{
+    s.classList.toggle('on',i<=qb.step);
+    s.classList.toggle('done',i<qb.step);
+  });
+  qbSummaryRender();
   qbBack.style.display=qb.step>0?'':'none';
   qbNext.style.display=qb.step<3?'':'none';
   qbNext.textContent=qb.step===2?'Review →':'Continue →';
@@ -2002,13 +2038,23 @@ qbNext.addEventListener('click',()=>{
 qbAdd.addEventListener('click',()=>{
   if(qb.qty>0&&qb.cat){commitDraft();qb.step=0;qbRender();}
 });
-qbBack.addEventListener('click',()=>{
+function qbStepBack(){
   if(qb.step===3&&qb.items.length){
     const it=qb.items.pop();
     qb.cat=it.cat;qb.sel=it.sel;qb.qty=it.qty;
     qb.step=2;
   }else if(qb.step>0)qb.step--;
-  qbRender();
+}
+qbBack.addEventListener('click',()=>{qbStepBack();qbRender();});
+// clickable step labels — jump back to any completed step
+qbStepEls.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=+btn.dataset.step;
+    if(target>=qb.step)return;
+    let guard=8;
+    while(qb.step>target&&guard--)qbStepBack();
+    qbRender();
+  });
 });
 qbRender();
 
