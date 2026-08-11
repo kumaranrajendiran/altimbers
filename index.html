@@ -16,7 +16,7 @@
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1611072337226-1140ab367200?auto=format&fit=crop&w=1600&q=72">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -362,6 +362,51 @@ body{
   filter:drop-shadow(0 0 18px rgba(240,194,74,.25));
 }
 .stat-cell span{font-size:.8rem;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+
+/* ---------- montfort layer ---------- */
+.hero-mark{width:100%;max-width:1040px;margin-inline:auto}
+.hm-rule{height:1px;background:rgba(244,242,236,.22);transform-origin:center}
+.hero-word{
+  font-size:clamp(2.2rem,8.2vw,5.6rem);font-weight:250;color:var(--text);
+  letter-spacing:.42em;text-indent:.42em;text-align:center;line-height:1;
+  padding:1.6rem 0 1.2rem;white-space:nowrap;
+}
+.hm-tag{
+  text-align:center;font-size:.72rem;font-weight:600;letter-spacing:.55em;text-indent:.55em;
+  text-transform:uppercase;color:var(--gold);padding-bottom:1.5rem;
+}
+/* airy chapter-intro statements */
+.sec-head .headline{
+  font-weight:300;text-transform:uppercase;letter-spacing:.055em;
+  font-size:clamp(1.7rem,3.9vw,3.1rem);line-height:1.28;
+}
+.sec-head .headline .serif-i{text-transform:none;letter-spacing:0}
+.mont-arrow{
+  width:56px;height:56px;border-radius:50%;border:1px solid rgba(244,242,236,.25);
+  display:grid;place-items:center;margin:1.8rem auto 0;background:none;color:var(--gold);
+  font-size:1.15rem;cursor:pointer;transition:border-color .3s,transform .3s var(--ease);
+}
+.mont-arrow:hover{border-color:var(--gold);transform:translateY(4px)}
+/* atmospheric chapter */
+.chapter{position:relative;overflow:clip}
+.chapter-bg{
+  position:absolute;inset:-12% 0;z-index:0;pointer-events:none;will-change:transform;
+  background:
+    linear-gradient(180deg,rgba(9,12,17,.92),rgba(9,12,17,.78) 40%,rgba(9,12,17,.94)),
+    url("assets/img/timber.jpg") center/cover;
+}
+.chapter-dust{
+  position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(2px 2px at 12% 30%,rgba(240,194,74,.5),transparent 60%),
+    radial-gradient(1.5px 1.5px at 45% 70%,rgba(240,194,74,.4),transparent 60%),
+    radial-gradient(2px 2px at 78% 20%,rgba(240,194,74,.45),transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 55%,rgba(240,194,74,.35),transparent 60%),
+    radial-gradient(2px 2px at 30% 85%,rgba(240,194,74,.4),transparent 60%);
+  animation:dustdrift 16s ease-in-out infinite alternate;
+}
+@keyframes dustdrift{from{transform:translateY(6px)}to{transform:translateY(-14px)}}
+.chapter>.sec{position:relative;z-index:2;background:transparent!important;border:0!important}
+@media (max-width:640px){.hero-word{letter-spacing:.28em;text-indent:.28em}}
 
 /* ---------- our story: apple statement flow ---------- */
 .story-flow{max-width:840px;margin-inline:auto;text-align:center}
@@ -952,7 +997,12 @@ body.loading{overflow:hidden}
   <div class="rays" aria-hidden="true"></div>
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
-    <h1 class="display" data-hero>Plywood.<br><span class="gold-grad serif-i">Perfected.</span></h1>
+    <div class="hero-mark" data-hero>
+      <div class="hm-rule"></div>
+      <h1 class="hero-word">ALTIMBERS</h1>
+      <div class="hm-tag">Plywood · Perfected</div>
+      <div class="hm-rule"></div>
+    </div>
     <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
     <div class="hero-ctas" data-hero>
       <a class="pill pill-gold pill-lg" href="#contact">Build Your Quote</a>
@@ -994,6 +1044,7 @@ body.loading{overflow:hidden}
     <div class="sec-head center" data-rv="clip">
       <span class="overline">01 — The Range</span>
       <h2 class="headline">One store.<br>Every board you'll <span class="gold-grad">ever need.</span></h2>
+      <button type="button" class="mont-arrow" data-scrollto="#rangeBento" aria-label="See the range">↓</button>
     </div>
     <div class="abento" id="rangeBento">
       <button type="button" class="bt bt-4 bt-tall bt-photo bt-marine" data-rv data-product="Marine Plywood">
@@ -1130,6 +1181,7 @@ body.loading{overflow:hidden}
     <div class="sec-head center" data-rv="clip">
       <span class="overline">05 — Material Studio</span>
       <h2 class="headline">The materials,<br><span class="gold-grad">up close.</span></h2>
+      <button type="button" class="mont-arrow" data-scrollto="#spaces .mat-grid" aria-label="See materials">↓</button>
     </div>
     <div class="mat-grid">
       <div class="mat-card mat-photo mp-timber" data-rv data-tilt>
@@ -1145,6 +1197,7 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
+<div class="chapter"><div class="chapter-bg" data-chapter-bg></div><div class="chapter-dust"></div>
 <!-- ============ STATS ============ -->
 <section class="sec stats" style="padding:3.5rem 0">
   <div class="wrap">
@@ -1191,6 +1244,7 @@ body.loading{overflow:hidden}
     </div>
   </div>
 </section>
+</div>
 
 <!-- ============ WHY US (owner's own claims — no fabricated reviews) ============ -->
 <section class="sec reviews" id="reviews">
@@ -1575,12 +1629,11 @@ function initGsap(){
     };
     wrap(el,null);
   }
-  const heroH1=document.querySelector('.hero .display');
-  splitWords(heroH1);
+  const heroH1=null; // hero uses the spaced wordmark, not word masks
   const otherHeads=[...document.querySelectorAll('.headline,.final .display')];
   otherHeads.forEach(splitWords);
   // masked start states (JS-only, so no-JS keeps text visible)
-  gsap.set(heroH1.querySelectorAll('.w>i'),{yPercent:112});
+  gsap.set('.hero-word',{letterSpacing:'0.16em',opacity:0});gsap.set('.hm-rule',{scaleX:0});gsap.set('.hm-tag',{opacity:0});
   otherHeads.forEach(h=>{
     const words=h.querySelectorAll('.w>i');
     gsap.set(words,{yPercent:112});
@@ -1595,7 +1648,9 @@ function initGsap(){
     ScrollTrigger.refresh(); // recalc section positions after loader removal
     const intro=gsap.timeline();
     intro
-      .to(heroH1.querySelectorAll('.w>i'),{yPercent:0,duration:1,ease:'power4.out',stagger:.07})
+      .to('.hero-word',{letterSpacing:'0.42em',opacity:1,duration:1.6,ease:'power3.out'})
+      .to('.hm-rule',{scaleX:1,duration:1.1,ease:'power3.inOut'},'-=1.2')
+      .to('.hm-tag',{opacity:1,duration:.8,ease:'power2.out'},'-=.6')
       .fromTo('.hero .lede, .hero-ctas',
         {y:34,opacity:0},
         {y:0,opacity:1,duration:.9,stagger:.12,ease:'power3.out'},'-=.45')
@@ -1742,6 +1797,16 @@ function initGsap(){
   gsap.from('.final .display',{
     scale:.9,opacity:0,duration:1.2,ease:'power3.out',
     scrollTrigger:{trigger:'.final',start:'top 75%',once:true}
+  });
+
+  // chapter-intro circle arrows
+  document.querySelectorAll('.mont-arrow').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const t=document.querySelector(b.dataset.scrollto);
+      if(!t)return;
+      if(window.ScrollToPlugin)gsap.to(window,{duration:.9,ease:'power3.inOut',scrollTo:{y:t,offsetY:70}});
+      else t.scrollIntoView({behavior:'smooth'});
+    });
   });
 
   // smooth in-page transitions for anchor links (native scroll stays untouched)
