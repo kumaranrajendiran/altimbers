@@ -543,51 +543,68 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .pill[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
 
-/* ---------- range: editorial index list ---------- */
-.range-list{position:relative;border-bottom:1px solid var(--line)}
-.rl-row{
-  display:grid;grid-template-columns:3.2rem 1fr auto auto 2rem;align-items:baseline;gap:1.2rem;
-  width:100%;text-align:left;padding:1.7rem .4rem;cursor:pointer;
-  background:none;border:0;border-top:1px solid var(--line);color:var(--text);font-family:inherit;
-  transition:background .3s,padding .3s;
+/* ---------- range: apple-style bento ---------- */
+.abento{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.bt{
+  position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;
+  min-height:240px;padding:1.7rem;border-radius:28px;overflow:hidden;text-align:left;
+  background:linear-gradient(170deg,#141a25,#0d1119);border:0;color:var(--text);
+  font-family:inherit;cursor:pointer;
+  box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 14px 40px rgba(0,0,0,.35);
+  transition:transform .45s var(--ease),box-shadow .45s;
 }
-.rl-row:hover{background:rgba(255,255,255,.025);padding-left:1rem}
-.rl-num{font-size:.8rem;font-weight:700;color:var(--muted-2);font-variant-numeric:tabular-nums;letter-spacing:.1em}
-.rl-name{
-  font-size:clamp(1.5rem,3.4vw,2.5rem);font-weight:700;letter-spacing:-.035em;line-height:1.05;
-  transition:color .3s;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;
+.bt:hover{transform:scale(1.015);box-shadow:0 1px 0 rgba(255,255,255,.07) inset,0 30px 70px rgba(0,0,0,.5)}
+.bt-2{grid-column:span 2}
+.bt-3{grid-column:span 3}
+.bt-4{grid-column:span 4}
+.bt-6{grid-column:span 6}
+.bt-tall{min-height:340px}
+.bt-wide{min-height:220px;flex-direction:column}
+.bt b{font-size:clamp(1.2rem,2vw,1.5rem);font-weight:700;letter-spacing:-.025em;line-height:1.15}
+.bt p{font-size:.86rem;color:var(--muted);margin-top:.35rem;max-width:46ch}
+.bt-photo p{color:rgba(255,255,255,.82)}
+.bt-kicker{font-size:.66rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.bt-big{
+  font-size:clamp(3rem,6vw,4.6rem);font-weight:800;letter-spacing:-.05em;line-height:1;
+  margin-bottom:auto;padding-bottom:1.2rem;
 }
-.rl-row:hover .rl-name{color:var(--gold-2)}
-.rl-badge{
-  font-style:normal;font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+.bt-chip{
+  position:absolute;top:1.3rem;left:1.5rem;
+  font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   background:linear-gradient(100deg,#c9992a,#ffdd85);color:#181000;
-  padding:.3rem .7rem;border-radius:99px;transform:translateY(-.2em);
+  padding:.32rem .7rem;border-radius:99px;
 }
-.rl-spec{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
-.rl-use{font-size:.85rem;color:var(--muted);white-space:nowrap}
-.rl-arrow{font-size:1.2rem;color:var(--muted-2);transition:transform .3s var(--ease),color .3s;justify-self:end}
-.rl-row:hover .rl-arrow{transform:translateX(6px);color:var(--gold)}
-.rl-preview{
-  position:fixed;left:0;top:0;width:300px;height:210px;border-radius:18px;overflow:hidden;
-  pointer-events:none;z-index:60;opacity:0;transform:scale(.9);
-  transition:opacity .35s var(--ease),transform .35s var(--ease);
-  box-shadow:0 30px 70px rgba(0,0,0,.55);will-change:transform;
+.bt-go{
+  position:absolute;right:1.4rem;bottom:1.5rem;
+  width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.08);color:var(--gold);font-size:1rem;
+  opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s var(--ease);
 }
-.rl-preview.on{opacity:1;transform:scale(1)}
-.rl-preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}
-.rl-preview img.on{opacity:1}
-.rl-preview .rl-fallback{
-  position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .3s;
-  background:linear-gradient(150deg,#1b2231,#0d1119);
-  font-size:.8rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+.bt:hover .bt-go{opacity:1;transform:none}
+.bt-photo{color:#fff}
+.bt-photo::before{
+  content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  transition:transform .8s var(--ease);
+  background-size:cover;background-position:center;
 }
-.rl-preview .rl-fallback.on{opacity:1}
-@media (max-width:900px){
-  .rl-row{grid-template-columns:2.4rem 1fr 1.4rem;grid-template-areas:"num name arrow" ". meta arrow"}
-  .rl-num{grid-area:num}.rl-name{grid-area:name}.rl-arrow{grid-area:arrow;align-self:center}
-  .rl-spec{grid-area:meta;justify-self:start}
-  .rl-use{display:none}
-  .rl-preview{display:none}
+.bt:hover.bt-photo::before{transform:scale(1.06)}
+.bt-photo{isolation:isolate}
+.bt-marine::before{background-image:linear-gradient(180deg,rgba(9,12,17,.08) 30%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1700973408133-b45276ec8feb?auto=format&fit=crop&w=900&q=62")}
+.bt-mdf::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=700&q=60")}
+.bt-prelam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=800&q=60")}
+.bt-lam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1531315630201-bb15abeb1653?auto=format&fit=crop&w=800&q=60")}
+.bt-doors::before{background-image:linear-gradient(90deg,rgba(9,12,17,.9) 25%,rgba(9,12,17,.25)),url("https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=1400&q=62")}
+@media (max-width:1023px){
+  .abento{grid-template-columns:repeat(2,1fr)}
+  .bt-2,.bt-3{grid-column:span 1}
+  .bt-4,.bt-6{grid-column:span 2}
+  .bt{min-height:220px;padding:1.3rem}
+  .bt-tall{min-height:280px}
+  .bt-big{font-size:2.6rem}
+}
+@media (max-width:600px){
+  .abento{grid-template-columns:1fr}
+  .bt-2,.bt-3,.bt-4,.bt-6{grid-column:span 1}
 }
 
 /* ---------- material studio: CSS-3D cuboids ---------- */
@@ -948,64 +965,57 @@ body.loading{overflow:hidden}
       <span class="overline">01 — The Range</span>
       <h2 class="headline">One store.<br>Every board you'll <span class="gold-grad">ever need.</span></h2>
     </div>
-    <div class="range-list" id="rangeList">
-      <button type="button" class="rl-row" data-rv data-product="Marine Plywood" data-img="https://images.unsplash.com/photo-1700973408133-b45276ec8feb?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">01</span>
-        <span class="rl-name">Marine Plywood<em class="rl-badge">Bestseller</em></span>
-        <span class="rl-spec">IS:710 · BWP</span>
-        <span class="rl-use">Kitchens, baths &amp; wet areas</span>
-        <span class="rl-arrow">→</span>
+    <div class="abento" id="rangeBento">
+      <button type="button" class="bt bt-4 bt-tall bt-photo bt-marine" data-rv data-product="Marine Plywood">
+        <span class="bt-chip">Bestseller</span>
+        <span class="bt-kicker">IS:710 · BWP Grade</span>
+        <b>Marine Plywood</b>
+        <p>Boiling-waterproof. Kitchens, baths, anywhere water plays.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="Commercial Plywood" data-img="https://images.unsplash.com/photo-1690768162439-7ca7a1813038?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">02</span>
-        <span class="rl-name">Commercial Plywood</span>
-        <span class="rl-spec">IS:303 · MR</span>
-        <span class="rl-use">Furniture &amp; everyday interiors</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-2 bt-tall" data-rv data-product="Commercial Plywood">
+        <span class="bt-big gold-grad">MR</span>
+        <b>Commercial Plywood</b>
+        <p>IS:303 — the everyday interiors workhorse.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="MDF Board" data-img="https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">03</span>
-        <span class="rl-name">MDF Boards</span>
-        <span class="rl-spec">IS:12406</span>
-        <span class="rl-use">CNC, routing &amp; painted finishes</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-2 bt-photo bt-mdf" data-rv data-product="MDF Board">
+        <span class="bt-kicker">IS:12406</span>
+        <b>MDF Boards</b>
+        <p>CNC, routing &amp; painted finishes.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="Particle Board" data-img="https://images.unsplash.com/photo-1508948414348-13a52d2ec394?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">04</span>
-        <span class="rl-name">Particle Boards</span>
-        <span class="rl-spec">IS:3087</span>
-        <span class="rl-use">Modular furniture &amp; partitions</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-2" data-rv data-product="Particle Board">
+        <span class="bt-big gold-grad">IS 3087</span>
+        <b>Particle Boards</b>
+        <p>Smart economics for modular work.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="Pre-Laminated Board" data-img="https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">05</span>
-        <span class="rl-name">Pre-Laminated Boards</span>
-        <span class="rl-spec">IS:12823</span>
-        <span class="rl-use">Cut, edge-band, assemble</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-2" data-rv data-product="PVC Panels & Profiles">
+        <span class="bt-big gold-grad">100%</span>
+        <b>PVC Panels &amp; Profiles</b>
+        <p>Waterproof. Termite-proof. Zero upkeep.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="PVC Panels & Profiles">
-        <span class="rl-num">06</span>
-        <span class="rl-name">PVC Panels &amp; Profiles</span>
-        <span class="rl-spec">Waterproof</span>
-        <span class="rl-use">Termite-proof, zero maintenance</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-3 bt-photo bt-prelam" data-rv data-product="Pre-Laminated Board">
+        <span class="bt-kicker">IS:12823</span>
+        <b>Pre-Laminated Boards</b>
+        <p>Cut, edge-band, assemble — finish included.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="Laminates" data-img="https://images.unsplash.com/photo-1531315630201-bb15abeb1653?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">07</span>
-        <span class="rl-name">Laminates &amp; Decors</span>
-        <span class="rl-spec">IS:2046</span>
-        <span class="rl-use">Designer surfaces, leading brands</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-3 bt-photo bt-lam" data-rv data-product="Laminates">
+        <span class="bt-chip">1000+ decors</span>
+        <span class="bt-kicker">IS:2046</span>
+        <b>Laminates &amp; Decors</b>
+        <p>Designer surfaces from leading brands.</p>
+        <span class="bt-go">→</span>
       </button>
-      <button type="button" class="rl-row" data-rv data-product="Flush Door" data-img="https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=700&q=62">
-        <span class="rl-num">08</span>
-        <span class="rl-name">Flush Doors &amp; Film Faced</span>
-        <span class="rl-spec">IS:2202 · IS:4990</span>
-        <span class="rl-use">Solid-core doors &amp; shuttering ply</span>
-        <span class="rl-arrow">→</span>
+      <button type="button" class="bt bt-6 bt-photo bt-doors bt-wide" data-rv data-product="Flush Door">
+        <span class="bt-kicker">IS:2202 · IS:4990</span>
+        <b>Flush Doors &amp; Film Faced Ply</b>
+        <p>Solid-core doors and shuttering-grade sheets for site work.</p>
+        <span class="bt-go">→</span>
       </button>
-      <div class="rl-preview" id="rlPreview" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -1965,51 +1975,17 @@ qbBack.addEventListener('click',()=>{
 qbRender();
 
 
-/* ---------- range index: cursor preview + builder preselect ---------- */
-const rangeList=document.getElementById('rangeList');
-if(rangeList){
-  const preview=document.getElementById('rlPreview');
-  const rows=[...rangeList.querySelectorAll('.rl-row')];
-  // build preview layers
-  rows.forEach(r=>{
-    if(r.dataset.img){
-      const im=document.createElement('img');
-      im.src=r.dataset.img;im.alt='';im.loading='lazy';im.dataset.owner=r.dataset.product;
-      preview.appendChild(im);
-    }
+/* ---------- range bento: click a tile, land in the builder with it chosen ---------- */
+document.querySelectorAll('#rangeBento .bt').forEach(t=>{
+  t.addEventListener('click',()=>{
+    const name=t.dataset.product;
+    if(CATALOG[name]){qb.cat=name;qb.sel={};qb.step=1;qbRender();}
+    const target=document.getElementById('quoteBuilder');
+    if(window.ScrollToPlugin&&window.gsap)gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:40}});
+    else target.scrollIntoView({behavior:'smooth'});
   });
-  const fb=document.createElement('div');fb.className='rl-fallback';preview.appendChild(fb);
-  const fine=matchMedia('(pointer: fine)').matches;
-  if(fine&&window.gsap){
-    const px=gsap.quickTo(preview,'x',{duration:.5,ease:'power3.out'});
-    const py=gsap.quickTo(preview,'y',{duration:.5,ease:'power3.out'});
-    rangeList.addEventListener('pointermove',e=>{px(e.clientX+28);py(e.clientY-105)},{passive:true});
-    rows.forEach(r=>{
-      r.addEventListener('pointerenter',()=>{
-        preview.classList.add('on');
-        const owner=r.dataset.product;
-        let shown=false;
-        preview.querySelectorAll('img').forEach(im=>{
-          const on=im.dataset.owner===owner;
-          im.classList.toggle('on',on);if(on)shown=true;
-        });
-        fb.textContent=owner;
-        fb.classList.toggle('on',!shown);
-      },{passive:true});
-    });
-    rangeList.addEventListener('pointerleave',()=>preview.classList.remove('on'),{passive:true});
-  }
-  // click → open the builder with this product preselected
-  rows.forEach(r=>{
-    r.addEventListener('click',()=>{
-      const name=r.dataset.product;
-      if(CATALOG[name]){qb.cat=name;qb.sel={};qb.step=1;qbRender();}
-      const target=document.getElementById('quoteBuilder');
-      if(window.ScrollToPlugin)gsap.to(window,{duration:1,ease:'power3.inOut',scrollTo:{y:target,offsetY:40}});
-      else target.scrollIntoView({behavior:'smooth'});
-    });
-  });
-}
+});
+
 /* ---------- laminate finish explorer ---------- */
 const FINISHES=[
   {cls:'fin-teak',name:'Natural Teak',type:'Wood grain · Matt'},
