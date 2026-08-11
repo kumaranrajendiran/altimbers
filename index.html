@@ -496,6 +496,37 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .cat-card b{display:block;font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .cat-card small{display:inline-block;margin-top:.4rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;color:var(--gold);background:rgba(240,194,74,.08);border:1px solid rgba(240,194,74,.28);padding:.16rem .55rem;border-radius:99px;transition:background .25s,color .25s}
 .cat-card.sel small{background:linear-gradient(100deg,#c9992a,#ffdd85);color:#181000;border-color:transparent}
+/* v2: product photo thumbs on cards */
+.cat-card{
+  background:
+    linear-gradient(95deg,rgba(9,12,17,.95) 45%,rgba(9,12,17,.55)),
+    var(--cimg,linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0))) right center/55% 100%,
+    rgba(9,12,17,.6);
+  background-repeat:no-repeat;
+}
+.cat-card.sel{
+  background:
+    linear-gradient(95deg,rgba(240,194,74,.2) 0%,rgba(9,12,17,.9) 45%,rgba(9,12,17,.5)),
+    var(--cimg,linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0))) right center/55% 100%,
+    rgba(9,12,17,.6);
+  background-repeat:no-repeat;
+}
+.qb-items{
+  font-size:.62rem;font-weight:800;letter-spacing:.06em;
+  background:linear-gradient(100deg,#c9992a,#ffdd85);color:#181000;
+  padding:.22rem .6rem;border-radius:99px;margin-right:.6rem;white-space:nowrap;
+}
+.qb-hint{font-size:.74rem;color:var(--muted);line-height:1.5;margin-top:1rem}
+.qb-hint b{color:var(--gold-2)}
+.qb-hint em{color:var(--gold-2);font-style:italic}
+.chip-opt.qmini{padding:.4rem .85rem;font-size:.78rem}
+.qb-review .row b{display:flex;align-items:center;gap:.4rem;justify-content:flex-end;flex-wrap:wrap}
+.qb-review .row .rm{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#ff8d8d;
+  width:22px;height:22px;border-radius:7px;cursor:pointer;font-size:.72rem;line-height:1;
+  transition:background .2s,border-color .2s;
+}
+.qb-review .row .rm:hover{background:rgba(255,120,120,.15);border-color:#ff8d8d}
 .chip-row{display:flex;flex-wrap:wrap;gap:.5rem}
 .chip-opt{
   padding:.5rem .95rem;border-radius:99px;cursor:pointer;
@@ -1025,7 +1056,7 @@ body.loading{overflow:hidden}
       <div class="panel" data-rv="slide-right" id="quoteBuilder">
         <div class="qb-top">
           <h3>Build your <span class="serif-i gold-grad">exact</span> enquiry</h3>
-          <span class="qb-count" id="qbCount">01 / 04</span>
+          <span><span class="qb-items" id="qbItems" style="display:none"></span><span class="qb-count" id="qbCount">01 / 04</span></span>
         </div>
         <p>Pick your requirement as per Indian Standards — we'll draft the WhatsApp message for you.</p>
         <div class="qb-progress"><i id="qbBar"></i></div>
@@ -1035,6 +1066,7 @@ body.loading{overflow:hidden}
         <div class="qb-view" id="qbView"></div>
         <div class="qb-nav">
           <button class="pill pill-ghost" id="qbBack" type="button" style="display:none">← Back</button>
+          <button class="pill pill-ghost" id="qbAdd" type="button" style="display:none">＋ Add another product</button>
           <button class="pill pill-gold" id="qbNext" type="button" disabled>Continue →</button>
           <a class="pill pill-wa" id="qbSend" href="#" target="_blank" rel="noopener" style="display:none">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35zM12.05 21.79h-.01a9.77 9.77 0 0 1-4.98-1.37l-.36-.21-3.7.97.99-3.61-.24-.37a9.77 9.77 0 0 1-1.5-5.21c0-5.4 4.4-9.8 9.81-9.8 2.62 0 5.08 1.02 6.93 2.87a9.74 9.74 0 0 1 2.87 6.94c0 5.4-4.4 9.79-9.81 9.79zm8.35-18.14A11.7 11.7 0 0 0 12.05.2C5.55.2.26 5.49.26 11.99c0 2.08.54 4.1 1.57 5.89L.16 24l6.25-1.64a11.78 11.78 0 0 0 5.63 1.43h.01c6.5 0 11.79-5.29 11.79-11.79 0-3.15-1.22-6.11-3.44-8.35z"/></svg>
@@ -1542,58 +1574,72 @@ const cio=new IntersectionObserver(es=>{
 },{threshold:.6});
 counters.forEach(c=>cio.observe(c));
 
-/* ---------- interactive quote builder (Indian Standards) ---------- */
+/* ---------- interactive quote builder v2 — multi-item, Indian Standards ---------- */
+const IMG=id=>`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=400&q=55`;
+const BRANDS_PLY=['Greenply','Century Ply','Kitply','Archidply','Any brand'];
+const BRANDS_LAM=['Greenlam','Merino','Century Laminates','Any brand'];
+const SHEET_SIZES=['8×4 ft','7×4 ft','6×4 ft','6×3 ft'];
 const CATALOG={
-  'Marine Plywood':{std:'IS:710 · BWP Grade',unit:'sheets',
+  'Marine Plywood':{std:'IS:710 · BWP Grade',unit:'sheets',img:IMG('1700973408133-b45276ec8feb'),
     groups:[{k:'thick',label:'Thickness',opts:['4mm','6mm','9mm','12mm','16mm','19mm','25mm']},
-            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
-  'BWR Plywood':{std:'IS:303 · BWR Grade',unit:'sheets',
+            {k:'size',label:'Sheet size',opts:SHEET_SIZES},
+            {k:'brand',label:'Brand preference',opts:BRANDS_PLY,opt:true}]},
+  'BWR Plywood':{std:'IS:303 · BWR Grade',unit:'sheets',img:IMG('1690768162439-7ca7a1813038'),
     groups:[{k:'thick',label:'Thickness',opts:['6mm','9mm','12mm','16mm','19mm']},
-            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
-  'Commercial Plywood':{std:'IS:303 · MR Grade',unit:'sheets',
+            {k:'size',label:'Sheet size',opts:SHEET_SIZES},
+            {k:'brand',label:'Brand preference',opts:BRANDS_PLY,opt:true}]},
+  'Commercial Plywood':{std:'IS:303 · MR Grade',unit:'sheets',img:IMG('1692313208941-4f1c9cdcc7c3'),
     groups:[{k:'thick',label:'Thickness',opts:['4mm','6mm','9mm','12mm','16mm','19mm']},
-            {k:'size',label:'Sheet size',opts:['8×4 ft','7×4 ft','6×4 ft','6×3 ft']}]},
-  'MDF Board':{std:'IS:12406',unit:'sheets',
+            {k:'size',label:'Sheet size',opts:SHEET_SIZES},
+            {k:'brand',label:'Brand preference',opts:BRANDS_PLY,opt:true}]},
+  'MDF Board':{std:'IS:12406',unit:'sheets',img:IMG('1605390044035-36f50ff9cfd6'),
     groups:[{k:'type',label:'Type',opts:['Plain','Pre-laminated (one side)','Pre-laminated (both sides)']},
             {k:'thick',label:'Thickness',opts:['2.5mm','3mm','5.5mm','8mm','12mm','17mm','25mm']},
-            {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
-  'Particle Board':{std:'IS:3087',unit:'sheets',
+            {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']},
+            {k:'brand',label:'Brand preference',opts:['Greenpanel','Action Tesa','Century','Any brand'],opt:true}]},
+  'Particle Board':{std:'IS:3087',unit:'sheets',img:IMG('1508948414348-13a52d2ec394'),
     groups:[{k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
             {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
-  'Pre-Laminated Board':{std:'IS:12823',unit:'sheets',
+  'Pre-Laminated Board':{std:'IS:12823',unit:'sheets',img:IMG('1763702280990-912ca41b93e2'),
     groups:[{k:'finish',label:'Decor finish',opts:['Natural Teak','Golden Oak','Dark Walnut','Wenge','Frosty White','Ivory Cream','Slate Grey','Other / from catalogue']},
             {k:'thick',label:'Thickness',opts:['9mm','12mm','18mm','25mm']},
             {k:'size',label:'Sheet size',opts:['8×4 ft','6×4 ft']}]},
-  'Laminates':{std:'IS:2046',unit:'sheets',
+  'Laminates':{std:'IS:2046',unit:'sheets',img:IMG('1531315630201-bb15abeb1653'),
     groups:[{k:'thick',label:'Thickness',opts:['0.8mm','1mm','1.25mm']},
             {k:'surface',label:'Surface',opts:['Glossy','Matt','Suede','Textured']},
-            {k:'finish',label:'Decor finish',opts:['Natural Teak','Golden Oak','Dark Walnut','Rich Mahogany','Wenge','Frosty White','Ivory Cream','Slate Grey','Jet Black','Carrara Marble','Other / from catalogue']}]},
-  'Flush Door':{std:'IS:2202',unit:'doors',
+            {k:'finish',label:'Decor finish',opts:['Natural Teak','Golden Oak','Dark Walnut','Rich Mahogany','Wenge','Frosty White','Ivory Cream','Slate Grey','Jet Black','Carrara Marble','Other / from catalogue']},
+            {k:'brand',label:'Brand preference',opts:BRANDS_LAM,opt:true}]},
+  'Flush Door':{std:'IS:2202',unit:'doors',img:IMG('1607675742178-f616ae75044b'),
     groups:[{k:'thick',label:'Thickness',opts:['25mm','30mm','32mm','35mm']},
             {k:'size',label:'Door size',opts:['6.5×2.5 ft','6.5×3 ft','7×3 ft','7×3.5 ft','Custom size']}]},
-  'Film Faced Shuttering Ply':{std:'IS:4990',unit:'sheets',
+  'Film Faced Shuttering Ply':{std:'IS:4990',unit:'sheets',img:IMG('1568023905551-0f6247c134f3'),
     groups:[{k:'thick',label:'Thickness',opts:['12mm','15mm','18mm']},
             {k:'size',label:'Sheet size',opts:['8×4 ft']}]},
-  'PVC Panels & Profiles':{std:'Waterproof · Termite-proof',unit:'pcs',
+  'PVC Panels & Profiles':{std:'Waterproof · Termite-proof',unit:'pcs',img:null,
     groups:[{k:'type',label:'Type',opts:['Ceiling panels','Wall panels','Door profiles','PVC boards']}]}
 };
-const qb={step:0,cat:null,sel:{},qty:10,area:'',name:'',addLam:null};
-const LAM_ELIGIBLE=['Marine Plywood','BWR Plywood','Commercial Plywood','MDF Board','Particle Board','Flush Door'];
+const USAGE=['Modular kitchen','Wardrobes / interiors','Full home project','Commercial / site work','Resale / trade'];
+const URGENCY=['Urgent — today / tomorrow','This week','Planning & price check'];
+const QTY_PRESETS=[5,10,25,50,100];
+const qb={step:0,cat:null,sel:{},qty:10,items:[],usage:null,urgency:null,area:'',name:''};
 const qbView=document.getElementById('qbView');
 const qbBar=document.getElementById('qbBar');
 const qbStepEls=document.querySelectorAll('#qbSteps span');
 const qbBack=document.getElementById('qbBack');
 const qbNext=document.getElementById('qbNext');
+const qbAdd=document.getElementById('qbAdd');
 const qbSend=document.getElementById('qbSend');
+const qbItems=document.getElementById('qbItems');
 
 function qbAnimate(){
   if(window.gsap&&!reduceMotion)gsap.fromTo(qbView,{opacity:0,x:26},{opacity:1,x:0,duration:.45,ease:'power3.out'});
 }
+function specDone(){return qb.cat&&CATALOG[qb.cat].groups.every(g=>g.opt||qb.sel[g.k])}
 function qbValid(){
   if(qb.step===0)return !!qb.cat;
-  if(qb.step===1)return CATALOG[qb.cat].groups.every(g=>qb.sel[g.k]);
+  if(qb.step===1)return specDone();
   if(qb.step===2)return qb.qty>0;
-  return true;
+  return qb.items.length>0;
 }
 function qbSync(){
   document.getElementById('qbCount').textContent='0'+(qb.step+1)+' / 04';
@@ -1601,32 +1647,48 @@ function qbSync(){
   qbStepEls.forEach((s,i)=>s.classList.toggle('on',i<=qb.step));
   qbBack.style.display=qb.step>0?'':'none';
   qbNext.style.display=qb.step<3?'':'none';
+  qbNext.textContent=qb.step===2?'Review →':'Continue →';
+  qbAdd.style.display=qb.step===2?'':'none';
   qbSend.style.display=qb.step===3?'':'none';
+  const n=qb.items.length;
+  qbItems.style.display=n?'':'none';
+  qbItems.textContent=n+(n===1?' item':' items')+' added';
   if(qbValid())qbNext.removeAttribute('disabled');else qbNext.setAttribute('disabled','');
 }
+function commitDraft(){
+  if(!qb.cat)return;
+  qb.items.push({cat:qb.cat,sel:{...qb.sel},qty:qb.qty});
+  qb.cat=null;qb.sel={};qb.qty=10;
+}
+function itemLine(it,i){
+  const c=CATALOG[it.cat];
+  const specs=c.groups.filter(g=>it.sel[g.k]&&it.sel[g.k]!=='Any brand')
+    .map(g=>`  • ${g.label}: ${it.sel[g.k]}`).join('\n');
+  return `*Item ${i+1} — ${it.cat}* (${c.std})\n${specs}\n  • Quantity: ${it.qty} ${c.unit}`;
+}
 function qbMessage(){
-  const c=CATALOG[qb.cat];
-  const specs=c.groups.map(g=>`*${g.label}:* ${qb.sel[g.k]}`).join('\n');
-  return `🪵 *New Enquiry — via altimbers.com*\n\n`
-    +`*Product:* ${qb.cat}\n*Standard:* ${c.std}\n${specs}\n*Quantity:* ${qb.qty} ${c.unit}`
-    +(qb.addLam==='yes'?`\n*Laminates:* Yes — please suggest matching decors & prices`:'')
+  const items=qb.items.map(itemLine).join('\n\n');
+  return `🪵 *New Enquiry — via altimbers.com*\n\n${items}`
+    +(qb.usage?`\n\n*Application:* ${qb.usage}`:'')
+    +(qb.urgency?`\n*Timeline:* ${qb.urgency}`:'')
     +(qb.area?`\n*Delivery area:* ${qb.area}`:'')
     +(qb.name?`\n*Name:* ${qb.name}`:'')
-    +`\n\nKindly share:\n1. Best price per ${c.unit==='doors'?'door':c.unit==='pcs'?'piece':'sheet'} (incl. GST)\n2. Brand options in stock\n3. Delivery timeline\n\nThank you!`;
+    +`\n\nKindly share:\n1. Itemised best price (incl. GST)\n2. Brand options in stock\n3. Delivery timeline\n\nThank you!`;
+}
+function chipRow(g){
+  return `<span class="qb-label">${g.label}${g.opt?' <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em>':''}</span><div class="chip-row">`
+    +g.opts.map(o=>`<button type="button" class="chip-opt${qb.sel[g.k]===o?' sel':''}" data-g="${g.k}" data-o="${o}">${o}</button>`).join('')
+    +'</div>';
 }
 function qbRender(){
   let h='';
   if(qb.step===0){
-    h='<span class="qb-label">Choose a product</span><div class="cat-grid">'
+    h='<span class="qb-label">Choose a product'+(qb.items.length?' — item '+(qb.items.length+1):'')+'</span><div class="cat-grid">'
       +Object.entries(CATALOG).map(([name,c])=>
-        `<button type="button" class="cat-card${qb.cat===name?' sel':''}" data-cat="${name}"><b>${name}</b><small>${c.std}</small></button>`).join('')
+        `<button type="button" class="cat-card${qb.cat===name?' sel':''}" data-cat="${name}"${c.img?` style="--cimg:url('${c.img}')"`:''}><b>${name}</b><small>${c.std}</small></button>`).join('')
       +'</div>';
   }else if(qb.step===1){
-    const c=CATALOG[qb.cat];
-    h=c.groups.map(g=>
-      `<span class="qb-label">${g.label}</span><div class="chip-row">`
-      +g.opts.map(o=>`<button type="button" class="chip-opt${qb.sel[g.k]===o?' sel':''}" data-g="${g.k}" data-o="${o}">${o}</button>`).join('')
-      +'</div>').join('');
+    h=CATALOG[qb.cat].groups.map(chipRow).join('');
   }else if(qb.step===2){
     const c=CATALOG[qb.cat];
     h=`<span class="qb-label">Quantity</span>
@@ -1635,25 +1697,24 @@ function qbRender(){
          <div class="qty-val">${qb.qty}<small>${c.unit}</small></div>
          <button type="button" class="qty-btn" data-d="1">+</button>
        </div>
-       ${LAM_ELIGIBLE.includes(qb.cat)?`
-       <span class="qb-label">Laminates / finish for this job?</span>
-       <div class="chip-row">
-         <button type="button" class="chip-opt${qb.addLam==='yes'?' sel':''}" data-lam="yes">Yes — suggest decors too</button>
-         <button type="button" class="chip-opt${qb.addLam==='no'?' sel':''}" data-lam="no">No, boards only</button>
-       </div>`:''}
-       <span class="qb-label">Delivery area <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
+       <div class="chip-row" style="margin-top:.7rem">
+         ${QTY_PRESETS.map(q=>`<button type="button" class="chip-opt qmini${qb.qty===q?' sel':''}" data-q="${q}">${q}</button>`).join('')}
+       </div>
+       <p class="qb-hint">Need plywood <em>and</em> laminates? Tap <b>＋ Add another product</b> to build a combined list — one message, one delivery.</p>`;
+  }else{
+    h='<span class="qb-label">Your items</span><div class="qb-review">'
+      +qb.items.map((it,i)=>{
+        const c=CATALOG[it.cat];
+        const s=c.groups.filter(g=>it.sel[g.k]).map(g=>it.sel[g.k]).join(' · ');
+        return `<div class="row"><span>${i+1}. ${it.cat}</span><b>${s} — ${it.qty} ${c.unit}<button type="button" class="rm" data-rm="${i}" aria-label="Remove item">✕</button></b></div>`;
+      }).join('')
+      +'</div>'
+      +chipRow({k:'_usage',label:'Application',opt:true,opts:USAGE})
+      +chipRow({k:'_urgency',label:'Timeline',opt:true,opts:URGENCY})
+      +`<span class="qb-label">Delivery area <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
        <div class="field" style="margin:0"><input id="qbArea" type="text" placeholder="e.g. Porur, Chennai" value="${qb.area.replace(/"/g,'&quot;')}"></div>
        <span class="qb-label">Your name <em style="color:var(--muted-2);text-transform:none;letter-spacing:0">(optional)</em></span>
        <div class="field" style="margin:0"><input id="qbName" type="text" placeholder="Name" value="${qb.name.replace(/"/g,'&quot;')}"></div>`;
-  }else{
-    const c=CATALOG[qb.cat];
-    h='<span class="qb-label">Review your enquiry</span><div class="qb-review">'
-      +`<div class="row"><span>Product</span><b>${qb.cat} · ${c.std}</b></div>`
-      +c.groups.map(g=>`<div class="row"><span>${g.label}</span><b>${qb.sel[g.k]}</b></div>`).join('')
-      +`<div class="row"><span>Quantity</span><b>${qb.qty} ${c.unit}</b></div>`
-      +(qb.addLam==='yes'?`<div class="row"><span>Laminates</span><b>Yes — suggest decors</b></div>`:'')
-      +(qb.area?`<div class="row"><span>Delivery</span><b>${qb.area}</b></div>`:'')
-      +'</div>';
     qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
   }
   qbView.innerHTML=h;
@@ -1668,29 +1729,58 @@ qbView.addEventListener('click',e=>{
   }
   const chip=e.target.closest('[data-g]');
   if(chip){
-    qb.sel[chip.dataset.g]=chip.dataset.o;
-    qbView.querySelectorAll(`[data-g="${chip.dataset.g}"]`).forEach(el=>el.classList.toggle('sel',el===chip));
+    const k=chip.dataset.g,o=chip.dataset.o;
+    if(k==='_usage'){qb.usage=qb.usage===o?null:o;}
+    else if(k==='_urgency'){qb.urgency=qb.urgency===o?null:o;}
+    else{qb.sel[k]=qb.sel[k]===o?undefined:o;}
+    const cur=k==='_usage'?qb.usage:k==='_urgency'?qb.urgency:qb.sel[k];
+    qbView.querySelectorAll(`[data-g="${k}"]`).forEach(el=>el.classList.toggle('sel',el.dataset.o===cur));
+    if(qb.step===3)qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
     qbSync();return;
   }
-  const lam=e.target.closest('[data-lam]');
-  if(lam){
-    qb.addLam=lam.dataset.lam;
-    qbView.querySelectorAll('[data-lam]').forEach(el=>el.classList.toggle('sel',el===lam));
-    return;
+  const preset=e.target.closest('[data-q]');
+  if(preset){
+    qb.qty=+preset.dataset.q;
+    qbView.querySelector('.qty-val').innerHTML=qb.qty+'<small>'+CATALOG[qb.cat].unit+'</small>';
+    qbView.querySelectorAll('[data-q]').forEach(el=>el.classList.toggle('sel',+el.dataset.q===qb.qty));
+    qbSync();return;
+  }
+  const rm=e.target.closest('[data-rm]');
+  if(rm){
+    qb.items.splice(+rm.dataset.rm,1);
+    if(!qb.items.length){qb.step=0;}
+    qbRender();return;
   }
   const qbtn=e.target.closest('.qty-btn');
   if(qbtn){
     qb.qty=Math.max(1,qb.qty+ +qbtn.dataset.d*(qb.qty>=20?5:1));
     qbView.querySelector('.qty-val').innerHTML=qb.qty+'<small>'+CATALOG[qb.cat].unit+'</small>';
+    qbView.querySelectorAll('[data-q]').forEach(el=>el.classList.toggle('sel',+el.dataset.q===qb.qty));
     qbSync();
   }
 });
 qbView.addEventListener('input',e=>{
   if(e.target.id==='qbArea')qb.area=e.target.value.trim();
   if(e.target.id==='qbName')qb.name=e.target.value.trim();
+  if(qb.step===3)qbSend.href='https://wa.me/919080506492?text='+encodeURIComponent(qbMessage());
 });
-qbNext.addEventListener('click',()=>{if(qbValid()&&qb.step<3){qb.step++;qbRender()}});
-qbBack.addEventListener('click',()=>{if(qb.step>0){qb.step--;qbRender()}});
+qbNext.addEventListener('click',()=>{
+  if(!qbValid())return;
+  if(qb.step===2){commitDraft();qb.step=3;}
+  else qb.step++;
+  qbRender();
+});
+qbAdd.addEventListener('click',()=>{
+  if(qb.qty>0&&qb.cat){commitDraft();qb.step=0;qbRender();}
+});
+qbBack.addEventListener('click',()=>{
+  if(qb.step===3&&qb.items.length){
+    const it=qb.items.pop();
+    qb.cat=it.cat;qb.sel=it.sel;qb.qty=it.qty;
+    qb.step=2;
+  }else if(qb.step>0)qb.step--;
+  qbRender();
+});
 qbRender();
 
 /* ---------- laminate finish explorer ---------- */
