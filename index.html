@@ -175,6 +175,10 @@ body{
   box-shadow:0 -10px 24px rgba(0,0,0,.35),0 22px 44px rgba(0,0,0,.5);
   border:1px solid rgba(0,0,0,.35);
 }
+/* Safari fallback: flat fan, no 3D planes */
+.flat-3d .resin{display:none}
+.flat-3d .hero-visual{perspective:none}
+.flat-3d .board{width:min(900px,100%)}
 /* isometric studio scene — GSAP poses the 3D; flat overlap is the no-JS fallback */
 .hero-visual{perspective:1300px}
 .board{width:min(640px,82vw);margin-inline:auto}
@@ -1486,6 +1490,10 @@ function initGsap(){
 
   if(reduceMotion){finishLoader();return}
 
+  // Safari's preserve-3d is unreliable with large translateZ — give it the flat fan
+  const IS_SAFARI=/^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
+  document.body.classList.toggle('flat-3d',IS_SAFARI);
+
   /* ---- split headlines into masked words (SplitText-style) ---- */
   function splitWords(el){
     if(el.dataset.split)return;
@@ -1540,11 +1548,19 @@ function initGsap(){
       .fromTo('#heroVisual',
         {y:90,opacity:0,scale:.96},
         {y:0,opacity:1,scale:1,duration:1.1,ease:'expo.out'},'-=.55')
-      // the stack breathes once: layers lift apart, then settle onto their bonds
-      .to('.veneer',{z:i=>i*30,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
-      .to('.resin',{z:i=>(2*i+1)*15,duration:.55,ease:'power2.out'},'<')
-      .to('.veneer',{z:i=>i*14,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
-      .to('.resin',{z:i=>(2*i+1)*7,duration:1.1,ease:'elastic.out(1,.55)'},'<');
+      ;
+    // the stack breathes once, per renderer path
+    if(IS_SAFARI){
+      intro
+        .to('.veneer',{y:i=>-(4-i)*26,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
+        .to('.veneer',{y:i=>-(4-i)*12,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05');
+    }else{
+      intro
+        .to('.veneer',{z:i=>i*30,duration:.55,ease:'power2.out',stagger:.04},'-=.5')
+        .to('.resin',{z:i=>(2*i+1)*15,duration:.55,ease:'power2.out'},'<')
+        .to('.veneer',{z:i=>i*14,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
+        .to('.resin',{z:i=>(2*i+1)*7,duration:1.1,ease:'elastic.out(1,.55)'},'<');
+    }
   }
   gsap.set('.hero .lede, #heroVisual',{opacity:0});
   if(document.readyState==='complete')finishLoader(heroIntro);
@@ -1598,20 +1614,29 @@ function initGsap(){
     });
   }
 
-  // isometric exploded view — layers separate along Z with glossy resin bonds between
-  gsap.set('.board',{rotationX:58,rotationZ:-42});
-  gsap.set('.veneer',{z:i=>i*14});
-  gsap.set('.resin',{z:i=>(2*i+1)*7,opacity:.85});
+  // exploded view — isometric Z-separation everywhere except Safari (flat fan there)
+  const V=i=>(4-i);
+  if(IS_SAFARI){
+    gsap.set('.veneer',{y:i=>-V(i)*12,scale:i=>1-V(i)*.012});
+  }else{
+    gsap.set('.board',{rotationX:58,rotationZ:-42});
+    gsap.set('.veneer',{z:i=>i*14});
+    gsap.set('.resin',{z:i=>(2*i+1)*7,opacity:.85});
+  }
   const explode=gsap.timeline({
     scrollTrigger:{trigger:'#hero',start:'top top',end:'75% top',scrub:.5}
   });
   explode
     .to('.hero-inner',{opacity:0,y:-40,duration:.16,ease:'none'},0)
     .to('.scroll-cue',{opacity:0,duration:.1,ease:'none'},0)
-    .to('.veneer',{z:i=>i*44,ease:'none',duration:1},0)
-    .to('.resin',{z:i=>(2*i+1)*22,ease:'none',duration:1},0)
-    .to('#heroVisual',{y:-120,ease:'none',duration:1},0)
-;
+    .to('#heroVisual',{y:-120,ease:'none',duration:1},0);
+  if(IS_SAFARI){
+    explode.to('.veneer',{y:i=>-V(i)*46,ease:'none',duration:1},0);
+  }else{
+    explode
+      .to('.veneer',{z:i=>i*44,ease:'none',duration:1},0)
+      .to('.resin',{z:i=>(2*i+1)*22,ease:'none',duration:1},0);
+  }
 
   // section reveals — five variants, staggered per batch
   const VARIANTS={
