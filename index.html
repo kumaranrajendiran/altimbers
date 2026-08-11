@@ -641,6 +641,17 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 }
 @media (max-width:1023px){.mat-grid{grid-template-columns:1fr}}
 
+/* material studio — real photography variant */
+.mat-photo{
+  min-height:420px;display:flex;align-items:flex-end;padding:0;
+}
+.mat-photo .mat-meta{text-align:left;padding:1.4rem 1.5rem;width:100%;
+  background:linear-gradient(180deg,transparent,rgba(7,9,13,.88) 45%)}
+.mat-photo .mat-meta b{font-size:1.15rem}
+.mp-timber{background:linear-gradient(180deg,rgba(9,12,17,.05) 45%,rgba(9,12,17,.5)),url("https://images.unsplash.com/photo-1561435354-298941a0d4a2?auto=format&fit=crop&w=900&q=64") center/cover,#14100a}
+.mp-boards{background:linear-gradient(180deg,rgba(9,12,17,.05) 45%,rgba(9,12,17,.5)),url("https://images.unsplash.com/photo-1693722232769-74b150f0857a?auto=format&fit=crop&w=900&q=64") center/cover,#14100a}
+.mp-layers{background:linear-gradient(180deg,rgba(9,12,17,.05) 45%,rgba(9,12,17,.5)),url("https://images.unsplash.com/photo-1617090446934-b9058290f047?auto=format&fit=crop&w=900&q=64") center/cover,#14100a}
+
 /* ---------- apple-grade product-render treatment ---------- */
 .display{font-weight:800;letter-spacing:-.052em}
 .headline{letter-spacing:-.045em}
@@ -1096,32 +1107,14 @@ body.loading{overflow:hidden}
       <h2 class="headline">The materials,<br><span class="gold-grad">up close.</span></h2>
     </div>
     <div class="mat-grid">
-      <div class="mat-card" data-rv>
-        <div class="mat-stage"><div class="mat-floor"></div>
-          <div class="mat-iso">
-            <div class="cub beam"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
-          </div>
-        </div>
-        <div class="mat-meta"><b>Seasoned Timber</b><span>Rich straight grain · smooth planed finish</span></div>
+      <div class="mat-card mat-photo mp-timber" data-rv data-tilt>
+        <div class="mat-meta"><b>Seasoned Timber</b><span>Air-dried hardwood — strapped, stickered, patient</span></div>
       </div>
-      <div class="mat-card" data-rv>
-        <div class="mat-stage"><div class="mat-floor"></div>
-          <div class="mat-iso">
-            <div class="cub slab s1"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
-            <div class="cub slab s2"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
-            <div class="cub slab s3"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
-            <div class="cub slab s4"><i class="ft gloss"></i><i class="ff"></i><i class="fs"></i></div>
-          </div>
-        </div>
-        <div class="mat-meta"><b>Pre-Laminated Boards</b><span>Polished decors · matte &amp; high-gloss (IS:12823)</span></div>
+      <div class="mat-card mat-photo mp-boards" data-rv data-tilt>
+        <div class="mat-meta"><b>Polished Boards &amp; Decors</b><span>Matte &amp; high-gloss finished surfaces</span></div>
       </div>
-      <div class="mat-card" data-rv>
-        <div class="mat-stage"><div class="mat-floor"></div>
-          <div class="mat-iso">
-            <div class="cub mdf"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
-          </div>
-        </div>
-        <div class="mat-meta"><b>High-Density MDF</b><span>Uniform core cross-section (IS:12406)</span></div>
+      <div class="mat-card mat-photo mp-layers" data-rv data-tilt>
+        <div class="mat-meta"><b>Engineered Layers</b><span>Cross-bonded plies, precision-pressed</span></div>
       </div>
     </div>
   </div>
