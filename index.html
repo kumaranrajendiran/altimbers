@@ -526,6 +526,50 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .pill[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
 
+/* ---------- alive layer: cinematic ambience ---------- */
+/* god-rays — sunlight through the timber yard */
+.rays{
+  position:absolute;left:-5%;right:-5%;top:-12%;height:72%;pointer-events:none;z-index:1;
+  background:repeating-conic-gradient(from 88deg at 50% -20%,rgba(240,194,74,.055) 0deg 2deg,transparent 2deg 9deg);
+  -webkit-mask-image:linear-gradient(180deg,#000 10%,transparent 85%);
+  mask-image:linear-gradient(180deg,#000 10%,transparent 85%);
+  animation:raysway 12s ease-in-out infinite alternate;
+}
+@keyframes raysway{from{opacity:.45;transform:translateX(-1.2%)}to{opacity:.95;transform:translateX(1.2%)}}
+
+/* animated mouse cue */
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.scroll-cue::after{display:none}
+.mouse{
+  width:22px;height:34px;border:1.5px solid rgba(240,194,74,.5);border-radius:12px;
+  display:flex;justify-content:center;padding-top:5px;
+}
+.mouse i{width:3px;height:7px;border-radius:3px;background:var(--gold);animation:mdot 1.9s ease-in-out infinite}
+@keyframes mdot{0%{transform:translateY(0);opacity:0}25%{opacity:1}70%{transform:translateY(13px);opacity:0}100%{transform:translateY(13px);opacity:0}}
+
+/* full-screen story statements — fade in, hold, release (scroll-driven) */
+.cine{
+  min-height:78vh;display:grid;place-items:center;text-align:center;
+  position:relative;overflow:hidden;padding:4rem 0;
+}
+.cine::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(42% 46% at 50% 52%,rgba(240,194,74,.07),transparent 70%);
+}
+.cine-line{
+  font-size:clamp(1.7rem,4.2vw,3rem);font-weight:600;letter-spacing:-.025em;line-height:1.3;
+  max-width:24ch;margin-inline:auto;position:relative;z-index:2;
+  will-change:opacity,transform;
+}
+.cine-line .serif-i{font-size:1.06em}
+
+/* gold CTAs breathe */
+.pill-gold{animation:goldbreath 3.8s ease-in-out infinite}
+@keyframes goldbreath{
+  0%,100%{box-shadow:0 8px 30px rgba(240,194,74,.32)}
+  50%{box-shadow:0 10px 44px rgba(240,194,74,.55)}
+}
+
 /* word-mask reveal wrappers (transforms applied by GSAP only — no-JS stays visible) */
 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.1em;margin-bottom:-.1em}
 .w>i{display:inline-block;font-style:normal;will-change:transform}
@@ -716,6 +760,7 @@ body.loading{overflow:hidden}
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
+  <div class="rays" aria-hidden="true"></div>
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <h1 class="display" data-hero>Plywood.<br><span class="gold-grad serif-i">Perfected.</span></h1>
@@ -736,7 +781,7 @@ body.loading{overflow:hidden}
       <div class="stack-caption" id="stackCaption">5 cross-laminated hardwood veneers · IS:710 bonded</div>
     </div>
   </div>
-  <div class="scroll-cue">Scroll</div>
+  <div class="scroll-cue"><span class="mouse"><i></i></span>Scroll</div>
 </section>
 
 <!-- ============ STRIP ============ -->
@@ -746,6 +791,11 @@ body.loading{overflow:hidden}
     <span>Marine Plywood IS:710 <i>◆</i></span><span>Commercial Plywood <i>◆</i></span><span>MDF Boards <i>◆</i></span><span>Particle Boards <i>◆</i></span><span>Pre-Laminated Boards <i>◆</i></span><span>PVC Panels <i>◆</i></span><span>Laminates <i>◆</i></span><span>Flush Doors <i>◆</i></span><span>Film Faced Ply <i>◆</i></span>
   </div>
 </div>
+
+<!-- ============ STORY: statement 1 ============ -->
+<section class="cine" aria-label="Good plywood is invisible. It just lasts.">
+  <p class="cine-line" data-cine>Good plywood is invisible.<br><span class="serif-i gold-grad">It just lasts.</span></p>
+</section>
 
 <!-- ============ BENTO RANGE ============ -->
 <section class="sec" id="range">
@@ -922,6 +972,11 @@ body.loading{overflow:hidden}
       </div>
     </div>
   </div>
+</section>
+
+<!-- ============ STORY: statement 2 ============ -->
+<section class="cine" aria-label="Wood remembers how it's treated. So do customers.">
+  <p class="cine-line" data-cine>Wood remembers how it's treated.<br><span class="serif-i gold-grad">So do customers.</span></p>
 </section>
 
 <!-- ============ FINAL CTA ============ -->
@@ -1326,6 +1381,20 @@ function initGsap(){
     },{passive:true});
     heroEl.addEventListener('pointerleave',()=>{dRX(0);dRY(0)},{passive:true});
   }
+  // cinematic statements — luminance fade in, hold, release as you pass through
+  document.querySelectorAll('[data-cine]').forEach(line=>{
+    gsap.set(line,{opacity:0});
+    gsap.timeline({
+      scrollTrigger:{trigger:line.parentElement,start:'top 75%',end:'bottom 25%',scrub:.6}
+    })
+      .fromTo(line,{opacity:0,scale:.94,y:30},{opacity:1,scale:1,y:0,duration:1,ease:'none'})
+      .to(line,{opacity:1,duration:.7,ease:'none'})
+      .to(line,{opacity:0,scale:1.03,y:-24,duration:1,ease:'none'});
+  });
+
+  // the deck is alive — slow organic float, like it's resting on water
+  gsap.to('.board',{y:9,duration:3.4,ease:'sine.inOut',yoyo:true,repeat:-1});
+
   // scroll-velocity lean — the board has inertia (event-driven, no idle loop)
   const leanEl=document.querySelector('.board');
   if(leanEl){
