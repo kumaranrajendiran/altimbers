@@ -589,11 +589,14 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 }
 .bt:hover.bt-photo::before{transform:scale(1.06)}
 .bt-photo{isolation:isolate}
-.bt-marine::before{background-image:linear-gradient(180deg,rgba(9,12,17,.08) 30%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1700973408133-b45276ec8feb?auto=format&fit=crop&w=900&q=62")}
-.bt-mdf::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1605390044035-36f50ff9cfd6?auto=format&fit=crop&w=700&q=60")}
-.bt-prelam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1763702280990-912ca41b93e2?auto=format&fit=crop&w=800&q=60")}
-.bt-lam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.12) 30%,rgba(9,12,17,.88)),url("https://images.unsplash.com/photo-1531315630201-bb15abeb1653?auto=format&fit=crop&w=800&q=60")}
-.bt-doors::before{background-image:linear-gradient(90deg,rgba(9,12,17,.9) 25%,rgba(9,12,17,.25)),url("https://images.unsplash.com/photo-1692313208941-4f1c9cdcc7c3?auto=format&fit=crop&w=1400&q=62")}
+.bt-marine::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-marine.jpg")}
+.bt-com::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-com.jpg")}
+.bt-mdf::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-mdf.jpg")}
+.bt-part::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-part.jpg")}
+.bt-prelam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-prelam.jpg")}
+.bt-pvc::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-pvc.jpg")}
+.bt-lam::before{background-image:linear-gradient(180deg,rgba(9,12,17,.18) 25%,rgba(9,12,17,.88)),url("assets/img/range-lam.jpg")}
+.bt-doors::before{background-image:linear-gradient(90deg,rgba(9,12,17,.9) 25%,rgba(9,12,17,.3)),url("assets/img/range-doors.jpg")}
 @media (max-width:1023px){
   .abento{grid-template-columns:repeat(2,1fr)}
   .bt-2,.bt-3{grid-column:span 1}
@@ -973,7 +976,7 @@ body.loading{overflow:hidden}
         <p>Boiling-waterproof. Kitchens, baths, anywhere water plays.</p>
         <span class="bt-go">→</span>
       </button>
-      <button type="button" class="bt bt-2 bt-tall" data-rv data-product="Commercial Plywood">
+      <button type="button" class="bt bt-2 bt-tall bt-photo bt-com" data-rv data-product="Commercial Plywood">
         <span class="bt-big gold-grad">MR</span>
         <b>Commercial Plywood</b>
         <p>IS:303 — the everyday interiors workhorse.</p>
@@ -985,13 +988,13 @@ body.loading{overflow:hidden}
         <p>CNC, routing &amp; painted finishes.</p>
         <span class="bt-go">→</span>
       </button>
-      <button type="button" class="bt bt-2" data-rv data-product="Particle Board">
+      <button type="button" class="bt bt-2 bt-photo bt-part" data-rv data-product="Particle Board">
         <span class="bt-big gold-grad">IS 3087</span>
         <b>Particle Boards</b>
         <p>Smart economics for modular work.</p>
         <span class="bt-go">→</span>
       </button>
-      <button type="button" class="bt bt-2" data-rv data-product="PVC Panels & Profiles">
+      <button type="button" class="bt bt-2 bt-photo bt-pvc" data-rv data-product="PVC Panels & Profiles">
         <span class="bt-big gold-grad">100%</span>
         <b>PVC Panels &amp; Profiles</b>
         <p>Waterproof. Termite-proof. Zero upkeep.</p>
