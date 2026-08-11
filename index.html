@@ -179,10 +179,30 @@ body{
 .hero-visual{perspective:1300px}
 .board{width:min(640px,82vw);margin-inline:auto}
 .resin{
-  position:absolute;inset:4% 3%;border-radius:8px;pointer-events:none;
-  background:linear-gradient(120deg,rgba(255,221,133,.30),rgba(255,244,214,.10) 45%,rgba(201,153,42,.26));
-  box-shadow:0 0 22px rgba(240,194,74,.18);
+  position:absolute;inset:5% 4%;border-radius:8px;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,221,133,.26),rgba(255,244,214,.08) 45%,rgba(201,153,42,.22));
+  box-shadow:0 0 18px rgba(240,194,74,.16);
 }
+/* physically-based shading: depth occlusion, edge thickness, cast shadows */
+.veneer{
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.35),
+    inset 0 -10px 18px rgba(0,0,0,.28),
+    inset 0 6px 14px rgba(255,255,255,.06);
+  filter:drop-shadow(0 22px 16px rgba(0,0,0,.32));
+}
+.veneer:nth-child(1){filter:brightness(.68) drop-shadow(0 22px 16px rgba(0,0,0,.32))}
+.veneer:nth-child(3){filter:brightness(.76) drop-shadow(0 22px 16px rgba(0,0,0,.32))}
+.veneer:nth-child(5){filter:brightness(.85) drop-shadow(0 22px 16px rgba(0,0,0,.32))}
+.veneer:nth-child(7){filter:brightness(.93) drop-shadow(0 22px 16px rgba(0,0,0,.32))}
+/* studio key light sweeps across the face veneer */
+.veneer.face::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.13) 46%,rgba(255,255,255,.02) 54%,transparent 70%);
+  background-size:280% 100%;
+  animation:keysweep 7s ease-in-out infinite;
+}
+@keyframes keysweep{0%,100%{background-position:120% 0}50%{background-position:-20% 0}}
 .veneer{
   /* sheen over real wood photography (procedural grain as loading fallback) */
   background:
@@ -213,7 +233,7 @@ body{
     url("https://images.unsplash.com/photo-1611600700192-d87eaeed4f81?auto=format&fit=crop&w=800&q=60") center/cover,
     #8a6a45;
 }
-.veneer:nth-child(2){
+.veneer:nth-child(3){ /* 3rd child — resin sheets interleave the veneers */
   background:
     linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,0) 45%),
     url("https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?auto=format&fit=crop&w=800&q=60") center/cover,
@@ -562,21 +582,64 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .pill[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
 
-/* ---------- applications: built with our boards ---------- */
-.space-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;perspective:1400px}
-.space-card{
-  position:relative;border-radius:26px;min-height:400px;overflow:hidden;
-  display:flex;align-items:flex-end;padding:1.5rem;text-decoration:none;color:#fff;
-  box-shadow:0 24px 60px rgba(0,0,0,.4);will-change:transform;
-  transition:box-shadow .4s;
+/* ---------- material studio: CSS-3D cuboids ---------- */
+.mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.mat-card{
+  position:relative;border-radius:26px;overflow:hidden;
+  background:radial-gradient(72% 58% at 50% 36%,#1b2231,#0b0e15 80%);
+  box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 24px 60px rgba(0,0,0,.4);
+  padding:2.2rem 0 .6rem;
 }
-.space-card:hover{box-shadow:0 40px 90px rgba(0,0,0,.6)}
-.sp-kitchen{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1684928365167-e91916573122?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
-.sp-wardrobe{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1631889993877-71e193bf79b8?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
-.sp-cafe{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1670819917685-f1040e76b9b7?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
-.sp-meta b{display:block;font-size:1.2rem;font-weight:700;letter-spacing:-.02em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
-.sp-meta span{font-size:.78rem;color:rgba(255,255,255,.75)}
-@media (max-width:1023px){.space-grid{grid-template-columns:1fr}.space-card{min-height:300px}}
+.mat-stage{height:230px;perspective:1100px;display:grid;place-items:center;position:relative}
+.mat-floor{position:absolute;left:18%;right:18%;bottom:26px;height:26px;background:radial-gradient(50% 100% at 50% 50%,rgba(0,0,0,.6),transparent 72%);filter:blur(9px)}
+.mat-iso{
+  width:210px;height:140px;position:relative;transform-style:preserve-3d;
+  transform:rotateX(58deg) rotateZ(-42deg);
+  animation:matfloat 6s ease-in-out infinite;
+}
+@keyframes matfloat{0%,100%{transform:rotateX(58deg) rotateZ(-42deg) translateZ(0)}50%{transform:rotateX(58deg) rotateZ(-42deg) translateZ(16px)}}
+.mat-meta{text-align:center;padding:1.2rem 1rem 1.4rem}
+.mat-meta b{display:block;font-size:1.08rem;font-weight:700;letter-spacing:-.015em}
+.mat-meta span{font-size:.74rem;color:var(--muted)}
+.cub{position:absolute;transform-style:preserve-3d}
+.cub i{position:absolute;border-radius:3px}
+.cub .ft{inset:0;transform:translateZ(var(--h))}
+.cub .ff{left:0;right:0;bottom:0;height:var(--h);transform-origin:50% 100%;transform:rotateX(-90deg)}
+.cub .fs{top:0;bottom:0;right:0;width:var(--h);transform-origin:100% 50%;transform:rotateY(90deg)}
+.beam{--h:36px;width:206px;height:58px;left:2px;top:44px}
+.beam .ft{background:var(--wgh),linear-gradient(100deg,#9a6b38,#b5854c 50%,#8a5c2e)}
+.beam .ff{background:var(--wgh),linear-gradient(100deg,#7a5227,#8f6636 55%,#6b4520);filter:brightness(.85)}
+.beam .fs{background:var(--wring),linear-gradient(120deg,#8a5f31,#6b4823);filter:brightness(.8)}
+.slab{--h:10px;width:168px;height:112px;left:21px;top:16px}
+.slab i{box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.slab .ff,.slab .fs{filter:brightness(.72)}
+.s1{transform:translateZ(0)}
+.s2{transform:translateZ(15px) translateX(6px) translateY(-4px)}
+.s3{transform:translateZ(30px) translateX(-4px) translateY(5px)}
+.s4{transform:translateZ(45px) translateX(3px) translateY(-2px)}
+.s1 i{background:var(--wgh),linear-gradient(100deg,#8a5c2e,#a5764a)}
+.s2 i{background:linear-gradient(140deg,#42474f,#2e3238)}
+.s3 i{background:linear-gradient(140deg,#f2ede2,#ddd6c6)}
+.s4 i{background:var(--wgh),linear-gradient(100deg,#5f3d24,#7a5230)}
+.s4 .ft.gloss::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.35) 48%,transparent 62%);
+  background-size:260% 100%;animation:keysweep 5.5s ease-in-out infinite;
+}
+.mdf{--h:46px;width:150px;height:104px;left:30px;top:20px}
+.mdf .ft{background:linear-gradient(120deg,#dcc69d,#cbb083 60%,#d6bf94)}
+.mdf .ff{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .74 0 0 0 0 .6 0 0 0 0 .4 0 0 0 .55 .45'/%3E%3C/filter%3E%3Crect width='140' height='60' filter='url(%23n)'/%3E%3C/svg%3E"),
+    #b89a6b;
+}
+.mdf .fs{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 .68 0 0 0 0 .55 0 0 0 0 .36 0 0 0 .55 .45'/%3E%3C/filter%3E%3Crect width='60' height='120' filter='url(%23n)'/%3E%3C/svg%3E"),
+    #a8895c;
+  filter:brightness(.9);
+}
+@media (max-width:1023px){.mat-grid{grid-template-columns:1fr}}
 
 /* ---------- apple-grade product-render treatment ---------- */
 .display{font-weight:800;letter-spacing:-.052em}
@@ -867,10 +930,6 @@ body.loading{overflow:hidden}
   <div class="hero-inner">
     <h1 class="display" data-hero>Plywood.<br><span class="gold-grad serif-i">Perfected.</span></h1>
     <p class="lede sub" data-hero>From IS:710 marine ply to designer laminates — genuine ISI-marked materials at true wholesale prices, delivered across Chennai.</p>
-    <div class="hero-ctas" data-hero>
-      <a class="pill pill-gold pill-lg" href="#contact">Build Your Quote</a>
-      <a class="pill pill-ghost pill-lg" href="tel:+919080506492">Call +91 90805 06492</a>
-    </div>
   </div>
   <div class="hero-visual" id="heroVisual" data-hero>
     <div class="deck-glow" aria-hidden="true"></div>
@@ -885,7 +944,6 @@ body.loading{overflow:hidden}
       <div class="resin"></div>
       <div class="veneer face"></div>
     </div>
-    <div class="stack-caption" id="stackCaption">5 cross-laminated hardwood veneers · IS:710 bonded</div>
     <div class="deck-shadow" aria-hidden="true"></div>
   </div>
   <div class="scroll-cue"><span class="mouse"><i></i></span>Scroll</div>
@@ -1030,23 +1088,41 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
-<!-- ============ APPLICATIONS ============ -->
+<!-- ============ MATERIAL STUDIO (pure CSS 3D — no photos, no claims) ============ -->
 <section class="sec" id="spaces" style="padding-top:2rem">
   <div class="wrap">
     <div class="sec-head center" data-rv="clip">
-      <span class="overline">05 — Built With Our Boards</span>
-      <h2 class="headline">From our racks<br><span class="gold-grad">to your rooms.</span></h2>
+      <span class="overline">05 — Material Studio</span>
+      <h2 class="headline">The materials,<br><span class="gold-grad">up close.</span></h2>
     </div>
-    <div class="space-grid">
-      <a class="space-card sp-kitchen" data-rv data-tilt data-wa="kitchen" href="https://wa.me/919080506492" target="_blank" rel="noopener">
-        <div class="sp-meta"><b>Modular Kitchens</b><span>IS:710 marine ply carcass · teak laminates</span></div>
-      </a>
-      <a class="space-card sp-wardrobe" data-rv data-tilt data-wa="wardrobe" href="https://wa.me/919080506492" target="_blank" rel="noopener">
-        <div class="sp-meta"><b>Wardrobes &amp; Interiors</b><span>Pre-laminated boards · designer decors</span></div>
-      </a>
-      <a class="space-card sp-cafe" data-rv data-tilt data-wa="commercial" href="https://wa.me/919080506492" target="_blank" rel="noopener">
-        <div class="sp-meta"><b>Cafés &amp; Commercial</b><span>Panelling · furniture-grade boards in bulk</span></div>
-      </a>
+    <div class="mat-grid">
+      <div class="mat-card" data-rv>
+        <div class="mat-stage"><div class="mat-floor"></div>
+          <div class="mat-iso">
+            <div class="cub beam"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
+          </div>
+        </div>
+        <div class="mat-meta"><b>Seasoned Timber</b><span>Rich straight grain · smooth planed finish</span></div>
+      </div>
+      <div class="mat-card" data-rv>
+        <div class="mat-stage"><div class="mat-floor"></div>
+          <div class="mat-iso">
+            <div class="cub slab s1"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
+            <div class="cub slab s2"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
+            <div class="cub slab s3"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
+            <div class="cub slab s4"><i class="ft gloss"></i><i class="ff"></i><i class="fs"></i></div>
+          </div>
+        </div>
+        <div class="mat-meta"><b>Pre-Laminated Boards</b><span>Polished decors · matte &amp; high-gloss (IS:12823)</span></div>
+      </div>
+      <div class="mat-card" data-rv>
+        <div class="mat-stage"><div class="mat-floor"></div>
+          <div class="mat-iso">
+            <div class="cub mdf"><i class="ft"></i><i class="ff"></i><i class="fs"></i></div>
+          </div>
+        </div>
+        <div class="mat-meta"><b>High-Density MDF</b><span>Uniform core cross-section (IS:12406)</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1473,7 +1549,7 @@ function initGsap(){
     const intro=gsap.timeline();
     intro
       .to(heroH1.querySelectorAll('.w>i'),{yPercent:0,duration:1,ease:'power4.out',stagger:.07})
-      .fromTo('.hero .lede, .hero-ctas',
+      .fromTo('.hero .lede',
         {y:34,opacity:0},
         {y:0,opacity:1,duration:.9,stagger:.12,ease:'power3.out'},'-=.45')
       .fromTo('#heroVisual',
@@ -1485,7 +1561,7 @@ function initGsap(){
       .to('.veneer',{z:i=>i*14,duration:1.1,ease:'elastic.out(1,.55)',stagger:.03},'>-.05')
       .to('.resin',{z:i=>(2*i+1)*7,duration:1.1,ease:'elastic.out(1,.55)'},'<');
   }
-  gsap.set('.hero .lede, .hero-ctas, #heroVisual',{opacity:0});
+  gsap.set('.hero .lede, #heroVisual',{opacity:0});
   if(document.readyState==='complete')finishLoader(heroIntro);
   else addEventListener('load',()=>finishLoader(heroIntro));
   setTimeout(()=>finishLoader(heroIntro),3500); // safety net for slow CDNs
@@ -1550,7 +1626,7 @@ function initGsap(){
     .to('.veneer',{z:i=>i*60,ease:'none',duration:1},0)
     .to('.resin',{z:i=>(2*i+1)*30,ease:'none',duration:1},0)
     .to('#heroVisual',{y:-250,ease:'none',duration:1},0)
-    .to('#stackCaption',{opacity:1,ease:'none',duration:.4},.3);
+;
 
   // section reveals — five variants, staggered per batch
   const VARIANTS={
