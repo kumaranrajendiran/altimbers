@@ -562,6 +562,22 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:3rem 0 2.2r
 .pill[disabled]{opacity:.35;pointer-events:none}
 @media (max-width:480px){.cat-grid{grid-template-columns:1fr}}
 
+/* ---------- applications: built with our boards ---------- */
+.space-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;perspective:1400px}
+.space-card{
+  position:relative;border-radius:26px;min-height:400px;overflow:hidden;
+  display:flex;align-items:flex-end;padding:1.5rem;text-decoration:none;color:#fff;
+  box-shadow:0 24px 60px rgba(0,0,0,.4);will-change:transform;
+  transition:box-shadow .4s;
+}
+.space-card:hover{box-shadow:0 40px 90px rgba(0,0,0,.6)}
+.sp-kitchen{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1684928365167-e91916573122?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
+.sp-wardrobe{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1631889993877-71e193bf79b8?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
+.sp-cafe{background:linear-gradient(180deg,rgba(9,12,17,.04) 40%,rgba(9,12,17,.86)),url("https://images.unsplash.com/photo-1670819917685-f1040e76b9b7?auto=format&fit=crop&w=900&q=62") center/cover,#1a140d}
+.sp-meta b{display:block;font-size:1.2rem;font-weight:700;letter-spacing:-.02em;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.sp-meta span{font-size:.78rem;color:rgba(255,255,255,.75)}
+@media (max-width:1023px){.space-grid{grid-template-columns:1fr}.space-card{min-height:300px}}
+
 /* ---------- apple-grade product-render treatment ---------- */
 .display{font-weight:800;letter-spacing:-.052em}
 .headline{letter-spacing:-.045em}
@@ -1014,6 +1030,27 @@ body.loading{overflow:hidden}
   </div>
 </section>
 
+<!-- ============ APPLICATIONS ============ -->
+<section class="sec" id="spaces" style="padding-top:2rem">
+  <div class="wrap">
+    <div class="sec-head center" data-rv="clip">
+      <span class="overline">05 — Built With Our Boards</span>
+      <h2 class="headline">From our racks<br><span class="gold-grad">to your rooms.</span></h2>
+    </div>
+    <div class="space-grid">
+      <a class="space-card sp-kitchen" data-rv data-tilt data-wa="kitchen" href="https://wa.me/919080506492" target="_blank" rel="noopener">
+        <div class="sp-meta"><b>Modular Kitchens</b><span>IS:710 marine ply carcass · teak laminates</span></div>
+      </a>
+      <a class="space-card sp-wardrobe" data-rv data-tilt data-wa="wardrobe" href="https://wa.me/919080506492" target="_blank" rel="noopener">
+        <div class="sp-meta"><b>Wardrobes &amp; Interiors</b><span>Pre-laminated boards · designer decors</span></div>
+      </a>
+      <a class="space-card sp-cafe" data-rv data-tilt data-wa="commercial" href="https://wa.me/919080506492" target="_blank" rel="noopener">
+        <div class="sp-meta"><b>Cafés &amp; Commercial</b><span>Panelling · furniture-grade boards in bulk</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ STATS ============ -->
 <section class="sec stats" style="padding:3.5rem 0">
   <div class="wrap">
@@ -1042,7 +1079,7 @@ body.loading{overflow:hidden}
 <section class="sec reviews" id="reviews">
   <div class="wrap">
     <div class="sec-head center" data-rv="clip">
-      <span class="overline">05 — Word of Mouth</span>
+      <span class="overline">06 — Word of Mouth</span>
       <h2 class="headline">Trusted by <span class="gold-grad">the trade.</span></h2>
     </div>
     <div class="trust-grid">
@@ -1086,7 +1123,7 @@ body.loading{overflow:hidden}
 <section class="sec contact" id="contact">
   <div class="wrap">
     <div class="sec-head" data-rv="clip">
-      <span class="overline">06 — Contact</span>
+      <span class="overline">07 — Contact</span>
       <h2 class="headline">Visit. Call. <span class="gold-grad">Message.</span></h2>
     </div>
     <div class="contact-grid">
@@ -1900,7 +1937,10 @@ const WA_MSG={
   general:`Hi *AL Timbers & Boards* 👋 I'd like a quote.\n\n*Reply with a number, or fill in below:*\n1️⃣ Marine Plywood (IS:710)\n2️⃣ Commercial / BWR Plywood\n3️⃣ MDF & Pre-Laminated Boards\n4️⃣ Laminates & Decors\n5️⃣ Flush Doors / PVC\n\n• Thickness / size: \n• Quantity: \n• Delivery area: \n\nKindly share your best price and availability.`,
   marine:`🌊 *Marine Plywood Enquiry — IS:710 BWP*\n\nKindly share:\n1. Price list for 4mm–19mm (8×4 ft)\n2. Brands in stock\n3. Bulk / project rates\n\nMy requirement: `,
   mdf:`*MDF & Pre-Laminated Enquiry*\n\nKindly share:\n1. Plain & pre-laminated MDF price list\n2. Decors available\n3. Thicknesses in stock\n\nMy requirement: `,
-  list:`Hi *AL Timbers & Boards* 👋\nHere is my material list:\n\n1. \n2. \n3. \n\nDelivery area: \n\nKindly share itemised best prices (incl. GST) and delivery timeline.`
+  list:`Hi *AL Timbers & Boards* 👋\nHere is my material list:\n\n1. \n2. \n3. \n\nDelivery area: \n\nKindly share itemised best prices (incl. GST) and delivery timeline.`,
+  kitchen:`🍳 *Modular Kitchen Enquiry — via altimbers.com*\n\nI'm planning a modular kitchen. Kindly suggest:\n1. IS:710 marine ply for the carcass\n2. Laminates / decors for shutters\n3. Approximate material estimate\n\n*Kitchen size (approx):* \n*Delivery area:* `,
+  wardrobe:`🚪 *Wardrobe & Interiors Enquiry — via altimbers.com*\n\nI'm planning wardrobes / interior work. Kindly suggest:\n1. Boards for carcass & shutters\n2. Matching decors from catalogue\n3. Approximate material estimate\n\n*Requirement (approx):* \n*Delivery area:* `,
+  commercial:`🏢 *Commercial / Project Enquiry — via altimbers.com*\n\nWe're working on a commercial / site project. Kindly share:\n1. Bulk & project rates\n2. Film-faced shuttering ply (IS:4990) availability\n3. Credit / billing terms for projects\n\n*Project & quantity (approx):* \n*Site location:* `
 };
 document.querySelectorAll('[data-wa]').forEach(a=>{
   const m=WA_MSG[a.dataset.wa];
